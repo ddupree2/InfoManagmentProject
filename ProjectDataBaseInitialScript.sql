@@ -278,8 +278,8 @@ INSERT INTO `doctor` (`doctorID`, `eID`) VALUES ('1239485746', '9938273645');
 -- Data for table `project1Revised`.`patient`
 -- -----------------------------------------------------
 
-INSERT INTO `patient` (`patientID`, `lname`, `fname`, `address_addressID`) VALUES ('1733827364', 'William', 'James', 7);
-INSERT INTO `patient` (`patientID`, `lname`, `fname`, `address_addressID`) VALUES ('1234567890', 'Aubry', 'Holland', 8);
+INSERT INTO `patient` (`patientID`, `lname`, `fname`, `addressID`) VALUES ('1733827364', 'William', 'James', 7);
+INSERT INTO `patient` (`patientID`, `lname`, `fname`, `addressID`) VALUES ('1234567890', 'Aubry', 'Holland', 8);
 
 
 

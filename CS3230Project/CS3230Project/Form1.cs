@@ -16,5 +16,13 @@ namespace CS3230Project
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var viewmodel = new ViewModel.ViewModel();
+
+            var address = viewmodel.RegisterAddress("this is an example address","testCity","testState",12345, "2394857436");
+            viewmodel.RegisterPatient("testssn","Testfinit","testlname", address);
+        }
     }
 }
