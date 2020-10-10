@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace CS3230Project
 {
-    public partial class Form1 : Form
+    public partial class RegistrationForm : Form
     {
-        public Form1()
+        public RegistrationForm()
         {
             InitializeComponent();
         }
@@ -23,6 +23,11 @@ namespace CS3230Project
 
             var address = viewmodel.RegisterAddress("this is an example address","testCity","testState",12345, "2394857436");
             viewmodel.RegisterPatient("testssn","Testfinit","testlname", address);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
