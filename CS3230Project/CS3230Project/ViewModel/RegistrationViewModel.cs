@@ -8,20 +8,21 @@ namespace CS3230Project.ViewModel
         #region Methods
 
         /// <summary>
-        ///      Registers the patient.
+        /// Registers the patient.
         /// </summary>
         /// <param name="ssn">The SSN.</param>
         /// <param name="fname">The fname.</param>
         /// <param name="lname">The lname.</param>
+        /// <param name="sex">The sex.</param>
         /// <param name="address">The address.</param>
-        public void RegisterPatient(string ssn, string fname, string lname, Address address)
+        public void RegisterPatient(string ssn, string fname, string lname, string sex, Address address)
         {
             var addressDal = new AddressDal();
             var patientDal = new PatientDAL();
 
             var addressId = addressDal.RetrieveAddressId(address);
 
-            var patient = new Patient(ssn, fname, lname, addressId);
+            var patient = new Patient(ssn, fname, lname, addressId, sex);
 
             patientDal.InsertPatient(patient);
         }

@@ -20,7 +20,7 @@ namespace CS3230Project.DAL
                 {
                     conn.Open();
                     var insertQuery =
-                        "INSERT INTO `patient` (`patientID`, `lname`, `fname`, `addressID`) VALUES (@ssn, @lname, @fname, @addressID);";
+                        "INSERT INTO `patient` (`patientID`, `lname`, `fname`, `addressID`, `sex`) VALUES (@ssn, @lname, @fname, @addressID, @sex);";
                     using (var cmd = new MySqlCommand(insertQuery, conn))
                     {
                         cmd.Parameters.Add("@ssn", MySqlDbType.VarChar);
@@ -34,6 +34,10 @@ namespace CS3230Project.DAL
 
                         cmd.Parameters.Add("@addressID", MySqlDbType.Int32);
                         cmd.Parameters["@addressID"].Value = patient.AddressID;
+
+                        cmd.Parameters.Add("@sex", MySqlDbType.VarChar);
+                        cmd.Parameters["@sex"].Value = patient.Sex;
+
                         using (cmd.ExecuteReader())
                         {
                         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using CS3230Project.Model;
 using CS3230Project.ViewModel;
@@ -27,13 +28,20 @@ namespace CS3230Project
 
         private void RegisterButton_Click(object sender, EventArgs e)
         {
+            if (this.checkForEmptyField())
+            {
+                this.updateLabels();
+                return;
+            }
+
             var address = this.registerAddress();
 
             var firstName = this.firstNameTextBox.Text;
             var lastName = this.lastNameTextBox.Text;
             var ssn = this.ssnTextBox.Text;
+            var sex = this.sexComboBox.Text;
 
-            this.registrationViewmodel.RegisterPatient(ssn, firstName, lastName, address);
+            this.registrationViewmodel.RegisterPatient(ssn, firstName, lastName, sex, address);
         }
 
         private Address registerAddress()
@@ -51,6 +59,20 @@ namespace CS3230Project
             }
 
             return this.registrationViewmodel.RegisterAddress(address1, city, state, zip, contactNumber, address2);
+        }
+
+        private bool checkForEmptyField()
+        {
+            var checker = this.sexComboBox.Text == string.Empty;
+
+            return checker;
+        }
+
+        private void updateLabels()
+        {
+            this.sexLbl.Text = "*Gender";
+            this.sexLbl.ForeColor = Color.Red;
+            this.requiredFieldLbl.Visible = true;
         }
 
         #endregion
