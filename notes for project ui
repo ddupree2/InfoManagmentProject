@@ -1,0 +1,17 @@
+Notes for UI
+	If the connection to the server can't be made the program crashes.
+	If unsername and password are incorrect it should tell them that they need to enter valid info.
+	The title of the user logged in should be displayed on the screen. (e.g. if the user is a nurse doctor or admin.)
+	Should inform the user of successful adding of patient.
+	Register patient UI should validate that information is put in correctly and that no empty fields, except where applicable, exist and should tell the user if invalid input was in a field otherwise the system crashes when trying to push it to the database.
+		Should validate that the phone number is a 10 digit number
+		State should be in a dropdown box
+		Gender should be a dropdown box (She said gender but I don't remember gender being a requirment so I'll look into this one and might have to edit the patient database if so).
+		etc.
+		
+
+If you're wondering why the validation of input should be handled on the UI side it's so that the user knows what's going on. 
+If you just throw exceptions in the program the user won't see those and the UI itself should be able to tell the user what needs to be corrected. 
+		
+	
+	
