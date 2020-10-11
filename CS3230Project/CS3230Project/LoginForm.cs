@@ -6,28 +6,45 @@ namespace CS3230Project
 {
     public partial class LoginForm : Form
     {
-        private LoginViewmodel loginViewmodel;
+        #region Data members
+
+        private readonly LoginViewmodel loginViewmodel;
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="LoginForm" /> class.
+        /// </summary>
         public LoginForm()
         {
             this.InitializeComponent();
             this.loginViewmodel = new LoginViewmodel();
         }
 
+        #endregion
+
+        #region Methods
+
         private void LoginButton_Click(object sender, EventArgs e)
         {
-            var employeeID = this.employeeIDTextBox.Text;
+            var employeeId = this.employeeIDTextBox.Text;
             var password = this.passwordTextBox.Text;
 
-           var isValidLogin = this.loginViewmodel.ValidateEmployeeLogin(employeeID, password);
+            var isValidLogin = this.loginViewmodel.ValidateEmployeeLogin(employeeId, password);
 
-           if (!isValidLogin)
-           {
-               return;
-           }
+            if (!isValidLogin)
+            {
+                return;
+            }
 
-           var registrationForm = new RegistrationForm();
-           this.Hide();
-           registrationForm.Show();
+            var registrationForm = new RegistrationForm();
+            Hide();
+            registrationForm.Closed += (obj, args) => this.Close();
+            registrationForm.Show();
         }
+
+        #endregion
     }
 }

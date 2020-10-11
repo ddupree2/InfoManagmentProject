@@ -42,7 +42,14 @@ namespace CS3230Project.ViewModel
             var addressDal = new AddressDal();
             var address = new Address(addr1, city, state, zip, contactNum, addr2);
 
-            addressDal.InsertAddress(address);
+            try
+            {
+                addressDal.InsertAddress(address);
+            }
+            catch
+            {
+                //preventing existing address from crashing the program
+            }
 
             return address;
         }

@@ -1,33 +1,58 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using CS3230Project.Model;
+using CS3230Project.ViewModel;
 
 namespace CS3230Project
 {
     public partial class RegistrationForm : Form
     {
+        #region Data members
+
+        private readonly RegistrationViewModel registrationViewmodel;
+
+        #endregion
+
+        #region Constructors
+
         public RegistrationForm()
         {
             this.InitializeComponent();
+            this.registrationViewmodel = new RegistrationViewModel();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        #endregion
+
+        #region Methods
+
+        private void RegisterButton_Click(object sender, EventArgs e)
         {
-            var viewmodel = new ViewModel.RegistrationViewModel();
+            var address = this.registerAddress();
 
-            var address = viewmodel.RegisterAddress("this is an example address","testCity","testState",12345, "2394857436");
-            viewmodel.RegisterPatient("testssn","Testfinit","testlname", address);
+            var firstName = this.firstNameTextBox.Text;
+            var lastName = this.lastNameTextBox.Text;
+            var ssn = this.ssnTextBox.Text;
+
+            this.registrationViewmodel.RegisterPatient(ssn, firstName, lastName, address);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private Address registerAddress()
         {
+            var address1 = this.Addr1TextBox.Text;
+            var address2 = this.Addr2TextBox.Text;
+            var city = this.cityTextBox.Text;
+            var state = this.stateTextBox.Text;
+            var zip = int.Parse(this.zipCodeTextBox.Text);
+            var contactNumber = this.contactNumberTextBox.Text;
 
+            if (address2.Equals(string.Empty))
+            {
+                address2 = null;
+            }
+
+            return this.registrationViewmodel.RegisterAddress(address1, city, state, zip, contactNumber, address2);
         }
+
+        #endregion
     }
 }
