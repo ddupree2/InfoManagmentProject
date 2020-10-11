@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CS3230Project.Model
+﻿namespace CS3230Project.Model
 {
-    class Patient
+    public class Patient
     {
+        #region Data members
+
         public string Ssn;
 
         public string Fname;
@@ -16,6 +12,17 @@ namespace CS3230Project.Model
 
         public int AddressID;
 
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Patient" /> class.
+        /// </summary>
+        /// <param name="ssn">The SSN.</param>
+        /// <param name="fname">The fname.</param>
+        /// <param name="lname">The lname.</param>
+        /// <param name="addressID">The address identifier.</param>
         public Patient(string ssn, string fname, string lname, int addressID)
         {
             this.Ssn = ssn;
@@ -23,5 +30,7 @@ namespace CS3230Project.Model
             this.Lname = lname;
             this.AddressID = addressID;
         }
+
+        #endregion
     }
 }

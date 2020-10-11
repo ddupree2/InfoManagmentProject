@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CS3230Project.Model
+﻿namespace CS3230Project.Model
 {
-    class Address
+    public class Address
     {
+        #region Data members
 
         public string Address1;
 
@@ -22,6 +16,10 @@ namespace CS3230Project.Model
 
         public string ContactNum;
 
+        #endregion
+
+        #region Constructors
+
         public Address(string address1, string city, string state, int zip, string contactnum, string address2 = null)
         {
             this.Address1 = address1;
@@ -31,5 +29,7 @@ namespace CS3230Project.Model
             this.Zip = zip;
             this.State = state;
         }
+
+        #endregion
     }
 }

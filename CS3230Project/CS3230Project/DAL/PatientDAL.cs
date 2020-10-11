@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CS3230Project.Model;
 using MySql.Data.MySqlClient;
 
 namespace CS3230Project.DAL
 {
-    class PatientDAL
+    /// <summary>
+    ///     Represents the Data Access Layer for manipulating patient table in the database.
+    /// </summary>
+    public class PatientDAL
     {
+        #region Methods
+
         public void InsertPatient(Patient patient)
         {
             try
@@ -19,7 +19,8 @@ namespace CS3230Project.DAL
                 using (conn)
                 {
                     conn.Open();
-                    var insertQuery = "INSERT INTO `patient` (`patientID`, `lname`, `fname`, `addressID`) VALUES (@ssn, @lname, @fname, @addressID);";
+                    var insertQuery =
+                        "INSERT INTO `patient` (`patientID`, `lname`, `fname`, `addressID`) VALUES (@ssn, @lname, @fname, @addressID);";
                     using (var cmd = new MySqlCommand(insertQuery, conn))
                     {
                         cmd.Parameters.Add("@ssn", MySqlDbType.VarChar);
@@ -37,7 +38,6 @@ namespace CS3230Project.DAL
                         {
                         }
                     }
-
                 }
             }
             catch (MySqlException mex)
@@ -49,5 +49,7 @@ namespace CS3230Project.DAL
                 throw new ArgumentException(ex.Message);
             }
         }
+
+        #endregion
     }
 }

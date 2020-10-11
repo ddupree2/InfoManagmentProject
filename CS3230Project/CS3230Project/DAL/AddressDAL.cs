@@ -1,15 +1,16 @@
-﻿using CS3230Project.Model;
+﻿using System;
+using CS3230Project.Model;
 using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CS3230Project.DAL
 {
-    class AddressDAL
+    /// <summary>
+    ///     Represents the Data Access Layer for manipulating the address table in the database
+    /// </summary>
+    public class AddressDal
     {
+        #region Methods
+
         public void InsertAddress(Address address)
         {
             try
@@ -39,12 +40,11 @@ namespace CS3230Project.DAL
 
                         cmd.Parameters.Add("@contactNum", MySqlDbType.VarChar);
                         cmd.Parameters["@contactNum"].Value = address.ContactNum;
-                        
+
                         using (cmd.ExecuteReader())
                         {
                         }
                     }
-
                 }
             }
             catch (MySqlException mex)
@@ -57,9 +57,16 @@ namespace CS3230Project.DAL
             }
         }
 
+        /// <summary>
+        ///     Retrieves the address identifier.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">
+        /// </exception>
         public int RetrieveAddressId(Address address)
         {
-            var addressID = 0;
+            var addressId = 0;
 
             try
             {
@@ -77,18 +84,17 @@ namespace CS3230Project.DAL
                         cmd.Parameters["@zip"].Value = address.Zip;
                         using (var reader = cmd.ExecuteReader())
                         {
-
                             var addressIdOrdinal = reader.GetOrdinal("addressID");
 
                             while (reader.Read())
                             {
-                                var id = reader[addressIdOrdinal] == DBNull.Value ? 0 : reader.GetInt32(addressIdOrdinal);
-                                addressID = id;
-
+                                var id = reader[addressIdOrdinal] == DBNull.Value
+                                    ? 0
+                                    : reader.GetInt32(addressIdOrdinal);
+                                addressId = id;
                             }
                         }
                     }
-
                 }
             }
             catch (MySqlException mex)
@@ -100,7 +106,9 @@ namespace CS3230Project.DAL
                 throw new ArgumentException(ex.Message);
             }
 
-            return addressID;
+            return addressId;
         }
+
+        #endregion
     }
 }

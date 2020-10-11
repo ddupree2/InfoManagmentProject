@@ -113,7 +113,8 @@
     <Compile Include="Model\Patient.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\ViewModel.cs" />
+    <Compile Include="ViewModel\LoginViewmodel.cs" />
+    <Compile Include="ViewModel\RegistrationViewModel.cs" />
     <EmbeddedResource Include="RegistrationForm.resx">
       <DependentUpon>RegistrationForm.cs</DependentUpon>
     </EmbeddedResource>

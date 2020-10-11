@@ -1,24 +1,28 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CS3230Project.DAL
 {
-    class DbConnection
+    /// <summary>
+    ///     Represent a custom database connection
+    /// </summary>
+    public class DbConnection
     {
-        static readonly string Connstring = "server=160.10.25.16; port=3306; uid=cs3230f20b;" +
-                                            "pwd=nMdOBbByiVbdVXKP;database=cs3230f20b;";
+        #region Data members
+
+        private static readonly string ConnString = "server=160.10.25.16; port=3306; uid=cs3230f20b;" +
+                                                    "pwd=nMdOBbByiVbdVXKP;database=cs3230f20b;";
+
+        #endregion
+
+        #region Methods
 
         public static MySqlConnection GetConnection()
         {
-
-            MySqlConnection conn = new MySqlConnection(Connstring);
+            var conn = new MySqlConnection(ConnString);
 
             return conn;
-
         }
+
+        #endregion
     }
 }
