@@ -108,7 +108,7 @@ namespace CS3230Project
 
         private static bool validNumericFields(string zipCode, string ssn, string contactNumber)
         {
-            var validNumericFields = zipCode.Length > 5;
+            var validNumericFields = zipCode.Length >= 5;
             validNumericFields = validNumericFields && ssn.Length > 8;
             validNumericFields = validNumericFields && contactNumber.Length > 9;
 
