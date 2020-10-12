@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CS3230Project.DAL;
+using CS3230Project.Model;
 
 namespace CS3230Project.ViewModel
 {
@@ -23,6 +24,14 @@ namespace CS3230Project.ViewModel
             var employeeDal = new EmployeeDal();
 
             return employeeDal.RetrieveTitleAndName(employeeId);
+        }
+
+        internal IList<Patient> RetrievePatients()
+        {
+            var patientDAL = new PatientDal();
+            var patients = patientDAL.RetrievePatients();
+
+            return patients;
         }
     }
 }

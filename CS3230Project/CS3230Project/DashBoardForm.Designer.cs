@@ -31,14 +31,17 @@
             this.logOutButton = new System.Windows.Forms.Button();
             this.registerPatientButton = new System.Windows.Forms.Button();
             this.greetingsLabel = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.mainInfoDisplay = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // logOutButton
             // 
             this.logOutButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.logOutButton.Location = new System.Drawing.Point(74, 134);
+            this.logOutButton.Location = new System.Drawing.Point(99, 148);
+            this.logOutButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.logOutButton.Name = "logOutButton";
-            this.logOutButton.Size = new System.Drawing.Size(130, 31);
+            this.logOutButton.Size = new System.Drawing.Size(173, 38);
             this.logOutButton.TabIndex = 0;
             this.logOutButton.Text = "Log Out";
             this.logOutButton.UseVisualStyleBackColor = true;
@@ -47,9 +50,10 @@
             // registerPatientButton
             // 
             this.registerPatientButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.registerPatientButton.Location = new System.Drawing.Point(74, 83);
+            this.registerPatientButton.Location = new System.Drawing.Point(99, 102);
+            this.registerPatientButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.registerPatientButton.Name = "registerPatientButton";
-            this.registerPatientButton.Size = new System.Drawing.Size(130, 31);
+            this.registerPatientButton.Size = new System.Drawing.Size(173, 38);
             this.registerPatientButton.TabIndex = 1;
             this.registerPatientButton.Text = "Register Patient";
             this.registerPatientButton.UseVisualStyleBackColor = true;
@@ -58,22 +62,45 @@
             // greetingsLabel
             // 
             this.greetingsLabel.AutoSize = true;
-            this.greetingsLabel.Location = new System.Drawing.Point(80, 28);
+            this.greetingsLabel.Location = new System.Drawing.Point(107, 34);
+            this.greetingsLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.greetingsLabel.Name = "greetingsLabel";
-            this.greetingsLabel.Size = new System.Drawing.Size(37, 13);
+            this.greetingsLabel.Size = new System.Drawing.Size(48, 17);
             this.greetingsLabel.TabIndex = 2;
             this.greetingsLabel.Text = "Hello, ";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(377, 11);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(63, 17);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Patients:";
+            // 
+            // mainInfoDisplay
+            // 
+            this.mainInfoDisplay.FormattingEnabled = true;
+            this.mainInfoDisplay.ItemHeight = 16;
+            this.mainInfoDisplay.Location = new System.Drawing.Point(380, 34);
+            this.mainInfoDisplay.Name = "mainInfoDisplay";
+            this.mainInfoDisplay.Size = new System.Drawing.Size(383, 388);
+            this.mainInfoDisplay.TabIndex = 5;
+            // 
             // DashBoardForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(293, 198);
+            this.ClientSize = new System.Drawing.Size(786, 442);
+            this.Controls.Add(this.mainInfoDisplay);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.greetingsLabel);
             this.Controls.Add(this.registerPatientButton);
             this.Controls.Add(this.logOutButton);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "DashBoardForm";
             this.Text = "Form1";
+            this.Activated += new System.EventHandler(this.DashBoardForm_Activated);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -84,5 +111,7 @@
         private System.Windows.Forms.Button logOutButton;
         private System.Windows.Forms.Button registerPatientButton;
         private System.Windows.Forms.Label greetingsLabel;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ListBox mainInfoDisplay;
     }
 }

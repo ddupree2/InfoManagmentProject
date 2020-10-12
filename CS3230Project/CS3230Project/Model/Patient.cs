@@ -4,6 +4,8 @@
     {
         #region Data members
 
+        public int PatientId;
+        
         public string Ssn;
 
         public string Fname;
@@ -34,6 +36,14 @@
             this.AddressID = addressID;
             this.Sex = sex;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Patient"/> class.
+        /// </summary>
+        public Patient()
+        {
+        }
+
 
         #endregion
     }
