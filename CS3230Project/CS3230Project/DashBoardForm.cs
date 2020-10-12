@@ -37,7 +37,7 @@ namespace CS3230Project
             this.mainInfoDisplay.Items.Clear();
             foreach (var patient in this.patients)
             {
-                this.mainInfoDisplay.Items.Add(patient.Fname + " " + patient.Lname + " Patient ID: " + patient.PatientId);
+                this.mainInfoDisplay.Items.Add(patient.Fname + " " + patient.Lname);
             }
         }
 
