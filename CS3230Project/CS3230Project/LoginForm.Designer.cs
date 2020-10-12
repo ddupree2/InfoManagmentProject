@@ -60,6 +60,7 @@
             // 
             this.employeeIDTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.employeeIDTextBox.Location = new System.Drawing.Point(88, 30);
+            this.employeeIDTextBox.MaxLength = 20;
             this.employeeIDTextBox.Name = "employeeIDTextBox";
             this.employeeIDTextBox.Size = new System.Drawing.Size(167, 20);
             this.employeeIDTextBox.TabIndex = 2;
@@ -69,6 +70,7 @@
             this.passwordTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.passwordTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.passwordTextBox.Location = new System.Drawing.Point(88, 68);
+            this.passwordTextBox.MaxLength = 30;
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.Size = new System.Drawing.Size(167, 20);
             this.passwordTextBox.TabIndex = 3;
