@@ -1,9 +1,13 @@
-﻿using CS3230Project.DAL;
+﻿using System.Diagnostics;
+using CS3230Project.DAL;
+using MySql.Data.MySqlClient;
 
 namespace CS3230Project.ViewModel
 {
     public class LoginViewmodel
     {
+        public bool ConnectionIssue { get; set; }
+
         #region Methods
 
         /// <summary>
@@ -15,7 +19,16 @@ namespace CS3230Project.ViewModel
         public bool ValidateEmployeeLogin(string employeeId, string password)
         {
             var loginDal = new LoginDal();
-            var isValidLogin = loginDal.Authenticate(employeeId, password);
+            var isValidLogin = false;
+            try
+            {
+                isValidLogin = loginDal.Authenticate(employeeId, password);
+            }
+            catch(MySqlException mex)
+            {
+                Debug.WriteLine(mex.Message);
+                this.ConnectionIssue = true;
+            }
 
             return isValidLogin;
         }

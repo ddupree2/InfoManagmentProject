@@ -44,12 +44,12 @@
             this.ssnTextBox = new System.Windows.Forms.TextBox();
             this.ssnLabel = new System.Windows.Forms.Label();
             this.stateLabel = new System.Windows.Forms.Label();
-            this.stateTextBox = new System.Windows.Forms.TextBox();
             this.contactNumberLabel = new System.Windows.Forms.Label();
             this.contactNumberTextBox = new System.Windows.Forms.TextBox();
             this.sexComboBox = new System.Windows.Forms.ComboBox();
-            this.sexLbl = new System.Windows.Forms.Label();
+            this.sexLabel = new System.Windows.Forms.Label();
             this.requiredFieldLbl = new System.Windows.Forms.Label();
+            this.stateComboBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // firstNameTextBox
@@ -59,7 +59,7 @@
             this.firstNameTextBox.Location = new System.Drawing.Point(109, 46);
             this.firstNameTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.firstNameTextBox.Name = "firstNameTextBox";
-            this.firstNameTextBox.Size = new System.Drawing.Size(235, 26);
+            this.firstNameTextBox.Size = new System.Drawing.Size(216, 22);
             this.firstNameTextBox.TabIndex = 1;
             // 
             // lastNameTextBox
@@ -69,7 +69,7 @@
             this.lastNameTextBox.Location = new System.Drawing.Point(109, 90);
             this.lastNameTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.lastNameTextBox.Name = "lastNameTextBox";
-            this.lastNameTextBox.Size = new System.Drawing.Size(235, 26);
+            this.lastNameTextBox.Size = new System.Drawing.Size(216, 22);
             this.lastNameTextBox.TabIndex = 2;
             // 
             // Addr1TextBox
@@ -79,7 +79,7 @@
             this.Addr1TextBox.Location = new System.Drawing.Point(109, 180);
             this.Addr1TextBox.Margin = new System.Windows.Forms.Padding(4);
             this.Addr1TextBox.Name = "Addr1TextBox";
-            this.Addr1TextBox.Size = new System.Drawing.Size(400, 26);
+            this.Addr1TextBox.Size = new System.Drawing.Size(400, 22);
             this.Addr1TextBox.TabIndex = 4;
             // 
             // Addr2TextBox
@@ -89,7 +89,7 @@
             this.Addr2TextBox.Location = new System.Drawing.Point(109, 230);
             this.Addr2TextBox.Margin = new System.Windows.Forms.Padding(4);
             this.Addr2TextBox.Name = "Addr2TextBox";
-            this.Addr2TextBox.Size = new System.Drawing.Size(400, 26);
+            this.Addr2TextBox.Size = new System.Drawing.Size(400, 22);
             this.Addr2TextBox.TabIndex = 5;
             // 
             // cityTextBox
@@ -99,7 +99,7 @@
             this.cityTextBox.Location = new System.Drawing.Point(109, 277);
             this.cityTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.cityTextBox.Name = "cityTextBox";
-            this.cityTextBox.Size = new System.Drawing.Size(140, 26);
+            this.cityTextBox.Size = new System.Drawing.Size(140, 22);
             this.cityTextBox.TabIndex = 6;
             // 
             // zipCodeTextBox
@@ -109,7 +109,7 @@
             this.zipCodeTextBox.Location = new System.Drawing.Point(109, 323);
             this.zipCodeTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.zipCodeTextBox.Name = "zipCodeTextBox";
-            this.zipCodeTextBox.Size = new System.Drawing.Size(140, 26);
+            this.zipCodeTextBox.Size = new System.Drawing.Size(140, 22);
             this.zipCodeTextBox.TabIndex = 8;
             // 
             // firstNameLabel
@@ -119,7 +119,7 @@
             this.firstNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.firstNameLabel.Location = new System.Drawing.Point(26, 49);
             this.firstNameLabel.Name = "firstNameLabel";
-            this.firstNameLabel.Size = new System.Drawing.Size(97, 20);
+            this.firstNameLabel.Size = new System.Drawing.Size(76, 16);
             this.firstNameLabel.TabIndex = 8;
             this.firstNameLabel.Text = "First Name:";
             // 
@@ -130,7 +130,7 @@
             this.lastNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lastNameLabel.Location = new System.Drawing.Point(26, 93);
             this.lastNameLabel.Name = "lastNameLabel";
-            this.lastNameLabel.Size = new System.Drawing.Size(96, 20);
+            this.lastNameLabel.Size = new System.Drawing.Size(76, 16);
             this.lastNameLabel.TabIndex = 9;
             this.lastNameLabel.Text = "Last Name:";
             // 
@@ -141,7 +141,7 @@
             this.addr1Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addr1Label.Location = new System.Drawing.Point(30, 183);
             this.addr1Label.Name = "addr1Label";
-            this.addr1Label.Size = new System.Drawing.Size(90, 20);
+            this.addr1Label.Size = new System.Drawing.Size(72, 16);
             this.addr1Label.TabIndex = 10;
             this.addr1Label.Text = "Address 1:";
             // 
@@ -152,7 +152,7 @@
             this.cityLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cityLabel.Location = new System.Drawing.Point(69, 280);
             this.cityLabel.Name = "cityLabel";
-            this.cityLabel.Size = new System.Drawing.Size(43, 20);
+            this.cityLabel.Size = new System.Drawing.Size(33, 16);
             this.cityLabel.TabIndex = 11;
             this.cityLabel.Text = "City:";
             // 
@@ -163,7 +163,7 @@
             this.addr2Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addr2Label.Location = new System.Drawing.Point(30, 233);
             this.addr2Label.Name = "addr2Label";
-            this.addr2Label.Size = new System.Drawing.Size(90, 20);
+            this.addr2Label.Size = new System.Drawing.Size(72, 16);
             this.addr2Label.TabIndex = 12;
             this.addr2Label.Text = "Address 2:";
             // 
@@ -174,7 +174,7 @@
             this.zipCodeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.zipCodeLabel.Location = new System.Drawing.Point(36, 326);
             this.zipCodeLabel.Name = "zipCodeLabel";
-            this.zipCodeLabel.Size = new System.Drawing.Size(80, 20);
+            this.zipCodeLabel.Size = new System.Drawing.Size(66, 16);
             this.zipCodeLabel.TabIndex = 13;
             this.zipCodeLabel.Text = "Zip Code:";
             // 
@@ -199,7 +199,7 @@
             this.ssnTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.ssnTextBox.MaxLength = 9;
             this.ssnTextBox.Name = "ssnTextBox";
-            this.ssnTextBox.Size = new System.Drawing.Size(235, 26);
+            this.ssnTextBox.Size = new System.Drawing.Size(216, 22);
             this.ssnTextBox.TabIndex = 3;
             // 
             // ssnLabel
@@ -209,7 +209,7 @@
             this.ssnLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ssnLabel.Location = new System.Drawing.Point(63, 138);
             this.ssnLabel.Name = "ssnLabel";
-            this.ssnLabel.Size = new System.Drawing.Size(48, 20);
+            this.ssnLabel.Size = new System.Drawing.Size(39, 16);
             this.ssnLabel.TabIndex = 16;
             this.ssnLabel.Text = "SSN:";
             // 
@@ -220,19 +220,9 @@
             this.stateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.stateLabel.Location = new System.Drawing.Point(320, 280);
             this.stateLabel.Name = "stateLabel";
-            this.stateLabel.Size = new System.Drawing.Size(53, 20);
+            this.stateLabel.Size = new System.Drawing.Size(42, 16);
             this.stateLabel.TabIndex = 18;
             this.stateLabel.Text = "State:";
-            // 
-            // stateTextBox
-            // 
-            this.stateTextBox.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.stateTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stateTextBox.Location = new System.Drawing.Point(369, 277);
-            this.stateTextBox.Margin = new System.Windows.Forms.Padding(4);
-            this.stateTextBox.Name = "stateTextBox";
-            this.stateTextBox.Size = new System.Drawing.Size(140, 26);
-            this.stateTextBox.TabIndex = 7;
             // 
             // contactNumberLabel
             // 
@@ -241,7 +231,7 @@
             this.contactNumberLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.contactNumberLabel.Location = new System.Drawing.Point(296, 326);
             this.contactNumberLabel.Name = "contactNumberLabel";
-            this.contactNumberLabel.Size = new System.Drawing.Size(86, 20);
+            this.contactNumberLabel.Size = new System.Drawing.Size(66, 16);
             this.contactNumberLabel.TabIndex = 20;
             this.contactNumberLabel.Text = "Contact #:";
             // 
@@ -252,7 +242,7 @@
             this.contactNumberTextBox.Location = new System.Drawing.Point(369, 323);
             this.contactNumberTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.contactNumberTextBox.Name = "contactNumberTextBox";
-            this.contactNumberTextBox.Size = new System.Drawing.Size(140, 26);
+            this.contactNumberTextBox.Size = new System.Drawing.Size(140, 22);
             this.contactNumberTextBox.TabIndex = 19;
             // 
             // sexComboBox
@@ -262,19 +252,19 @@
             this.sexComboBox.Items.AddRange(new object[] {
             "Male",
             "Female"});
-            this.sexComboBox.Location = new System.Drawing.Point(388, 85);
+            this.sexComboBox.Location = new System.Drawing.Point(388, 90);
             this.sexComboBox.Name = "sexComboBox";
-            this.sexComboBox.Size = new System.Drawing.Size(121, 28);
+            this.sexComboBox.Size = new System.Drawing.Size(121, 24);
             this.sexComboBox.TabIndex = 21;
             // 
-            // sexLbl
+            // sexLabel
             // 
-            this.sexLbl.AutoSize = true;
-            this.sexLbl.Location = new System.Drawing.Point(384, 62);
-            this.sexLbl.Name = "sexLbl";
-            this.sexLbl.Size = new System.Drawing.Size(64, 20);
-            this.sexLbl.TabIndex = 22;
-            this.sexLbl.Text = "Gender";
+            this.sexLabel.AutoSize = true;
+            this.sexLabel.Location = new System.Drawing.Point(329, 93);
+            this.sexLabel.Name = "sexLabel";
+            this.sexLabel.Size = new System.Drawing.Size(56, 16);
+            this.sexLabel.TabIndex = 22;
+            this.sexLabel.Text = "Gender:";
             // 
             // requiredFieldLbl
             // 
@@ -282,23 +272,83 @@
             this.requiredFieldLbl.ForeColor = System.Drawing.Color.Red;
             this.requiredFieldLbl.Location = new System.Drawing.Point(30, 13);
             this.requiredFieldLbl.Name = "requiredFieldLbl";
-            this.requiredFieldLbl.Size = new System.Drawing.Size(246, 20);
+            this.requiredFieldLbl.Size = new System.Drawing.Size(190, 16);
             this.requiredFieldLbl.TabIndex = 23;
             this.requiredFieldLbl.Text = "Fields with an * must be filled in";
             this.requiredFieldLbl.Visible = false;
             // 
+            // stateComboBox
+            // 
+            this.stateComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.stateComboBox.FormattingEnabled = true;
+            this.stateComboBox.Items.AddRange(new object[] {
+            "AL",
+            "AK",
+            "AZ",
+            "AR",
+            "CA",
+            "CO",
+            "CT",
+            "DE",
+            "FL",
+            "GA",
+            "HI",
+            "ID",
+            "IL",
+            "IN",
+            "IA",
+            "KS",
+            "KY",
+            "LA",
+            "ME",
+            "MD",
+            "MA",
+            "MI",
+            "MN",
+            "MS",
+            "MO",
+            "MT",
+            "NE",
+            "NV",
+            "NH",
+            "NJ",
+            "NM",
+            "NY",
+            "NC",
+            "ND",
+            "OH",
+            "OK",
+            "OR",
+            "PA",
+            "RI",
+            "SC",
+            "SD",
+            "TN",
+            "TX",
+            "UT",
+            "VT",
+            "VA",
+            "WA",
+            "WV",
+            "WI",
+            "WY"});
+            this.stateComboBox.Location = new System.Drawing.Point(369, 275);
+            this.stateComboBox.Name = "stateComboBox";
+            this.stateComboBox.Size = new System.Drawing.Size(140, 24);
+            this.stateComboBox.TabIndex = 24;
+            // 
             // RegistrationForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(543, 421);
+            this.Controls.Add(this.stateComboBox);
             this.Controls.Add(this.requiredFieldLbl);
-            this.Controls.Add(this.sexLbl);
+            this.Controls.Add(this.sexLabel);
             this.Controls.Add(this.sexComboBox);
             this.Controls.Add(this.contactNumberLabel);
             this.Controls.Add(this.contactNumberTextBox);
             this.Controls.Add(this.stateLabel);
-            this.Controls.Add(this.stateTextBox);
             this.Controls.Add(this.ssnLabel);
             this.Controls.Add(this.ssnTextBox);
             this.Controls.Add(this.RegisterButton);
@@ -341,12 +391,12 @@
         private System.Windows.Forms.TextBox ssnTextBox;
         private System.Windows.Forms.Label ssnLabel;
         private System.Windows.Forms.Label stateLabel;
-        private System.Windows.Forms.TextBox stateTextBox;
         private System.Windows.Forms.Label contactNumberLabel;
         private System.Windows.Forms.TextBox contactNumberTextBox;
         private System.Windows.Forms.ComboBox sexComboBox;
-        private System.Windows.Forms.Label sexLbl;
+        private System.Windows.Forms.Label sexLabel;
         private System.Windows.Forms.Label requiredFieldLbl;
+        private System.Windows.Forms.ComboBox stateComboBox;
     }
 }
 

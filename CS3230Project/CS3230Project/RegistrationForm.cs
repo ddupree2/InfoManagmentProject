@@ -49,7 +49,7 @@ namespace CS3230Project
             var address1 = this.Addr1TextBox.Text;
             var address2 = this.Addr2TextBox.Text;
             var city = this.cityTextBox.Text;
-            var state = this.stateTextBox.Text;
+            var state = this.stateComboBox.Text;
             var zip = int.Parse(this.zipCodeTextBox.Text);
             var contactNumber = this.contactNumberTextBox.Text;
 
@@ -70,8 +70,8 @@ namespace CS3230Project
 
         private void updateLabels()
         {
-            this.sexLbl.Text = "*Gender";
-            this.sexLbl.ForeColor = Color.Red;
+            this.sexLabel.Text = "*Gender";
+            this.sexLabel.ForeColor = Color.Red;
             this.requiredFieldLbl.Visible = true;
         }
 

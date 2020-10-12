@@ -33,6 +33,7 @@
             this.employeeIDTextBox = new System.Windows.Forms.TextBox();
             this.passwordTextBox = new System.Windows.Forms.TextBox();
             this.LoginButton = new System.Windows.Forms.Button();
+            this.invalidCredentialsLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // employeeIDLabel
@@ -84,11 +85,23 @@
             this.LoginButton.UseVisualStyleBackColor = true;
             this.LoginButton.Click += new System.EventHandler(this.LoginButton_Click);
             // 
+            // invalidCredentialsLabel
+            // 
+            this.invalidCredentialsLabel.AutoSize = true;
+            this.invalidCredentialsLabel.ForeColor = System.Drawing.Color.Red;
+            this.invalidCredentialsLabel.Location = new System.Drawing.Point(90, 9);
+            this.invalidCredentialsLabel.Name = "invalidCredentialsLabel";
+            this.invalidCredentialsLabel.Size = new System.Drawing.Size(165, 13);
+            this.invalidCredentialsLabel.TabIndex = 5;
+            this.invalidCredentialsLabel.Text = "Invalid Employee ID or Password.";
+            this.invalidCredentialsLabel.Visible = false;
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(273, 149);
+            this.Controls.Add(this.invalidCredentialsLabel);
             this.Controls.Add(this.LoginButton);
             this.Controls.Add(this.passwordTextBox);
             this.Controls.Add(this.employeeIDTextBox);
@@ -108,5 +121,6 @@
         private System.Windows.Forms.TextBox employeeIDTextBox;
         private System.Windows.Forms.TextBox passwordTextBox;
         private System.Windows.Forms.Button LoginButton;
+        private System.Windows.Forms.Label invalidCredentialsLabel;
     }
 }

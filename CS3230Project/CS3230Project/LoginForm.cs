@@ -34,15 +34,41 @@ namespace CS3230Project
 
             var isValidLogin = this.loginViewmodel.ValidateEmployeeLogin(employeeId, password);
 
-            if (!isValidLogin)
-            {
-                return;
-            }
+            this.invalidCredentialsLabel.Visible = false;
 
-            var registrationForm = new RegistrationForm();
-            Hide();
-            registrationForm.Closed += (obj, args) => this.Close();
-            registrationForm.Show();
+            if (isValidLogin)
+            {
+                var registrationForm = new RegistrationForm();
+                Hide();
+                registrationForm.Closed += (obj, args) => Close();
+                registrationForm.Show();
+                resetLoginForm();
+            }
+            else if (this.loginViewmodel.ConnectionIssue)
+            {
+                this.showConnIssueMessage();
+            }
+            else
+            {
+                this.invalidCredentialsLabel.Visible = true;
+            }
+        }
+
+        private void resetLoginForm()
+        {
+            this.invalidCredentialsLabel.Visible = false;
+            this.employeeIDTextBox.Text = string.Empty;
+            this.passwordTextBox.Text = string.Empty;
+        }
+
+        private void showConnIssueMessage()
+        {
+            const string issueTitle = "Bad Connection";
+            var connectionIssue =
+                $"Unable to connect to database.{Environment.NewLine}Make sure you currently have access to the network the database is on.";
+            const MessageBoxIcon issueType = MessageBoxIcon.Error;
+            MessageBox.Show(connectionIssue, issueTitle, MessageBoxButtons.OK, issueType);
+            this.loginViewmodel.ConnectionIssue = false;
         }
 
         #endregion
