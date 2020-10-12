@@ -8,7 +8,7 @@ namespace CS3230Project
     {
         #region Data members
 
-        private readonly LoginViewmodel loginViewmodel;
+        private readonly LoginViewModel loginViewmodel;
 
         #endregion
 
@@ -20,7 +20,7 @@ namespace CS3230Project
         public LoginForm()
         {
             this.InitializeComponent();
-            this.loginViewmodel = new LoginViewmodel();
+            this.loginViewmodel = new LoginViewModel();
         }
 
         #endregion
@@ -38,7 +38,7 @@ namespace CS3230Project
 
             if (isValidLogin)
             {
-                var dashBoardForm = new DashBoardForm();
+                var dashBoardForm = new DashBoardForm(employeeId);
                 Hide();
                 dashBoardForm.ShowDialog();
                 this.Show();

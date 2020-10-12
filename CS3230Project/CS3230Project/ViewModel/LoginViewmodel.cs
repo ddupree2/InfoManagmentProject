@@ -4,7 +4,7 @@ using MySql.Data.MySqlClient;
 
 namespace CS3230Project.ViewModel
 {
-    public class LoginViewmodel
+    public class LoginViewModel
     {
         public bool ConnectionIssue { get; set; }
 
