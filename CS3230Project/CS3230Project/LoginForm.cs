@@ -38,11 +38,11 @@ namespace CS3230Project
 
             if (isValidLogin)
             {
-                var registrationForm = new RegistrationForm();
+                var dashBoardForm = new DashBoardForm();
                 Hide();
-                registrationForm.Closed += (obj, args) => Close();
-                registrationForm.Show();
-                resetLoginForm();
+                dashBoardForm.ShowDialog();
+                this.Show();
+                this.resetLoginForm();
             }
             else if (this.loginViewmodel.ConnectionIssue)
             {
