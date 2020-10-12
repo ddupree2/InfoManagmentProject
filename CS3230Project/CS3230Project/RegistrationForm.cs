@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using CS3230Project.Model;
 using CS3230Project.ViewModel;
@@ -31,7 +30,7 @@ namespace CS3230Project
         {
             if (!this.allFieldsAreValid())
             {
-                this.showValidationMessage();
+                showFailedValidationMessage();
                 this.updateLabels();
                 return;
             }
@@ -43,7 +42,33 @@ namespace CS3230Project
             var ssn = this.ssnTextBox.Text;
             var sex = this.sexComboBox.Text;
 
-            this.registrationViewmodel.RegisterPatient(ssn, firstName, lastName, sex, address);
+            var successfulRegistration =
+                this.registrationViewmodel.RegisterPatient(ssn, firstName, lastName, sex, address);
+
+            if (successfulRegistration)
+            {
+                showSuccessfulRegistrationMessage();
+            }
+            else
+            {
+                showFailedRegistrationMessage();
+            }
+
+            this.emptyForm();
+        }
+
+        private void emptyForm()
+        {
+            this.firstNameTextBox.Text = string.Empty;
+            this.lastNameTextBox.Text = string.Empty;
+            this.ssnTextBox.Text = string.Empty;
+            this.stateComboBox.Text = string.Empty;
+            this.sexComboBox.Text = string.Empty;
+            this.cityTextBox.Text = string.Empty;
+            this.Addr1TextBox.Text = string.Empty;
+            this.Addr2TextBox.Text = string.Empty;
+            this.contactNumberTextBox.Text = string.Empty;
+            this.zipCodeTextBox.Text = string.Empty;
         }
 
         private Address registerAddress()
@@ -75,9 +100,8 @@ namespace CS3230Project
             var ssn = this.ssnTextBox.Text;
             var contactNumber = this.contactNumberTextBox.Text;
 
-            
-           var checker = noEmptyFields(sex, firstName, lastName, address1, city, state, ssn, zipCode, contactNumber);
-           checker = checker && validNumericFields(zipCode, ssn, contactNumber);
+            var checker = noEmptyFields(sex, firstName, lastName, address1, city, state, ssn, zipCode, contactNumber);
+            checker = checker && validNumericFields(zipCode, ssn, contactNumber);
 
             return checker;
         }
@@ -107,12 +131,28 @@ namespace CS3230Project
             return noEmptyFields;
         }
 
-        private void showValidationMessage()
+        private static void showFailedValidationMessage()
         {
             const string issueTitle = "Validation Failed";
             var connectionIssue = "One or more fields are incorrect.";
             connectionIssue += Environment.NewLine + "Make sure all required fields are filled with valid formatting.";
+            const MessageBoxIcon issueType = MessageBoxIcon.Error;
+            MessageBox.Show(connectionIssue, issueTitle, MessageBoxButtons.OK, issueType);
+        }
+
+        private static void showSuccessfulRegistrationMessage()
+        {
+            const string issueTitle = "Successful Registration";
+            var connectionIssue = "The patient was successfully added.";
             const MessageBoxIcon issueType = MessageBoxIcon.Information;
+            MessageBox.Show(connectionIssue, issueTitle, MessageBoxButtons.OK, issueType);
+        }
+
+        private static void showFailedRegistrationMessage()
+        {
+            const string issueTitle = "Failed Registration";
+            var connectionIssue = "The patient was not added.";
+            const MessageBoxIcon issueType = MessageBoxIcon.Error;
             MessageBox.Show(connectionIssue, issueTitle, MessageBoxButtons.OK, issueType);
         }
 
@@ -123,25 +163,28 @@ namespace CS3230Project
             this.requiredFieldLbl.Visible = true;
         }
 
-        #endregion
-
-
         private void ssnTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!(char.IsDigit(e.KeyChar) || (e.KeyChar == (char)Keys.Back)))
+            if (!(char.IsDigit(e.KeyChar) || e.KeyChar == (char) Keys.Back))
+            {
                 e.Handled = true;
+            }
         }
 
         private void zipCodeTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!(char.IsDigit(e.KeyChar) || (e.KeyChar == (char)Keys.Back)))
+            if (!(char.IsDigit(e.KeyChar) || e.KeyChar == (char) Keys.Back))
+            {
                 e.Handled = true;
+            }
         }
 
         private void contactNumberTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!(char.IsDigit(e.KeyChar) || (e.KeyChar == (char)Keys.Back)))
+            if (!(char.IsDigit(e.KeyChar) || e.KeyChar == (char) Keys.Back))
+            {
                 e.Handled = true;
+            }
         }
 
         private void firstNameTextBox_Enter(object sender, EventArgs e)
@@ -247,5 +290,7 @@ namespace CS3230Project
                 this.cityWarnLabel.Visible = false;
             }
         }
+
+        #endregion
     }
 }
