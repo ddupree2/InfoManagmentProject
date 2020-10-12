@@ -29,7 +29,6 @@ namespace CS3230Project
             var greetingsText = this.greetingsLabel.Text;
             this.greetingsLabel.Text = greetingsText + this.dashboardViewModel.RetrieveTitleAndName(employeeId);
             this.patients = this.dashboardViewModel.RetrievePatients();
-            //this.loadPatientsIntoView();
         }
 
         private void loadPatientsIntoView()
