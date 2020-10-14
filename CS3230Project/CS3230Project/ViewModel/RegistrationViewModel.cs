@@ -1,6 +1,7 @@
 ﻿using CS3230Project.DAL;
 using CS3230Project.Model;
 using Org.BouncyCastle.Asn1.Crmf;
+using System;
 
 namespace CS3230Project.ViewModel
 {
@@ -81,6 +82,28 @@ namespace CS3230Project.ViewModel
             }
 
             return patientExists;
+        }
+
+        public bool UpdatePatient(Patient patient, Address address)
+        {
+            bool updateSuccessful;
+            var addressDal = new AddressDal();
+            var patientDal = new PatientDal();
+
+           var addressUpdateSuccess = addressDal.UpdatePatientAddress(address);
+           var patientUpdateSuccess = patientDal.UpdatePatientInfo(patient);
+
+           if (addressUpdateSuccess && patientUpdateSuccess == true)
+           {
+               updateSuccessful = true;
+           }
+           else
+           {
+               updateSuccessful = false;
+           }
+
+           return updateSuccessful;
+
         }
 
         #endregion

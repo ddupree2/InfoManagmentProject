@@ -68,6 +68,7 @@
             this.sexWarnLabel = new System.Windows.Forms.Label();
             this.addr1WarnLabel = new System.Windows.Forms.Label();
             this.cityWarnLabel = new System.Windows.Forms.Label();
+            this.updateButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // firstNameTextBox
@@ -78,7 +79,7 @@
             this.firstNameTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.firstNameTextBox.MaxLength = 45;
             this.firstNameTextBox.Name = "firstNameTextBox";
-            this.firstNameTextBox.Size = new System.Drawing.Size(216, 22);
+            this.firstNameTextBox.Size = new System.Drawing.Size(216, 26);
             this.firstNameTextBox.TabIndex = 1;
             this.firstNameTextBox.Enter += new System.EventHandler(this.firstNameTextBox_Enter);
             // 
@@ -90,7 +91,7 @@
             this.lastNameTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.lastNameTextBox.MaxLength = 45;
             this.lastNameTextBox.Name = "lastNameTextBox";
-            this.lastNameTextBox.Size = new System.Drawing.Size(216, 22);
+            this.lastNameTextBox.Size = new System.Drawing.Size(216, 26);
             this.lastNameTextBox.TabIndex = 2;
             this.lastNameTextBox.Leave += new System.EventHandler(this.lastNameTextBox_Leave);
             // 
@@ -102,7 +103,7 @@
             this.Addr1TextBox.Margin = new System.Windows.Forms.Padding(4);
             this.Addr1TextBox.MaxLength = 45;
             this.Addr1TextBox.Name = "Addr1TextBox";
-            this.Addr1TextBox.Size = new System.Drawing.Size(400, 22);
+            this.Addr1TextBox.Size = new System.Drawing.Size(400, 26);
             this.Addr1TextBox.TabIndex = 4;
             this.Addr1TextBox.Leave += new System.EventHandler(this.addr1TextBox_Leave);
             // 
@@ -114,7 +115,7 @@
             this.Addr2TextBox.Margin = new System.Windows.Forms.Padding(4);
             this.Addr2TextBox.MaxLength = 45;
             this.Addr2TextBox.Name = "Addr2TextBox";
-            this.Addr2TextBox.Size = new System.Drawing.Size(400, 22);
+            this.Addr2TextBox.Size = new System.Drawing.Size(400, 26);
             this.Addr2TextBox.TabIndex = 5;
             // 
             // cityTextBox
@@ -125,7 +126,7 @@
             this.cityTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.cityTextBox.MaxLength = 45;
             this.cityTextBox.Name = "cityTextBox";
-            this.cityTextBox.Size = new System.Drawing.Size(140, 22);
+            this.cityTextBox.Size = new System.Drawing.Size(140, 26);
             this.cityTextBox.TabIndex = 6;
             this.cityTextBox.Leave += new System.EventHandler(this.cityTextBox_Leave);
             // 
@@ -137,7 +138,7 @@
             this.zipCodeTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.zipCodeTextBox.MaxLength = 6;
             this.zipCodeTextBox.Name = "zipCodeTextBox";
-            this.zipCodeTextBox.Size = new System.Drawing.Size(140, 22);
+            this.zipCodeTextBox.Size = new System.Drawing.Size(140, 26);
             this.zipCodeTextBox.TabIndex = 8;
             this.zipCodeTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.zipCodeTextBox_KeyPress);
             // 
@@ -148,7 +149,7 @@
             this.firstNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.firstNameLabel.Location = new System.Drawing.Point(26, 49);
             this.firstNameLabel.Name = "firstNameLabel";
-            this.firstNameLabel.Size = new System.Drawing.Size(76, 16);
+            this.firstNameLabel.Size = new System.Drawing.Size(97, 20);
             this.firstNameLabel.TabIndex = 8;
             this.firstNameLabel.Text = "First Name:";
             // 
@@ -159,7 +160,7 @@
             this.lastNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lastNameLabel.Location = new System.Drawing.Point(26, 93);
             this.lastNameLabel.Name = "lastNameLabel";
-            this.lastNameLabel.Size = new System.Drawing.Size(76, 16);
+            this.lastNameLabel.Size = new System.Drawing.Size(96, 20);
             this.lastNameLabel.TabIndex = 9;
             this.lastNameLabel.Text = "Last Name:";
             // 
@@ -170,7 +171,7 @@
             this.addr1Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addr1Label.Location = new System.Drawing.Point(30, 183);
             this.addr1Label.Name = "addr1Label";
-            this.addr1Label.Size = new System.Drawing.Size(72, 16);
+            this.addr1Label.Size = new System.Drawing.Size(90, 20);
             this.addr1Label.TabIndex = 10;
             this.addr1Label.Text = "Address 1:";
             // 
@@ -181,7 +182,7 @@
             this.cityLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cityLabel.Location = new System.Drawing.Point(69, 280);
             this.cityLabel.Name = "cityLabel";
-            this.cityLabel.Size = new System.Drawing.Size(33, 16);
+            this.cityLabel.Size = new System.Drawing.Size(43, 20);
             this.cityLabel.TabIndex = 11;
             this.cityLabel.Text = "City:";
             // 
@@ -192,7 +193,7 @@
             this.addr2Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addr2Label.Location = new System.Drawing.Point(30, 233);
             this.addr2Label.Name = "addr2Label";
-            this.addr2Label.Size = new System.Drawing.Size(72, 16);
+            this.addr2Label.Size = new System.Drawing.Size(90, 20);
             this.addr2Label.TabIndex = 12;
             this.addr2Label.Text = "Address 2:";
             // 
@@ -203,7 +204,7 @@
             this.zipCodeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.zipCodeLabel.Location = new System.Drawing.Point(36, 326);
             this.zipCodeLabel.Name = "zipCodeLabel";
-            this.zipCodeLabel.Size = new System.Drawing.Size(66, 16);
+            this.zipCodeLabel.Size = new System.Drawing.Size(80, 20);
             this.zipCodeLabel.TabIndex = 13;
             this.zipCodeLabel.Text = "Zip Code:";
             // 
@@ -228,7 +229,7 @@
             this.ssnTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.ssnTextBox.MaxLength = 9;
             this.ssnTextBox.Name = "ssnTextBox";
-            this.ssnTextBox.Size = new System.Drawing.Size(216, 22);
+            this.ssnTextBox.Size = new System.Drawing.Size(216, 26);
             this.ssnTextBox.TabIndex = 3;
             this.ssnTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ssnTextBox_KeyPress);
             this.ssnTextBox.Leave += new System.EventHandler(this.ssnTextBox_Leave);
@@ -240,7 +241,7 @@
             this.ssnLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ssnLabel.Location = new System.Drawing.Point(63, 138);
             this.ssnLabel.Name = "ssnLabel";
-            this.ssnLabel.Size = new System.Drawing.Size(39, 16);
+            this.ssnLabel.Size = new System.Drawing.Size(48, 20);
             this.ssnLabel.TabIndex = 16;
             this.ssnLabel.Text = "SSN:";
             // 
@@ -251,7 +252,7 @@
             this.stateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.stateLabel.Location = new System.Drawing.Point(320, 280);
             this.stateLabel.Name = "stateLabel";
-            this.stateLabel.Size = new System.Drawing.Size(42, 16);
+            this.stateLabel.Size = new System.Drawing.Size(53, 20);
             this.stateLabel.TabIndex = 18;
             this.stateLabel.Text = "State:";
             // 
@@ -262,7 +263,7 @@
             this.contactNumberLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.contactNumberLabel.Location = new System.Drawing.Point(296, 326);
             this.contactNumberLabel.Name = "contactNumberLabel";
-            this.contactNumberLabel.Size = new System.Drawing.Size(66, 16);
+            this.contactNumberLabel.Size = new System.Drawing.Size(86, 20);
             this.contactNumberLabel.TabIndex = 20;
             this.contactNumberLabel.Text = "Contact #:";
             // 
@@ -274,7 +275,7 @@
             this.contactNumberTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.contactNumberTextBox.MaxLength = 10;
             this.contactNumberTextBox.Name = "contactNumberTextBox";
-            this.contactNumberTextBox.Size = new System.Drawing.Size(140, 22);
+            this.contactNumberTextBox.Size = new System.Drawing.Size(140, 26);
             this.contactNumberTextBox.TabIndex = 19;
             this.contactNumberTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.contactNumberTextBox_KeyPress);
             this.contactNumberTextBox.Leave += new System.EventHandler(this.contactNumberTextBox_Leave);
@@ -288,7 +289,7 @@
             "Female"});
             this.sexComboBox.Location = new System.Drawing.Point(388, 90);
             this.sexComboBox.Name = "sexComboBox";
-            this.sexComboBox.Size = new System.Drawing.Size(121, 24);
+            this.sexComboBox.Size = new System.Drawing.Size(121, 28);
             this.sexComboBox.TabIndex = 21;
             this.sexComboBox.Leave += new System.EventHandler(this.sexComboBox_Leave);
             // 
@@ -297,7 +298,7 @@
             this.sexLabel.AutoSize = true;
             this.sexLabel.Location = new System.Drawing.Point(329, 93);
             this.sexLabel.Name = "sexLabel";
-            this.sexLabel.Size = new System.Drawing.Size(56, 16);
+            this.sexLabel.Size = new System.Drawing.Size(69, 20);
             this.sexLabel.TabIndex = 22;
             this.sexLabel.Text = "Gender:";
             // 
@@ -307,7 +308,7 @@
             this.requiredFieldLbl.ForeColor = System.Drawing.Color.Red;
             this.requiredFieldLbl.Location = new System.Drawing.Point(19, 9);
             this.requiredFieldLbl.Name = "requiredFieldLbl";
-            this.requiredFieldLbl.Size = new System.Drawing.Size(190, 16);
+            this.requiredFieldLbl.Size = new System.Drawing.Size(246, 20);
             this.requiredFieldLbl.TabIndex = 23;
             this.requiredFieldLbl.Text = "Fields with an * must be filled in";
             this.requiredFieldLbl.Visible = false;
@@ -369,7 +370,7 @@
             "WY"});
             this.stateComboBox.Location = new System.Drawing.Point(369, 275);
             this.stateComboBox.Name = "stateComboBox";
-            this.stateComboBox.Size = new System.Drawing.Size(140, 24);
+            this.stateComboBox.Size = new System.Drawing.Size(140, 28);
             this.stateComboBox.TabIndex = 24;
             this.stateComboBox.Leave += new System.EventHandler(this.stateComboBox_Leave);
             // 
@@ -379,7 +380,7 @@
             this.label1.ForeColor = System.Drawing.Color.Red;
             this.label1.Location = new System.Drawing.Point(326, 86);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(13, 16);
+            this.label1.Size = new System.Drawing.Size(15, 20);
             this.label1.TabIndex = 25;
             this.label1.Text = "*";
             // 
@@ -389,7 +390,7 @@
             this.label2.ForeColor = System.Drawing.Color.Red;
             this.label2.Location = new System.Drawing.Point(19, 88);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(13, 16);
+            this.label2.Size = new System.Drawing.Size(15, 20);
             this.label2.TabIndex = 26;
             this.label2.Text = "*";
             // 
@@ -399,7 +400,7 @@
             this.label3.ForeColor = System.Drawing.Color.Red;
             this.label3.Location = new System.Drawing.Point(28, 176);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(13, 16);
+            this.label3.Size = new System.Drawing.Size(15, 20);
             this.label3.TabIndex = 27;
             this.label3.Text = "*";
             // 
@@ -409,7 +410,7 @@
             this.label4.ForeColor = System.Drawing.Color.Red;
             this.label4.Location = new System.Drawing.Point(56, 132);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(13, 16);
+            this.label4.Size = new System.Drawing.Size(15, 20);
             this.label4.TabIndex = 28;
             this.label4.Text = "*";
             // 
@@ -419,7 +420,7 @@
             this.label5.ForeColor = System.Drawing.Color.Red;
             this.label5.Location = new System.Drawing.Point(313, 275);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(13, 16);
+            this.label5.Size = new System.Drawing.Size(15, 20);
             this.label5.TabIndex = 29;
             this.label5.Text = "*";
             // 
@@ -429,7 +430,7 @@
             this.label6.ForeColor = System.Drawing.Color.Red;
             this.label6.Location = new System.Drawing.Point(289, 320);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(13, 16);
+            this.label6.Size = new System.Drawing.Size(15, 20);
             this.label6.TabIndex = 30;
             this.label6.Text = "*";
             // 
@@ -439,7 +440,7 @@
             this.label7.ForeColor = System.Drawing.Color.Red;
             this.label7.Location = new System.Drawing.Point(61, 275);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(13, 16);
+            this.label7.Size = new System.Drawing.Size(15, 20);
             this.label7.TabIndex = 31;
             this.label7.Text = "*";
             // 
@@ -449,7 +450,7 @@
             this.label8.ForeColor = System.Drawing.Color.Red;
             this.label8.Location = new System.Drawing.Point(28, 321);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(13, 16);
+            this.label8.Size = new System.Drawing.Size(15, 20);
             this.label8.TabIndex = 32;
             this.label8.Text = "*";
             // 
@@ -459,7 +460,7 @@
             this.label9.ForeColor = System.Drawing.Color.Red;
             this.label9.Location = new System.Drawing.Point(18, 45);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(13, 16);
+            this.label9.Size = new System.Drawing.Size(15, 20);
             this.label9.TabIndex = 33;
             this.label9.Text = "*";
             // 
@@ -469,7 +470,7 @@
             this.fNameWarnLabel.ForeColor = System.Drawing.Color.Red;
             this.fNameWarnLabel.Location = new System.Drawing.Point(108, 29);
             this.fNameWarnLabel.Name = "fNameWarnLabel";
-            this.fNameWarnLabel.Size = new System.Drawing.Size(175, 16);
+            this.fNameWarnLabel.Size = new System.Drawing.Size(221, 20);
             this.fNameWarnLabel.TabIndex = 34;
             this.fNameWarnLabel.Text = "First name cannot be empty.";
             this.fNameWarnLabel.Visible = false;
@@ -480,7 +481,7 @@
             this.lNameWarnLabel.ForeColor = System.Drawing.Color.Red;
             this.lNameWarnLabel.Location = new System.Drawing.Point(108, 72);
             this.lNameWarnLabel.Name = "lNameWarnLabel";
-            this.lNameWarnLabel.Size = new System.Drawing.Size(175, 16);
+            this.lNameWarnLabel.Size = new System.Drawing.Size(220, 20);
             this.lNameWarnLabel.TabIndex = 35;
             this.lNameWarnLabel.Text = "Last name cannot be empty.";
             this.lNameWarnLabel.Visible = false;
@@ -491,7 +492,7 @@
             this.ssnWarnLabel.ForeColor = System.Drawing.Color.Red;
             this.ssnWarnLabel.Location = new System.Drawing.Point(108, 116);
             this.ssnWarnLabel.Name = "ssnWarnLabel";
-            this.ssnWarnLabel.Size = new System.Drawing.Size(163, 16);
+            this.ssnWarnLabel.Size = new System.Drawing.Size(207, 20);
             this.ssnWarnLabel.TabIndex = 36;
             this.ssnWarnLabel.Text = "SSN must be 9 digits long.";
             this.ssnWarnLabel.Visible = false;
@@ -502,7 +503,7 @@
             this.zipCodeWarnLabel.ForeColor = System.Drawing.Color.Red;
             this.zipCodeWarnLabel.Location = new System.Drawing.Point(69, 305);
             this.zipCodeWarnLabel.Name = "zipCodeWarnLabel";
-            this.zipCodeWarnLabel.Size = new System.Drawing.Size(188, 16);
+            this.zipCodeWarnLabel.Size = new System.Drawing.Size(236, 20);
             this.zipCodeWarnLabel.TabIndex = 37;
             this.zipCodeWarnLabel.Text = "Zip code must be 6 digits long.";
             this.zipCodeWarnLabel.Visible = false;
@@ -513,7 +514,7 @@
             this.contactNumWarnLabel.ForeColor = System.Drawing.Color.Red;
             this.contactNumWarnLabel.Location = new System.Drawing.Point(346, 303);
             this.contactNumWarnLabel.Name = "contactNumWarnLabel";
-            this.contactNumWarnLabel.Size = new System.Drawing.Size(197, 16);
+            this.contactNumWarnLabel.Size = new System.Drawing.Size(254, 20);
             this.contactNumWarnLabel.TabIndex = 38;
             this.contactNumWarnLabel.Text = "Contact # must be 10 digits long.";
             this.contactNumWarnLabel.Visible = false;
@@ -524,7 +525,7 @@
             this.stateWarnLabel.ForeColor = System.Drawing.Color.Red;
             this.stateWarnLabel.Location = new System.Drawing.Point(371, 256);
             this.stateWarnLabel.Name = "stateWarnLabel";
-            this.stateWarnLabel.Size = new System.Drawing.Size(110, 16);
+            this.stateWarnLabel.Size = new System.Drawing.Size(142, 20);
             this.stateWarnLabel.TabIndex = 39;
             this.stateWarnLabel.Text = "Must select state.";
             this.stateWarnLabel.Visible = false;
@@ -535,7 +536,7 @@
             this.sexWarnLabel.ForeColor = System.Drawing.Color.Red;
             this.sexWarnLabel.Location = new System.Drawing.Point(385, 71);
             this.sexWarnLabel.Name = "sexWarnLabel";
-            this.sexWarnLabel.Size = new System.Drawing.Size(124, 16);
+            this.sexWarnLabel.Size = new System.Drawing.Size(156, 20);
             this.sexWarnLabel.TabIndex = 40;
             this.sexWarnLabel.Text = "Must select gender.";
             this.sexWarnLabel.Visible = false;
@@ -546,7 +547,7 @@
             this.addr1WarnLabel.ForeColor = System.Drawing.Color.Red;
             this.addr1WarnLabel.Location = new System.Drawing.Point(110, 163);
             this.addr1WarnLabel.Name = "addr1WarnLabel";
-            this.addr1WarnLabel.Size = new System.Drawing.Size(174, 16);
+            this.addr1WarnLabel.Size = new System.Drawing.Size(217, 20);
             this.addr1WarnLabel.TabIndex = 41;
             this.addr1WarnLabel.Text = "Address 1 cannot be empty.";
             this.addr1WarnLabel.Visible = false;
@@ -557,16 +558,32 @@
             this.cityWarnLabel.ForeColor = System.Drawing.Color.Red;
             this.cityWarnLabel.Location = new System.Drawing.Point(110, 257);
             this.cityWarnLabel.Name = "cityWarnLabel";
-            this.cityWarnLabel.Size = new System.Drawing.Size(135, 16);
+            this.cityWarnLabel.Size = new System.Drawing.Size(170, 20);
             this.cityWarnLabel.TabIndex = 42;
             this.cityWarnLabel.Text = "City cannot be empty.";
             this.cityWarnLabel.Visible = false;
             // 
+            // updateButton
+            // 
+            this.updateButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.updateButton.Enabled = false;
+            this.updateButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.updateButton.Location = new System.Drawing.Point(201, 381);
+            this.updateButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.updateButton.Name = "updateButton";
+            this.updateButton.Size = new System.Drawing.Size(140, 29);
+            this.updateButton.TabIndex = 43;
+            this.updateButton.Text = "Update";
+            this.updateButton.UseVisualStyleBackColor = true;
+            this.updateButton.Visible = false;
+            this.updateButton.Click += new System.EventHandler(this.updateButton_Click);
+            // 
             // RegistrationForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(543, 421);
+            this.Controls.Add(this.updateButton);
             this.Controls.Add(this.cityWarnLabel);
             this.Controls.Add(this.addr1WarnLabel);
             this.Controls.Add(this.sexWarnLabel);
@@ -658,6 +675,7 @@
         private System.Windows.Forms.Label sexWarnLabel;
         private System.Windows.Forms.Label addr1WarnLabel;
         private System.Windows.Forms.Label cityWarnLabel;
+        private System.Windows.Forms.Button updateButton;
     }
 }
 

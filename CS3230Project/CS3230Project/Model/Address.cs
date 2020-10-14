@@ -4,6 +4,8 @@
     {
         #region Data members
 
+        public int addressId;
+
         public string Address1;
 
         public string Address2;
@@ -28,6 +30,11 @@
             this.ContactNum = contactnum;
             this.Zip = zip;
             this.State = state;
+        }
+
+        public Address()
+        {
+
         }
 
         #endregion

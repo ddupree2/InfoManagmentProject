@@ -33,12 +33,13 @@
             this.greetingsLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.mainInfoDisplay = new System.Windows.Forms.ListBox();
+            this.editPatientButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // logOutButton
             // 
             this.logOutButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.logOutButton.Location = new System.Drawing.Point(99, 148);
+            this.logOutButton.Location = new System.Drawing.Point(99, 199);
             this.logOutButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.logOutButton.Name = "logOutButton";
             this.logOutButton.Size = new System.Drawing.Size(173, 38);
@@ -87,11 +88,24 @@
             this.mainInfoDisplay.Size = new System.Drawing.Size(383, 388);
             this.mainInfoDisplay.TabIndex = 5;
             // 
+            // editPatientButton
+            // 
+            this.editPatientButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.editPatientButton.Location = new System.Drawing.Point(99, 148);
+            this.editPatientButton.Margin = new System.Windows.Forms.Padding(4);
+            this.editPatientButton.Name = "editPatientButton";
+            this.editPatientButton.Size = new System.Drawing.Size(173, 38);
+            this.editPatientButton.TabIndex = 6;
+            this.editPatientButton.Text = "Edit Patient";
+            this.editPatientButton.UseVisualStyleBackColor = true;
+            this.editPatientButton.Click += new System.EventHandler(this.editPatientButton_Click);
+            // 
             // DashBoardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(786, 442);
+            this.Controls.Add(this.editPatientButton);
             this.Controls.Add(this.mainInfoDisplay);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.greetingsLabel);
@@ -113,5 +127,6 @@
         private System.Windows.Forms.Label greetingsLabel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListBox mainInfoDisplay;
+        private System.Windows.Forms.Button editPatientButton;
     }
 }

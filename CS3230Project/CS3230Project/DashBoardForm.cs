@@ -56,5 +56,20 @@ namespace CS3230Project
             this.patients = this.dashboardViewModel.RetrievePatients();
             this.loadPatientsIntoView();
         }
+
+        private void editPatientButton_Click(object sender, EventArgs e)
+        {
+            if (this.mainInfoDisplay.SelectedIndex < 0)
+            {
+                MessageBox.Show(@"please select a patient.");
+                return;
+            }
+            var selectItem = this.mainInfoDisplay.SelectedIndex;
+            var patient = this.patients[selectItem];
+            var address = this.dashboardViewModel.getAddress(patient);
+            var registrationForm = new RegistrationForm(patient, address);
+            registrationForm.Show();
+
+        }
     }
 }

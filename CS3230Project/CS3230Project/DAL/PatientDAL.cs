@@ -94,6 +94,51 @@ namespace CS3230Project.DAL
             return false;
         }
 
+        public bool UpdatePatientInfo(Patient patient)
+        {
+            try
+            {
+                var conn = DbConnection.GetConnection();
+                using (conn)
+                {
+                    conn.Open();
+                    var insertQuery =
+                        "UPDATE `patient` SET  `lname`= @lname, `fname`= @fname, `sex`= @sex, `ssn`= @ssn WHERE `patientID` = @patientId;";
+                    using (var cmd = new MySqlCommand(insertQuery, conn))
+                    {
+                        cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
+                        cmd.Parameters["@patientID"].Value = patient.PatientId;
+
+                        cmd.Parameters.Add("@ssn", MySqlDbType.VarChar);
+                        cmd.Parameters["@ssn"].Value = patient.Ssn;
+
+                        cmd.Parameters.Add("@lname", MySqlDbType.VarChar);
+                        cmd.Parameters["@lname"].Value = patient.Lname;
+
+                        cmd.Parameters.Add("@fname", MySqlDbType.VarChar);
+                        cmd.Parameters["@fname"].Value = patient.Fname;
+
+                        cmd.Parameters.Add("@sex", MySqlDbType.VarChar);
+                        cmd.Parameters["@sex"].Value = patient.Sex;
+
+                        using (cmd.ExecuteReader())
+                        {
+                        }
+
+                        return true;
+                    }
+                }
+            }
+            catch (MySqlException mex)
+            {
+                throw new ArgumentException(mex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
+        }
+
         /// <summary>
         /// Retrieves the patients.
         /// </summary>
@@ -123,6 +168,7 @@ namespace CS3230Project.DAL
                             var sexOrdinal = reader.GetOrdinal("sex");
                             var patientIDOrdinal = reader.GetOrdinal("patientID");
                             var addressIDOrdinal = reader.GetOrdinal("addressID");
+                            var ssnOrdinal = reader.GetOrdinal("ssn");
 
                             while (reader.Read())
                             {
@@ -133,8 +179,9 @@ namespace CS3230Project.DAL
                                  patient.Fname = reader[fnameOrdinal] == DBNull.Value ? "null" : reader.GetString(fnameOrdinal);
                                  patient.PatientId = reader[patientIDOrdinal] == DBNull.Value ? 0 : reader.GetInt32(patientIDOrdinal);
                                  patient.AddressID = reader[addressIDOrdinal] == DBNull.Value ? 0 : reader.GetInt32(addressIDOrdinal);
+                                 patient.Ssn = reader[ssnOrdinal] == DBNull.Value ? "null" : reader.GetString(ssnOrdinal);
 
-                                 patients.Add(patient);
+                                patients.Add(patient);
 
                             }
 

@@ -26,12 +26,20 @@ namespace CS3230Project.ViewModel
             return employeeDal.RetrieveTitleAndName(employeeId);
         }
 
-        internal IList<Patient> RetrievePatients()
+        public IList<Patient> RetrievePatients()
         {
             var patientDAL = new PatientDal();
             var patients = patientDAL.RetrievePatients();
 
             return patients;
+        }
+
+        public Address getAddress(Patient patient)
+        {
+            var addressDAL = new AddressDal();
+            var address = addressDAL.RetrieveAddress(patient);
+
+            return address;
         }
     }
 }

@@ -12,6 +12,10 @@ namespace CS3230Project
 
         private readonly RegistrationViewModel registrationViewmodel;
 
+        private readonly Patient patient = new Patient();
+
+        private readonly Address address = new Address();
+
         #endregion
 
         #region Constructors
@@ -20,6 +24,24 @@ namespace CS3230Project
         {
             this.InitializeComponent();
             this.registrationViewmodel = new RegistrationViewModel();
+        }
+
+        public RegistrationForm(Patient patient, Address address)
+        {
+            this.InitializeComponent();
+            this.showUpdateButton();
+            this.patient = patient;
+            this.address = address;
+            this.filledForm();
+            this.registrationViewmodel = new RegistrationViewModel();
+        }
+
+        private void showUpdateButton()
+        {
+            this.RegisterButton.Visible = false;
+            this.RegisterButton.Enabled = false;
+            this.updateButton.Visible = true;
+            this.updateButton.Enabled = true;
         }
 
         #endregion
@@ -45,14 +67,7 @@ namespace CS3230Project
             var successfulRegistration =
                 this.registrationViewmodel.RegisterPatient(ssn, firstName, lastName, sex, address);
 
-            if (successfulRegistration)
-            {
-                showSuccessfulRegistrationMessage();
-            }
-            else
-            {
-                showFailedRegistrationMessage();
-            }
+            updateUserIfSuccessful(successfulRegistration);
 
             this.emptyForm();
         }
@@ -69,6 +84,20 @@ namespace CS3230Project
             this.Addr2TextBox.Text = string.Empty;
             this.contactNumberTextBox.Text = string.Empty;
             this.zipCodeTextBox.Text = string.Empty;
+        }
+
+        private void filledForm()
+        {
+            this.firstNameTextBox.Text = this.patient.Fname;
+            this.lastNameTextBox.Text = this.patient.Lname;
+            this.ssnTextBox.Text = this.patient.Ssn;
+            this.stateComboBox.Text = this.address.State;
+            this.sexComboBox.Text = this.patient.Sex;
+            this.cityTextBox.Text = this.address.City;
+            this.Addr1TextBox.Text = this.address.Address1;
+            this.Addr2TextBox.Text = this.address.Address2;
+            this.contactNumberTextBox.Text = this.address.ContactNum;
+            this.zipCodeTextBox.Text = this.address.Zip.ToString();
         }
 
         private Address registerAddress()
@@ -292,5 +321,52 @@ namespace CS3230Project
         }
 
         #endregion
+
+        private void updateButton_Click(object sender, EventArgs e)
+        {
+            if (!this.allFieldsAreValid())
+            {
+                showFailedValidationMessage();
+                this.updateLabels();
+                return;
+            }
+
+            this.updatePatientAddressInfo();
+            this.updatePatientInto();
+
+            var successfulRegistration = this.registrationViewmodel.UpdatePatient(this.patient, this.address);
+
+            updateUserIfSuccessful(successfulRegistration);
+        }
+
+        private static void updateUserIfSuccessful(bool successfulRegistration)
+        {
+            if (successfulRegistration)
+            {
+                showSuccessfulRegistrationMessage();
+            }
+            else
+            {
+                showFailedRegistrationMessage();
+            }
+        }
+
+        private void updatePatientInto()
+        {
+            this.patient.Lname = this.lastNameTextBox.Text;
+            this.patient.Fname = this.firstNameTextBox.Text;
+            this.patient.Ssn = this.ssnTextBox.Text;
+            this.patient.Sex = this.sexComboBox.Text;
+        }
+
+        private void updatePatientAddressInfo()
+        {
+            this.address.Address1 = this.Addr1TextBox.Text;
+            this.address.Address2 = this.Addr2TextBox.Text;
+            this.address.City = this.cityTextBox.Text;
+            this.address.State = this.stateComboBox.Text;
+            this.address.Zip = int.Parse(this.zipCodeTextBox.Text);
+            this.address.ContactNum = this.contactNumberTextBox.Text;
+        }
     }
 }
