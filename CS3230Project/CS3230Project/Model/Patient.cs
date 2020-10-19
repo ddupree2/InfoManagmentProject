@@ -1,4 +1,6 @@
-﻿namespace CS3230Project.Model
+﻿using System;
+
+namespace CS3230Project.Model
 {
     public class Patient
     {
@@ -16,6 +18,8 @@
 
         public string Sex;
 
+        public DateTime DateOfBirth;
+
         #endregion
 
         #region Constructors
@@ -28,13 +32,15 @@
         /// <param name="lname">The lname.</param>
         /// <param name="addressID">The address identifier.</param>
         /// <param name="sex">The sex.</param>
-        public Patient(string ssn, string fname, string lname, int addressID, string sex)
+        /// <param name="dob">The dob.</param>
+        public Patient(string ssn, string fname, string lname, int addressID, string sex, DateTime dob)
         {
             this.Ssn = ssn;
             this.Fname = fname;
             this.Lname = lname;
             this.AddressID = addressID;
             this.Sex = sex;
+            this.DateOfBirth = dob;
         }
 
         /// <summary>

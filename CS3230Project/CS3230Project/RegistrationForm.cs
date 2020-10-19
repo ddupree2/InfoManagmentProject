@@ -30,19 +30,21 @@ namespace CS3230Project
         public RegistrationForm(Patient patient, Address address)
         {
             this.InitializeComponent();
-            this.showUpdateButton();
+            this.showUpdateButtons();
             this.patient = patient;
             this.address = address;
             this.filledForm();
-            this.registrationViewmodel = new RegistrationViewModel();
+            this._registrationViewmodel = new RegistrationViewModel();
         }
 
-        private void showUpdateButton()
+        private void showUpdateButtons()
         {
             this.RegisterButton.Visible = false;
             this.RegisterButton.Enabled = false;
             this.updateButton.Visible = true;
             this.updateButton.Enabled = true;
+            this.deleteButton.Visible = true;
+            this.deleteButton.Enabled = true;
         }
 
         #endregion
@@ -58,18 +60,19 @@ namespace CS3230Project
                 return;
             }
 
-            var address = RegisterAddress();
+            var address = registerAddress();
 
             var firstName = firstNameTextBox.Text;
             var lastName = lastNameTextBox.Text;
             var ssn = ssnTextBox.Text;
             var sex = sexComboBox.Text;
+            var dob = DateTime.Parse(this.datePicker.Value.ToShortDateString());
 
             var successfulRegistration = false;
             try
             {
                 successfulRegistration =
-                    _registrationViewmodel.RegisterPatient(ssn, firstName, lastName, sex, address);
+                    _registrationViewmodel.RegisterPatient(ssn, firstName, lastName, sex, address, dob);
             }
             catch (MySqlException)
             {
@@ -93,6 +96,7 @@ namespace CS3230Project
             Addr2TextBox.Text = string.Empty;
             contactNumberTextBox.Text = string.Empty;
             zipCodeTextBox.Text = string.Empty;
+            this.datePicker.Value = DateTime.Now;
         }
 
         private void filledForm()
@@ -104,7 +108,17 @@ namespace CS3230Project
             this.sexComboBox.Text = this.patient.Sex;
             this.cityTextBox.Text = this.address.City;
             this.Addr1TextBox.Text = this.address.Address1;
-            this.Addr2TextBox.Text = this.address.Address2;
+            this.datePicker.Value = this.patient.DateOfBirth;
+            
+            if (this.address.Address2.Equals("null"))
+            {
+                this.Addr2TextBox.Text = string.Empty;
+            }
+            else
+            {
+                this.Addr2TextBox.Text = this.address.Address2;
+            }
+            
             this.contactNumberTextBox.Text = this.address.ContactNum;
             this.zipCodeTextBox.Text = this.address.Zip.ToString();
         }
@@ -175,10 +189,10 @@ namespace CS3230Project
             MessageBox.Show(connectionIssue, issueTitle, MessageBoxButtons.OK, issueType);
         }
 
-        private static void ShowSuccessfulRegistrationMessage()
+        private static void ShowSuccessfulRegistrationMessage(string updateOrAdd = "added")
         {
             const string issueTitle = "Successful Registration";
-            const string connectionIssue = "The patient was successfully added.";
+            var connectionIssue = "The patient was successfully " + updateOrAdd + ".";
             const MessageBoxIcon issueType = MessageBoxIcon.Information;
             MessageBox.Show(connectionIssue, issueTitle, MessageBoxButtons.OK, issueType);
         }
@@ -273,49 +287,79 @@ namespace CS3230Project
 
         private void updateButton_Click(object sender, EventArgs e)
         {
-            if (!this.allFieldsAreValid())
+            if (!AreAllFieldsValid())
             {
-                showFailedValidationMessage();
-                this.updateLabels();
+                ShowFailedValidationMessage();
+                UpdateLabels();
                 return;
             }
 
             this.updatePatientAddressInfo();
-            this.updatePatientInto();
+            this.updatePatientInfo();
 
-            var successfulRegistration = this.registrationViewmodel.UpdatePatient(this.patient, this.address);
 
-            updateUserIfSuccessful(successfulRegistration);
+            var successfulRegistration = false;
+            try
+            {
+                successfulRegistration =
+                    this._registrationViewmodel.UpdatePatient(this.patient, this.address);
+
+            }
+            catch (MySqlException)
+            {
+                ShowFailedRegistrationMessage();
+            }
+
+            const string update = "updated";
+            if (successfulRegistration) ShowSuccessfulRegistrationMessage(update);
+
         }
 
-        private static void updateUserIfSuccessful(bool successfulRegistration)
-        {
-            if (successfulRegistration)
-            {
-                showSuccessfulRegistrationMessage();
-            }
-            else
-            {
-                showFailedRegistrationMessage();
-            }
-        }
 
-        private void updatePatientInto()
+        private void updatePatientInfo()
         {
             this.patient.Lname = this.lastNameTextBox.Text;
             this.patient.Fname = this.firstNameTextBox.Text;
             this.patient.Ssn = this.ssnTextBox.Text;
             this.patient.Sex = this.sexComboBox.Text;
+            this.patient.DateOfBirth = DateTime.Parse(this.datePicker.Value.ToShortDateString());
         }
 
         private void updatePatientAddressInfo()
         {
             this.address.Address1 = this.Addr1TextBox.Text;
-            this.address.Address2 = this.Addr2TextBox.Text;
+            if (this.Addr2TextBox.Text.Equals(string.Empty))
+            {
+                this.address.Address2 = null;
+            }
+            else
+            {
+                this.address.Address2 = this.Addr2TextBox.Text;
+            }
             this.address.City = this.cityTextBox.Text;
             this.address.State = this.stateComboBox.Text;
             this.address.Zip = int.Parse(this.zipCodeTextBox.Text);
             this.address.ContactNum = this.contactNumberTextBox.Text;
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            var message = "Are you sure you want to delete this patient?\nThis can't be undone";
+            var caption = "WARNING!";
+            var buttons = MessageBoxButtons.YesNo;
+
+            var result = MessageBox.Show(message, caption, buttons);
+            if (result == System.Windows.Forms.DialogResult.Yes)
+            {
+                message = this.patient.Fname + " " + this.patient.Lname + " was deleted";
+                caption = "Deleted";
+                buttons = MessageBoxButtons.OK;
+                
+                MessageBox.Show(message, caption, buttons);
+                this._registrationViewmodel.DeletePatient(this.patient);
+                this.Close();
+            }
+
         }
     }
 }

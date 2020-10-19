@@ -17,7 +17,7 @@ namespace CS3230Project.ViewModel
         /// <param name="lname">The lname.</param>
         /// <param name="sex">The sex.</param>
         /// <param name="address">The address.</param>
-        public bool RegisterPatient(string ssn, string fname, string lname, string sex, Address address)
+        public bool RegisterPatient(string ssn, string fname, string lname, string sex, Address address, DateTime dob)
         {
             var addressDal = new AddressDal();
             var patientDal = new PatientDal();
@@ -30,7 +30,7 @@ namespace CS3230Project.ViewModel
 
             var addressId = addressDal.RetrieveAddressId(address);
 
-            var patient = new Patient(ssn, fname, lname, addressId, sex);
+            var patient = new Patient(ssn, fname, lname, addressId, sex, dob);
 
             return patientDal.InsertPatient(patient);
         }
@@ -104,6 +104,15 @@ namespace CS3230Project.ViewModel
 
            return updateSuccessful;
 
+        }
+
+        public bool DeletePatient(Patient patient)
+        {
+            var patientDal = new PatientDal();
+
+            var deleteSuccessful = patientDal.DeletePatientInfo(patient);
+
+            return deleteSuccessful;
         }
 
         #endregion

@@ -13,6 +13,13 @@ namespace CS3230Project.DAL
     {
         #region Methods
 
+        /// <summary>
+        /// Inserts the patient.
+        /// </summary>
+        /// <param name="patient">The patient.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">
+        /// </exception>
         public bool InsertPatient(Patient patient)
         {
             try
@@ -22,7 +29,7 @@ namespace CS3230Project.DAL
                 {
                     conn.Open();
                     var insertQuery =
-                        "INSERT INTO `patient` (`patientID`, `lname`, `fname`, `addressID`, `sex`, ssn) VALUES (@patientID, @lname, @fname, @addressID, @sex, @ssn);";
+                        "INSERT INTO `patient` (`patientID`, `lname`, `fname`, `addressID`, `sex`, ssn, `dob`) VALUES (@patientID, @lname, @fname, @addressID, @sex, @ssn, @dob);";
                     using (var cmd = new MySqlCommand(insertQuery, conn))
                     {
                         var patientId = this.generatePatientId();
@@ -45,9 +52,10 @@ namespace CS3230Project.DAL
                         cmd.Parameters.Add("@sex", MySqlDbType.VarChar);
                         cmd.Parameters["@sex"].Value = patient.Sex;
 
-                        using (cmd.ExecuteReader())
-                        {
-                        }
+                        cmd.Parameters.Add("@dob", MySqlDbType.Date);
+                        cmd.Parameters["@dob"].Value = patient.DateOfBirth;
+
+                        cmd.ExecuteNonQuery();
 
                         return true;
                     }
@@ -94,6 +102,13 @@ namespace CS3230Project.DAL
             return false;
         }
 
+        /// <summary>
+        /// Updates the patient information.
+        /// </summary>
+        /// <param name="patient">The patient.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">
+        /// </exception>
         public bool UpdatePatientInfo(Patient patient)
         {
             try
@@ -103,7 +118,7 @@ namespace CS3230Project.DAL
                 {
                     conn.Open();
                     var insertQuery =
-                        "UPDATE `patient` SET  `lname`= @lname, `fname`= @fname, `sex`= @sex, `ssn`= @ssn WHERE `patientID` = @patientId;";
+                        "UPDATE `patient` SET  `lname`= @lname, `fname`= @fname, `sex`= @sex, `ssn`= @ssn, `dob` = @dob WHERE `patientID` = @patientId;";
                     using (var cmd = new MySqlCommand(insertQuery, conn))
                     {
                         cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
@@ -121,9 +136,10 @@ namespace CS3230Project.DAL
                         cmd.Parameters.Add("@sex", MySqlDbType.VarChar);
                         cmd.Parameters["@sex"].Value = patient.Sex;
 
-                        using (cmd.ExecuteReader())
-                        {
-                        }
+                        cmd.Parameters.Add("@dob", MySqlDbType.Date);
+                        cmd.Parameters["@dob"].Value = patient.DateOfBirth;
+
+                        cmd.ExecuteNonQuery();
 
                         return true;
                     }
@@ -169,6 +185,7 @@ namespace CS3230Project.DAL
                             var patientIDOrdinal = reader.GetOrdinal("patientID");
                             var addressIDOrdinal = reader.GetOrdinal("addressID");
                             var ssnOrdinal = reader.GetOrdinal("ssn");
+                            var dobOrdinal = reader.GetOrdinal("dob");
 
                             while (reader.Read())
                             {
@@ -180,6 +197,7 @@ namespace CS3230Project.DAL
                                  patient.PatientId = reader[patientIDOrdinal] == DBNull.Value ? 0 : reader.GetInt32(patientIDOrdinal);
                                  patient.AddressID = reader[addressIDOrdinal] == DBNull.Value ? 0 : reader.GetInt32(addressIDOrdinal);
                                  patient.Ssn = reader[ssnOrdinal] == DBNull.Value ? "null" : reader.GetString(ssnOrdinal);
+                                 patient.DateOfBirth = reader[dobOrdinal] == DBNull.Value ? DateTime.Now : reader.GetDateTime(dobOrdinal);
 
                                 patients.Add(patient);
 
@@ -247,6 +265,36 @@ namespace CS3230Project.DAL
             }
 
             return foundPatientId;
+        }
+
+        public bool DeletePatientInfo(Patient patient)
+        {
+            try
+            {
+                var conn = DbConnection.GetConnection();
+                using (conn)
+                {
+                    conn.Open();
+                    var insertQuery = "DELETE FROM `patient` WHERE `patientID` = @patientId;";
+                    using (var cmd = new MySqlCommand(insertQuery, conn))
+                    {
+                        cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
+                        cmd.Parameters["@patientID"].Value = patient.PatientId;
+
+                        cmd.ExecuteNonQuery();
+
+                        return true;
+                    }
+                }
+            }
+            catch (MySqlException mex)
+            {
+                throw new ArgumentException(mex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
         }
 
         #endregion

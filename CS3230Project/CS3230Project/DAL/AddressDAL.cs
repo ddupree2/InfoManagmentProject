@@ -12,6 +12,12 @@ namespace CS3230Project.DAL
     {
         #region Methods
 
+        /// <summary>
+        /// Inserts the address.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        /// <exception cref="ArgumentException">
+        /// </exception>
         public void InsertAddress(Address address)
         {
             try
@@ -42,9 +48,7 @@ namespace CS3230Project.DAL
                         cmd.Parameters.Add("@contactNum", MySqlDbType.VarChar);
                         cmd.Parameters["@contactNum"].Value = address.ContactNum;
 
-                        using (cmd.ExecuteReader())
-                        {
-                        }
+                        cmd.ExecuteNonQuery();
                     }
                 }
             }
@@ -110,6 +114,13 @@ namespace CS3230Project.DAL
             return addressId;
         }
 
+        /// <summary>
+        /// Updates the patient address.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">
+        /// </exception>
         public bool UpdatePatientAddress(Address address)
         {
             try
@@ -143,9 +154,7 @@ namespace CS3230Project.DAL
                         cmd.Parameters.Add("@addressId", MySqlDbType.Int32);
                         cmd.Parameters["@addressId"].Value = address.addressId;
 
-                        using (cmd.ExecuteReader())
-                        {
-                        }
+                        cmd.ExecuteNonQuery();
 
                         return true;
                     }

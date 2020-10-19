@@ -26,6 +26,10 @@ namespace CS3230Project.ViewModel
             return employeeDal.RetrieveTitleAndName(employeeId);
         }
 
+        /// <summary>
+        /// Retrieves the patients.
+        /// </summary>
+        /// <returns></returns>
         public IList<Patient> RetrievePatients()
         {
             var patientDAL = new PatientDal();
@@ -34,6 +38,11 @@ namespace CS3230Project.ViewModel
             return patients;
         }
 
+        /// <summary>
+        /// Gets the address.
+        /// </summary>
+        /// <param name="patient">The patient.</param>
+        /// <returns></returns>
         public Address getAddress(Patient patient)
         {
             var addressDAL = new AddressDal();
