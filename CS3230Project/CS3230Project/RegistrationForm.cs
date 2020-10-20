@@ -9,9 +9,13 @@ namespace CS3230Project
 {
     public partial class RegistrationForm : Form
     {
+        private const int ValidZipCodeLength = 5;
+        private const int ValidSsnLength = 9;
+        private const int ValidContactNumberLength = 10;
+
         #region Data members
 
-        private readonly RegistrationViewModel _registrationViewmodel;
+        private readonly RegistrationViewModel registrationViewmodel;
 
         private readonly Patient patient = new Patient();
 
@@ -23,8 +27,8 @@ namespace CS3230Project
 
         public RegistrationForm()
         {
-            InitializeComponent();
-            _registrationViewmodel = new RegistrationViewModel();
+            this.InitializeComponent();
+            this.registrationViewmodel = new RegistrationViewModel();
         }
 
         public RegistrationForm(Patient patient, Address address)
@@ -34,8 +38,12 @@ namespace CS3230Project
             this.patient = patient;
             this.address = address;
             this.filledForm();
-            this._registrationViewmodel = new RegistrationViewModel();
+            this.registrationViewmodel = new RegistrationViewModel();
         }
+
+        #endregion
+
+        #region Methods
 
         private void showUpdateButtons()
         {
@@ -47,55 +55,54 @@ namespace CS3230Project
             this.deleteButton.Enabled = true;
         }
 
-        #endregion
-
-        #region Methods
-
         private void RegisterButton_Click(object sender, EventArgs e)
         {
-            if (!AreAllFieldsValid())
+            if (!this.areAllFieldsValid())
             {
-                ShowFailedValidationMessage();
-                UpdateLabels();
+                showFailedValidationMessage();
+                this.updateLabels();
                 return;
             }
 
-            var address = registerAddress();
+            var address = this.registerAddress();
 
-            var firstName = firstNameTextBox.Text;
-            var lastName = lastNameTextBox.Text;
-            var ssn = ssnTextBox.Text;
-            var sex = sexComboBox.Text;
+            var firstName = this.firstNameTextBox.Text;
+            var lastName = this.lastNameTextBox.Text;
+            var ssn = this.ssnTextBox.Text;
+            var sex = this.sexComboBox.Text;
             var dob = DateTime.Parse(this.datePicker.Value.ToShortDateString());
 
             var successfulRegistration = false;
             try
             {
                 successfulRegistration =
-                    _registrationViewmodel.RegisterPatient(ssn, firstName, lastName, sex, address, dob);
+                    this.registrationViewmodel.RegisterPatient(ssn, firstName, lastName, sex, address, dob);
             }
             catch (MySqlException)
             {
-                ShowFailedRegistrationMessage();
+                showFailedRegistrationMessage();
             }
 
-            if (successfulRegistration) ShowSuccessfulRegistrationMessage();
+            if (successfulRegistration)
+            {
+                showSuccessfulRegistrationMessage();
+            }
 
-            EmptyForm();
+            this.emptyForm();
         }
 
-        private void EmptyForm()
+        private void emptyForm()
         {
-            firstNameTextBox.Text = string.Empty;
-            lastNameTextBox.Text = string.Empty;
-            ssnTextBox.Text = string.Empty;
-            stateComboBox.Text = string.Empty;
-            sexComboBox.Text = string.Empty;
-            cityTextBox.Text = string.Empty;
-            Addr1TextBox.Text = string.Empty;
-            Addr2TextBox.Text = string.Empty;
-            contactNumberTextBox.Text = string.Empty;
-            zipCodeTextBox.Text = string.Empty;
+            this.firstNameTextBox.Text = string.Empty;
+            this.lastNameTextBox.Text = string.Empty;
+            this.ssnTextBox.Text = string.Empty;
+            this.stateComboBox.Text = string.Empty;
+            this.sexComboBox.Text = string.Empty;
+            this.cityTextBox.Text = string.Empty;
+            this.Addr1TextBox.Text = string.Empty;
+            this.Addr2TextBox.Text = string.Empty;
+            this.contactNumberTextBox.Text = string.Empty;
+            this.zipCodeTextBox.Text = string.Empty;
             this.datePicker.Value = DateTime.Now;
         }
 
@@ -109,7 +116,7 @@ namespace CS3230Project
             this.cityTextBox.Text = this.address.City;
             this.Addr1TextBox.Text = this.address.Address1;
             this.datePicker.Value = this.patient.DateOfBirth;
-            
+
             if (this.address.Address2.Equals("null"))
             {
                 this.Addr2TextBox.Text = string.Empty;
@@ -118,53 +125,56 @@ namespace CS3230Project
             {
                 this.Addr2TextBox.Text = this.address.Address2;
             }
-            
+
             this.contactNumberTextBox.Text = this.address.ContactNum;
             this.zipCodeTextBox.Text = this.address.Zip.ToString();
         }
 
         private Address registerAddress()
         {
-            var address1 = Addr1TextBox.Text;
-            var address2 = Addr2TextBox.Text;
-            var city = cityTextBox.Text;
-            var state = stateComboBox.Text;
-            var zip = int.Parse(zipCodeTextBox.Text);
-            var contactNumber = contactNumberTextBox.Text;
+            var address1 = this.Addr1TextBox.Text;
+            var address2 = this.Addr2TextBox.Text;
+            var city = this.cityTextBox.Text;
+            var state = this.stateComboBox.Text;
+            var zip = int.Parse(this.zipCodeTextBox.Text);
+            var contactNumber = this.contactNumberTextBox.Text;
 
-            if (address2.Equals(string.Empty)) address2 = null;
+            if (address2.Equals(string.Empty))
+            {
+                address2 = null;
+            }
 
-            return _registrationViewmodel.RegisterAddress(address1, city, state, zip, contactNumber, address2);
+            return this.registrationViewmodel.RegisterAddress(address1, city, state, zip, contactNumber, address2);
         }
 
-        private bool AreAllFieldsValid()
+        private bool areAllFieldsValid()
         {
-            var sex = sexComboBox.Text;
-            var firstName = firstNameTextBox.Text;
-            var lastName = lastNameTextBox.Text;
-            var address1 = Addr1TextBox.Text;
-            var city = cityTextBox.Text;
-            var zipCode = zipCodeTextBox.Text;
-            var state = stateComboBox.Text;
-            var ssn = ssnTextBox.Text;
-            var contactNumber = contactNumberTextBox.Text;
+            var sex = this.sexComboBox.Text;
+            var firstName = this.firstNameTextBox.Text;
+            var lastName = this.lastNameTextBox.Text;
+            var address1 = this.Addr1TextBox.Text;
+            var city = this.cityTextBox.Text;
+            var zipCode = this.zipCodeTextBox.Text;
+            var state = this.stateComboBox.Text;
+            var ssn = this.ssnTextBox.Text;
+            var contactNumber = this.contactNumberTextBox.Text;
 
-            var checker = NoEmptyFields(sex, firstName, lastName, address1, city, state, ssn, zipCode, contactNumber);
-            checker = checker && ValidNumericFields(zipCode, ssn, contactNumber);
+            var checker = noEmptyFields(sex, firstName, lastName, address1, city, state, ssn, zipCode, contactNumber);
+            checker = checker && validNumericFields(zipCode, ssn, contactNumber);
 
             return checker;
         }
 
-        private static bool ValidNumericFields(string zipCode, string ssn, string contactNumber)
+        private static bool validNumericFields(string zipCode, string ssn, string contactNumber)
         {
-            var validNumericFields = zipCode.Length >= 5;
-            validNumericFields = validNumericFields && ssn.Length > 8;
-            validNumericFields = validNumericFields && contactNumber.Length > 9;
+            var validNumericFields = zipCode.Length == ValidZipCodeLength;
+            validNumericFields = validNumericFields && ssn.Length == ValidSsnLength;
+            validNumericFields = validNumericFields && contactNumber.Length == ValidContactNumberLength;
 
             return validNumericFields;
         }
 
-        private static bool NoEmptyFields(string sex, string firstName, string lastName, string address1, string city,
+        private static bool noEmptyFields(string sex, string firstName, string lastName, string address1, string city,
             string state, string ssn, string zipCode, string contactNumber)
         {
             var noEmptyFields = sex != string.Empty;
@@ -180,7 +190,7 @@ namespace CS3230Project
             return noEmptyFields;
         }
 
-        private static void ShowFailedValidationMessage()
+        private static void showFailedValidationMessage()
         {
             const string issueTitle = "Validation Failed";
             var connectionIssue = "One or more fields are incorrect.";
@@ -189,7 +199,7 @@ namespace CS3230Project
             MessageBox.Show(connectionIssue, issueTitle, MessageBoxButtons.OK, issueType);
         }
 
-        private static void ShowSuccessfulRegistrationMessage(string updateOrAdd = "added")
+        private static void showSuccessfulRegistrationMessage(string updateOrAdd = "added")
         {
             const string issueTitle = "Successful Registration";
             var connectionIssue = "The patient was successfully " + updateOrAdd + ".";
@@ -197,7 +207,7 @@ namespace CS3230Project
             MessageBox.Show(connectionIssue, issueTitle, MessageBoxButtons.OK, issueType);
         }
 
-        private static void ShowFailedRegistrationMessage()
+        private static void showFailedRegistrationMessage()
         {
             const string issueTitle = "Failed Registration";
             var connectionIssue = "The patient was not added." + Environment.NewLine;
@@ -206,115 +216,121 @@ namespace CS3230Project
             MessageBox.Show(connectionIssue, issueTitle, MessageBoxButtons.OK, issueType);
         }
 
-        private void UpdateLabels()
+        private void updateLabels()
         {
-            firstNameLabel.ForeColor = Color.Red;
-            lastNameLabel.ForeColor = Color.Red;
-            ssnLabel.ForeColor = Color.Red;
-            addr1Label.ForeColor = Color.Red;
-            cityLabel.ForeColor = Color.Red;
-            contactNumberLabel.ForeColor = Color.Red;
-            stateLabel.ForeColor = Color.Red;
-            zipCodeLabel.ForeColor = Color.Red;
-            sexLabel.ForeColor = Color.Red;
-            requiredFieldLbl.Visible = true;
+            this.firstNameLabel.ForeColor = Color.Red;
+            this.lastNameLabel.ForeColor = Color.Red;
+            this.ssnLabel.ForeColor = Color.Red;
+            this.addr1Label.ForeColor = Color.Red;
+            this.cityLabel.ForeColor = Color.Red;
+            this.contactNumberLabel.ForeColor = Color.Red;
+            this.stateLabel.ForeColor = Color.Red;
+            this.zipCodeLabel.ForeColor = Color.Red;
+            this.sexLabel.ForeColor = Color.Red;
+            this.requiredFieldLbl.Visible = true;
         }
 
         private void ssnTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!(char.IsDigit(e.KeyChar) || e.KeyChar == (char) Keys.Back)) e.Handled = true;
+            if (!(char.IsDigit(e.KeyChar) || e.KeyChar == (char) Keys.Back))
+            {
+                e.Handled = true;
+            }
         }
 
         private void zipCodeTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!(char.IsDigit(e.KeyChar) || e.KeyChar == (char) Keys.Back)) e.Handled = true;
+            if (!(char.IsDigit(e.KeyChar) || e.KeyChar == (char) Keys.Back))
+            {
+                e.Handled = true;
+            }
         }
 
         private void contactNumberTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!(char.IsDigit(e.KeyChar) || e.KeyChar == (char) Keys.Back)) e.Handled = true;
+            if (!(char.IsDigit(e.KeyChar) || e.KeyChar == (char) Keys.Back))
+            {
+                e.Handled = true;
+            }
         }
 
         private void firstNameTextBox_Enter(object sender, EventArgs e)
         {
-            var firstName = firstNameTextBox.Text;
-            fNameWarnLabel.Visible = firstName == string.Empty;
+            var firstName = this.firstNameTextBox.Text;
+            this.fNameWarnLabel.Visible = firstName == string.Empty;
         }
 
         private void lastNameTextBox_Leave(object sender, EventArgs e)
         {
-            var lastName = lastNameTextBox.Text;
-            lNameWarnLabel.Visible = lastName == string.Empty;
+            var lastName = this.lastNameTextBox.Text;
+            this.lNameWarnLabel.Visible = lastName == string.Empty;
         }
 
         private void sexComboBox_Leave(object sender, EventArgs e)
         {
-            var sex = sexComboBox.Text;
-            sexWarnLabel.Visible = sex == string.Empty;
+            var sex = this.sexComboBox.Text;
+            this.sexWarnLabel.Visible = sex == string.Empty;
         }
 
         private void stateComboBox_Leave(object sender, EventArgs e)
         {
-            var state = sexComboBox.Text;
-            stateWarnLabel.Visible = state == string.Empty;
+            var state = this.sexComboBox.Text;
+            this.stateWarnLabel.Visible = state == string.Empty;
         }
 
         private void contactNumberTextBox_Leave(object sender, EventArgs e)
         {
-            var contactNum = contactNumberTextBox.Text;
-            contactNumWarnLabel.Visible = contactNum == string.Empty;
+            var contactNum = this.contactNumberTextBox.Text;
+            this.contactNumWarnLabel.Visible = contactNum == string.Empty;
         }
 
         private void ssnTextBox_Leave(object sender, EventArgs e)
         {
-            var ssn = ssnTextBox.Text;
-            ssnWarnLabel.Visible = ssn == string.Empty;
+            var ssn = this.ssnTextBox.Text;
+            this.ssnWarnLabel.Visible = ssn == string.Empty;
         }
 
         private void addr1TextBox_Leave(object sender, EventArgs e)
         {
-            var address1 = Addr1TextBox.Text;
-            addr1WarnLabel.Visible = address1 == string.Empty;
+            var address1 = this.Addr1TextBox.Text;
+            this.addr1WarnLabel.Visible = address1 == string.Empty;
         }
 
         private void cityTextBox_Leave(object sender, EventArgs e)
         {
-            var city = cityTextBox.Text;
-            cityWarnLabel.Visible = city == string.Empty;
+            var city = this.cityTextBox.Text;
+            this.cityWarnLabel.Visible = city == string.Empty;
         }
-
-        #endregion
 
         private void updateButton_Click(object sender, EventArgs e)
         {
-            if (!AreAllFieldsValid())
+            if (!this.areAllFieldsValid())
             {
-                ShowFailedValidationMessage();
-                UpdateLabels();
+                showFailedValidationMessage();
+                this.updateLabels();
                 return;
             }
 
             this.updatePatientAddressInfo();
             this.updatePatientInfo();
 
-
             var successfulRegistration = false;
             try
             {
                 successfulRegistration =
-                    this._registrationViewmodel.UpdatePatient(this.patient, this.address);
-
+                    this.registrationViewmodel.UpdatePatient(this.patient, this.address);
             }
             catch (MySqlException)
             {
-                ShowFailedRegistrationMessage();
+                showFailedRegistrationMessage();
             }
 
             const string update = "updated";
-            if (successfulRegistration) ShowSuccessfulRegistrationMessage(update);
-
+            if (successfulRegistration)
+            {
+                showSuccessfulRegistrationMessage(update);
+            }
         }
-
 
         private void updatePatientInfo()
         {
@@ -336,6 +352,7 @@ namespace CS3230Project
             {
                 this.address.Address2 = this.Addr2TextBox.Text;
             }
+
             this.address.City = this.cityTextBox.Text;
             this.address.State = this.stateComboBox.Text;
             this.address.Zip = int.Parse(this.zipCodeTextBox.Text);
@@ -348,18 +365,22 @@ namespace CS3230Project
             var caption = "WARNING!";
             var buttons = MessageBoxButtons.YesNo;
 
-            var result = MessageBox.Show(message, caption, buttons);
-            if (result == System.Windows.Forms.DialogResult.Yes)
+            var deletionResult = MessageBox.Show(message, caption, buttons);
+
+            if (deletionResult != DialogResult.Yes)
             {
-                message = this.patient.Fname + " " + this.patient.Lname + " was deleted";
-                caption = "Deleted";
-                buttons = MessageBoxButtons.OK;
-                
-                MessageBox.Show(message, caption, buttons);
-                this._registrationViewmodel.DeletePatient(this.patient, this.address);
-                this.Close();
+                return;
             }
 
+            message = this.patient.Fname + " " + this.patient.Lname + " was deleted";
+            caption = "Deleted";
+            buttons = MessageBoxButtons.OK;
+
+            MessageBox.Show(message, caption, buttons);
+            this.registrationViewmodel.DeletePatient(this.patient, this.address);
+            Close();
         }
+
+        #endregion
     }
 }

@@ -19,15 +19,14 @@ namespace CS3230Project.DAL
         /// <returns>true iff the employeeId and password are in the login table of the database</returns>
         public bool Authenticate(string employeeId, string password)
         {
+            var connection = DbConnection.GetConnection();
+            const string query = "select eID from login where eID = @eID and password = @password";
 
-                var connection = DbConnection.GetConnection();
-                const string query = "select eID from login where eID = @eID and password = @password";
-
-                using (connection)
-                {
-                    connection.Open();
-                    return checkCredentials(employeeId, password, query, connection);
-                }
+            using (connection)
+            {
+                connection.Open();
+                return checkCredentials(employeeId, password, query, connection);
+            }
         }
 
         private static bool checkCredentials(string employeeId, string password, string query,
@@ -38,7 +37,8 @@ namespace CS3230Project.DAL
             {
                 using (var cmd = new MySqlCommand(query, connection))
                 {
-                    Debug.WriteLine($"eID: {employeeId}, isPotentialPassword: {password != null && !password.Equals(string.Empty)}");
+                    Debug.WriteLine(
+                        $"eID: {employeeId}, isPotentialPassword: {password != null && !password.Equals(string.Empty)}");
                     cmd.Parameters.Add("@eID", MySqlDbType.VarChar);
                     cmd.Parameters["@eID"].Value = employeeId;
                     cmd.Parameters.AddWithValue("@password", password);

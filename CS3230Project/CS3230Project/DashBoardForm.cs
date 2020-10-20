@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using CS3230Project.Model;
 using CS3230Project.ViewModel;
@@ -16,7 +10,7 @@ namespace CS3230Project
     {
         private readonly DashboardViewModel dashboardViewModel;
 
-        private IList<Patient> patients = new List<Patient>();
+        private IList<Patient> patients;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DashBoardForm"/> class.
@@ -49,6 +43,18 @@ namespace CS3230Project
         private void logOutButton_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
+            hideRegistrationForms();
+        }
+
+        private static void hideRegistrationForms()
+        {
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form.GetType() == typeof(RegistrationForm))
+                {
+                    form.Hide();
+                }
+            }
         }
 
         private void DashBoardForm_Activated(object sender, EventArgs e)
@@ -59,13 +65,16 @@ namespace CS3230Project
 
         private void editPatientButton_Click(object sender, EventArgs e)
         {
-            if (this.mainInfoDisplay.SelectedIndex < 0)
+            var patientNotSelected = this.mainInfoDisplay.SelectedIndex < 0;
+            
+            if (patientNotSelected)
             {
                 MessageBox.Show(@"please select a patient.");
                 return;
             }
-            var selectItem = this.mainInfoDisplay.SelectedIndex;
-            var patient = this.patients[selectItem];
+
+            var selectPatientIndex = this.mainInfoDisplay.SelectedIndex;
+            var patient = this.patients[selectPatientIndex];
             var address = this.dashboardViewModel.getAddress(patient);
             var registrationForm = new RegistrationForm(patient, address);
             registrationForm.Show();
