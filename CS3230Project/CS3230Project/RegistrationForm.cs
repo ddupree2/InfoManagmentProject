@@ -356,7 +356,7 @@ namespace CS3230Project
                 buttons = MessageBoxButtons.OK;
                 
                 MessageBox.Show(message, caption, buttons);
-                this._registrationViewmodel.DeletePatient(this.patient);
+                this._registrationViewmodel.DeletePatient(this.patient, this.address);
                 this.Close();
             }
 

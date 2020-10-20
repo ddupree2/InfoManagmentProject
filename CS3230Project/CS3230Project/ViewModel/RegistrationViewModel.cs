@@ -106,11 +106,14 @@ namespace CS3230Project.ViewModel
 
         }
 
-        public bool DeletePatient(Patient patient)
+        public bool DeletePatient(Patient patient, Address address)
         {
             var patientDal = new PatientDal();
+            var addressDal = new AddressDal();
 
             var deleteSuccessful = patientDal.DeletePatientInfo(patient);
+
+            addressDal.DeleteAddressIfNoReferencesLeft(address);
 
             return deleteSuccessful;
         }

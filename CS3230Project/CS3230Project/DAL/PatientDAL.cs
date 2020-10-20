@@ -275,8 +275,8 @@ namespace CS3230Project.DAL
                 using (conn)
                 {
                     conn.Open();
-                    var insertQuery = "DELETE FROM `patient` WHERE `patientID` = @patientId;";
-                    using (var cmd = new MySqlCommand(insertQuery, conn))
+                    var deleteQuery = "DELETE FROM `patient` WHERE `patientID` = @patientId;";
+                    using (var cmd = new MySqlCommand(deleteQuery, conn))
                     {
                         cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
                         cmd.Parameters["@patientID"].Value = patient.PatientId;

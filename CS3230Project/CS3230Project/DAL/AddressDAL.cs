@@ -114,6 +114,32 @@ namespace CS3230Project.DAL
             return addressId;
         }
 
+        public void DeleteAddressIfNoReferencesLeft(Address address)
+        {
+            try
+            {
+                var conn = DbConnection.GetConnection();
+                using (conn)
+                {
+                    conn.Open();
+                    var deleteQuery = "DELETE FROM address WHERE addressID NOT IN (SELECT addressID FROM patient) and addressID NOT IN(SELECT addressID FROM employee)"; 
+                    using (var cmd = new MySqlCommand(deleteQuery, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                        
+                    }
+                }
+            }
+            catch (MySqlException mex)
+            {
+                throw new ArgumentException(mex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
+        }
+
         /// <summary>
         /// Updates the patient address.
         /// </summary>
