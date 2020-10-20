@@ -221,12 +221,12 @@ INSERT INTO `address` (`addressID`, `addr1`, `addr2`, `city`, `state`, `zip`, `c
 -- -----------------------------------------------------
 
 
-INSERT INTO .`employee` (`eID`, `fname`, `lname`, `addressID`) VALUES ('1928374625', 'Jane', 'Mary', 1);
-INSERT INTO `employee` (`eID`, `fname`, `lname`, `addressID`) VALUES ('8473624958', 'Michael', 'Ryan', 2);
-INSERT INTO `employee` (`eID`, `fname`, `lname`, `addressID`) VALUES ('9458674632', 'Josh', 'Abel', 3);
-INSERT INTO `employee` (`eID`, `fname`, `lname`, `addressID`) VALUES ('9938273645', 'Marissa', 'Ann', 4);
-INSERT INTO `employee` (`eID`, `fname`, `lname`, `addressID`) VALUES ('6857664382', 'Jessica', 'Jewels', 5);
-INSERT INTO `employee` (`eID`, `fname`, `lname`, `addressID`) VALUES ('4657748329', 'Anthony', 'Miller', 6);
+INSERT INTO .`employee` (`eID`, `fname`, `lname`, `addressID`, `dob`) VALUES ('1928374625', 'Jane', 'Mary', 1, '1992-02-03');
+INSERT INTO `employee` (`eID`, `fname`, `lname`, `addressID`, `dob`) VALUES ('8473624958', 'Michael', 'Ryan', 2, '1992-02-03');
+INSERT INTO `employee` (`eID`, `fname`, `lname`, `addressID`, `dob`) VALUES ('9458674632', 'Josh', 'Abel', 3, '1992-02-03');
+INSERT INTO `employee` (`eID`, `fname`, `lname`, `addressID`, `dob`) VALUES ('9938273645', 'Marissa', 'Ann', 4, '1992-02-03');
+INSERT INTO `employee` (`eID`, `fname`, `lname`, `addressID`, `dob`) VALUES ('6857664382', 'Jessica', 'Jewels', 5, '1992-02-03');
+INSERT INTO `employee` (`eID`, `fname`, `lname`, `addressID`, `dob`) VALUES ('4657748329', 'Anthony', 'Miller', 6, '1992-02-03');
 
 
 
@@ -278,11 +278,8 @@ INSERT INTO `doctor` (`doctorID`, `eID`) VALUES ('1239485746', '9938273645');
 -- Data for table `project1Revised`.`patient`
 -- -----------------------------------------------------
 
-INSERT INTO `patient` (`patientID`, `lname`, `fname`, `addressID`) VALUES ('1733827364', 'William', 'James', 7);
-INSERT INTO `patient` (`patientID`, `lname`, `fname`, `addressID`) VALUES ('1234567890', 'Aubry', 'Holland', 8);
-
-
-
+INSERT INTO `patient` (`patientID`, `lname`, `fname`, `addressID`, `sex`, `ssn`, `dob`) VALUES ('1733827364', 'William', 'James', 7, 'male', '234323343', '1992-02-03');
+INSERT INTO `patient` (`patientID`, `lname`, `fname`, `addressID`, `sex`, `ssn`, `dob`) VALUES ('1234567890', 'Aubry', 'Holland', 8, 'female', '123234432', '1992-02-03');
 
 -- -----------------------------------------------------
 -- Data for table `project1Revised`.`appointment`
@@ -329,5 +326,3 @@ INSERT INTO `testResults` (`testdate`, `results`, `appointmentdate`, `patientID`
 
 INSERT INTO `specialty` (`specialty`, `doctorID`) VALUES ('General', '3352435465');
 INSERT INTO `specialty` (`specialty`, `doctorID`) VALUES ('Cardiology', '1239485746');
-
-
