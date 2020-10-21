@@ -87,10 +87,16 @@ namespace CS3230Project
 
         private void visitsListView_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var selectedVisit = this.visitsListBox.SelectedIndex;
+            var visit = this.visits[selectedVisit];
         }
 
         private void appointmentsListView_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var selectedAppointment = this.appointmentsListBox.SelectedIndex;
+            var appointment = this.appointments[selectedAppointment];
+            var appointmentForm = new AppointmentForm(appointment);
+            appointmentForm.Show();
         }
 
         private void loadVisitsAndAppointmentsIntoView()

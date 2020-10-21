@@ -86,7 +86,7 @@
             // 
             this.firstNameLabel.AutoSize = true;
             this.firstNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.firstNameLabel.Location = new System.Drawing.Point(10, 21);
+            this.firstNameLabel.Location = new System.Drawing.Point(10, 26);
             this.firstNameLabel.Name = "firstNameLabel";
             this.firstNameLabel.Size = new System.Drawing.Size(90, 20);
             this.firstNameLabel.TabIndex = 6;
@@ -96,7 +96,7 @@
             // 
             this.lastNameLabel.AutoSize = true;
             this.lastNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lastNameLabel.Location = new System.Drawing.Point(8, 66);
+            this.lastNameLabel.Location = new System.Drawing.Point(8, 71);
             this.lastNameLabel.Name = "lastNameLabel";
             this.lastNameLabel.Size = new System.Drawing.Size(90, 20);
             this.lastNameLabel.TabIndex = 7;

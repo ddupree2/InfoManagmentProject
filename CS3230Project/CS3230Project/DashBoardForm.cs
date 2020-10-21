@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Forms;
 using CS3230Project.Model;
 using CS3230Project.ViewModel;
@@ -8,12 +9,18 @@ namespace CS3230Project
 {
     public partial class DashBoardForm : Form
     {
+        #region Data members
+
         private readonly DashboardViewModel dashboardViewModel;
 
         private IList<Patient> patients;
 
+        #endregion
+
+        #region Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="DashBoardForm"/> class.
+        ///     Initializes a new instance of the <see cref="DashBoardForm" /> class.
         /// </summary>
         /// <param name="employeeId">The employee identifier.</param>
         public DashBoardForm(string employeeId)
@@ -24,6 +31,10 @@ namespace CS3230Project
             this.greetingsLabel.Text = greetingsText + this.dashboardViewModel.RetrieveTitleAndName(employeeId);
             this.patients = this.dashboardViewModel.RetrievePatients();
         }
+
+        #endregion
+
+        #region Methods
 
         private void loadPatientsIntoView()
         {
@@ -42,11 +53,11 @@ namespace CS3230Project
 
         private void logOutButton_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
-            hideRegistrationForms();
+            DialogResult = DialogResult.OK;
+            hideNonLoginForms();
         }
 
-        private static void hideRegistrationForms()
+        private static void hideNonLoginForms()
         {
             foreach (Form form in Application.OpenForms)
             {
@@ -69,7 +80,7 @@ namespace CS3230Project
         private void editPatientButton_Click(object sender, EventArgs e)
         {
             var patientNotSelected = this.mainInfoDisplay.SelectedIndex < 0;
-            
+
             if (patientNotSelected)
             {
                 MessageBox.Show(@"please select a patient.");
@@ -81,7 +92,6 @@ namespace CS3230Project
             var address = this.dashboardViewModel.getAddress(patient);
             var registrationForm = new RegistrationForm(patient, address);
             registrationForm.Show();
-
         }
 
         private void patientLookUpButton_Click(object sender, EventArgs e)
@@ -89,5 +99,13 @@ namespace CS3230Project
             var patientLookupForm = new PatientLookupForm();
             patientLookupForm.Show();
         }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            hideNonLoginForms();
+        }
+
+        #endregion
     }
 }
