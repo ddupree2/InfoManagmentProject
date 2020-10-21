@@ -1,4 +1,5 @@
-﻿using CS3230Project.DAL;
+﻿using System.Data;
+using CS3230Project.DAL;
 
 namespace CS3230Project.ViewModel
 {
@@ -32,7 +33,7 @@ namespace CS3230Project.ViewModel
         /// </summary>
         /// <param name="query">The query.</param>
         /// <returns></returns>
-        public string RetrieveQueryResults(string query)
+        public DataTable RetrieveQueryResults(string query)
         {
             return this.adminDal.RetrieveQueryResults(query);
         }

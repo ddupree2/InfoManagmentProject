@@ -10,6 +10,7 @@ namespace CS3230Project.DAL
     /// </summary>
     public class AdminDal
     {
+        private const string Space = " \t";
         #region Methods
 
         /// <summary>
@@ -17,7 +18,7 @@ namespace CS3230Project.DAL
         /// </summary>
         /// <param name="query">The query.</param>
         /// <returns></returns>
-        public string RetrieveQueryResults(string query)
+        public DataTable RetrieveQueryResults(string query)
         {
             var connection = DbConnection.GetConnection();
 
@@ -28,7 +29,7 @@ namespace CS3230Project.DAL
             }
         }
 
-        private static string fetchQueryResults(string query, MySqlConnection connection)
+        private static DataTable fetchQueryResults(string query, MySqlConnection connection)
         {
             using (var cmd = new MySqlCommand(query, connection))
             {
@@ -39,22 +40,58 @@ namespace CS3230Project.DAL
             }
         }
 
-        private static string readInResults(IDataReader reader)
+        private static DataTable readInResults(IDataReader reader)
         {
-            var values = new StringBuilder();
+            var columns = reader.FieldCount;
+            var columnsNamesAppended = false;
+            var table = new DataTable();
+
             while (reader.Read())
             {
-                var columns = reader.FieldCount;
+                appendColumnNames(reader, columnsNamesAppended, columns, table);
+                columnsNamesAppended = true;
+
+                var fields = new string[columns]; ;
                 for (var i = 0; i < columns; i++)
                 {
                     var currValue = reader[i] == DBNull.Value ? null : reader.GetString(i);
-                    values.Append(currValue);
+                    fields[i] = currValue;
                 }
 
-                values.Append(Environment.NewLine);
+                var colIndex = 0;
+                var row = table.NewRow();
+                foreach (var field in fields)
+                {
+                    row[table.Columns[colIndex]] = field;
+                    colIndex++;
+                }
+
+                table.Rows.Add(row);
             }
 
-            return values.ToString();
+            return table;
+        }
+
+        private static void appendColumnNames(IDataRecord record, bool columnsNamesAppended, int columns, DataTable dataTable)
+        {
+            if (columnsNamesAppended)
+            {
+                return;
+            }
+
+            var columnNames = new string[columns];
+            for (var i = 0; i < columns; i++)
+            {
+                var columnName = record[i] == DBNull.Value ? null : record.GetName(i);
+                columnNames[i] = columnName;
+            }
+
+            foreach (var columnName in columnNames)
+            {
+                var currDataColumn = new DataColumn(columnName);
+                dataTable.Columns.Add(currDataColumn);
+            }
+
         }
 
         #endregion

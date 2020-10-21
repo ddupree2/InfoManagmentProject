@@ -31,7 +31,8 @@ namespace CS3230Project
             try
             {
                 var results = this.adminQueryViewModel.RetrieveQueryResults(query);
-                this.resultsTextBox.Text = results;
+                this.resultsGridView.DataSource = results;
+                this.resultsGridView.AutoResizeColumns();
             }
             catch (MySqlException mex)
             {

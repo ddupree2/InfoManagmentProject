@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.queryButton = new System.Windows.Forms.Button();
-            this.resultsTextBox = new System.Windows.Forms.TextBox();
             this.queryTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -39,6 +38,8 @@
             this.customInstaller1 = new MySql.Data.MySqlClient.CustomInstaller();
             this.visitsButton = new System.Windows.Forms.Button();
             this.timeRangeCheckBox = new System.Windows.Forms.CheckBox();
+            this.resultsGridView = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.resultsGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // queryButton
@@ -51,16 +52,6 @@
             this.queryButton.Text = "Query";
             this.queryButton.UseVisualStyleBackColor = true;
             this.queryButton.Click += new System.EventHandler(this.queryButton_Click);
-            // 
-            // resultsTextBox
-            // 
-            this.resultsTextBox.Enabled = false;
-            this.resultsTextBox.Location = new System.Drawing.Point(30, 147);
-            this.resultsTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.resultsTextBox.Multiline = true;
-            this.resultsTextBox.Name = "resultsTextBox";
-            this.resultsTextBox.Size = new System.Drawing.Size(1029, 531);
-            this.resultsTextBox.TabIndex = 1;
             // 
             // queryTextBox
             // 
@@ -137,11 +128,25 @@
             this.timeRangeCheckBox.Text = "Disable Time Range";
             this.timeRangeCheckBox.UseVisualStyleBackColor = true;
             // 
+            // resultsGridView
+            // 
+            this.resultsGridView.AllowUserToAddRows = false;
+            this.resultsGridView.AllowUserToDeleteRows = false;
+            this.resultsGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.resultsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.resultsGridView.Location = new System.Drawing.Point(30, 170);
+            this.resultsGridView.Name = "resultsGridView";
+            this.resultsGridView.ReadOnly = true;
+            this.resultsGridView.Size = new System.Drawing.Size(1029, 498);
+            this.resultsGridView.TabIndex = 10;
+            // 
             // AdminQueryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1089, 692);
+            this.Controls.Add(this.resultsGridView);
             this.Controls.Add(this.timeRangeCheckBox);
             this.Controls.Add(this.visitsButton);
             this.Controls.Add(this.beforeDatePicker);
@@ -150,12 +155,12 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.queryTextBox);
-            this.Controls.Add(this.resultsTextBox);
             this.Controls.Add(this.queryButton);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "AdminQueryForm";
             this.Text = "Admin Query";
+            ((System.ComponentModel.ISupportInitialize)(this.resultsGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -164,7 +169,6 @@
         #endregion
 
         private System.Windows.Forms.Button queryButton;
-        private System.Windows.Forms.TextBox resultsTextBox;
         private System.Windows.Forms.TextBox queryTextBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -174,5 +178,6 @@
         private MySql.Data.MySqlClient.CustomInstaller customInstaller1;
         private System.Windows.Forms.Button visitsButton;
         private System.Windows.Forms.CheckBox timeRangeCheckBox;
+        private System.Windows.Forms.DataGridView resultsGridView;
     }
 }
