@@ -106,6 +106,7 @@
     <Compile Include="DAL\EmployeeDAL.cs" />
     <Compile Include="DAL\LoginDAL.cs" />
     <Compile Include="DAL\PatientDAL.cs" />
+    <Compile Include="DAL\VisitsDAL.cs" />
     <Compile Include="DashBoardForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -149,6 +150,12 @@
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\PatientLookupViewModel.cs" />
     <Compile Include="ViewModel\RegistrationViewModel.cs" />
+    <Compile Include="VisitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VisitForm.Designer.cs">
+      <DependentUpon>VisitForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AdminQueryForm.resx">
       <DependentUpon>AdminQueryForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -176,6 +183,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="VisitForm.resx">
+      <DependentUpon>VisitForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

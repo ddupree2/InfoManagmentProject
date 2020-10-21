@@ -123,6 +123,7 @@
             // dobDateTimePicker
             // 
             this.dobDateTimePicker.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dobDateTimePicker.CustomFormat = "";
             this.dobDateTimePicker.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dobDateTimePicker.Location = new System.Drawing.Point(106, 137);
             this.dobDateTimePicker.Name = "dobDateTimePicker";

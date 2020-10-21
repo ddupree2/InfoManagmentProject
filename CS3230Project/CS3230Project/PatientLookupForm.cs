@@ -88,12 +88,16 @@ namespace CS3230Project
         private void visitsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedVisit = this.visitsListBox.SelectedIndex;
+            selectedVisit = selectedVisit > 0 ? selectedVisit : 0;
             var visit = this.visits[selectedVisit];
+            var vistForm = new VisitForm(visit);
+            vistForm.Show();
         }
 
         private void appointmentsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedAppointment = this.appointmentsListBox.SelectedIndex;
+            selectedAppointment = selectedAppointment > 0 ? selectedAppointment : 0;
             var appointment = this.appointments[selectedAppointment];
             var appointmentForm = new AppointmentForm(appointment);
             appointmentForm.Show();

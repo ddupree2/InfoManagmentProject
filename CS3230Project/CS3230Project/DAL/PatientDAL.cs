@@ -490,11 +490,80 @@ namespace CS3230Project.DAL
 
                     var visit = new Visit(systolicNum, diastolicNum, heartRate, respirationRate, bodyTemp, other,
                         nurseId, patientId, appointmentDate, diagnosis);
+
+                    var testResults = retrieveTestResults(patientId, appointmentDate);
+                    visit.TestResults = testResults;
                     visits.Add(visit);
                 }
             }
 
             return visits;
+        }
+
+        private static IList<TestResult> retrieveTestResults(int patientId, DateTime appointmentDate)
+        {
+            IList<TestResult> testResults = new List<TestResult>();
+
+            try
+            {
+                var conn = DbConnection.GetConnection();
+                using (conn)
+                {
+                    conn.Open();
+                    const string deleteQuery =
+                        "SELECT * FROM `testResults` WHERE `patientID` = @patientId AND 'appointmentdate' = @appointmentDate;";
+                    using (var cmd = new MySqlCommand(deleteQuery, conn))
+                    {
+                        cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
+                        cmd.Parameters["@patientID"].Value = patientId.ToString();
+
+                        cmd.Parameters.Add("@appointmentDate", MySqlDbType.DateTime);
+                        cmd.Parameters["@appointmentDate"].Value = appointmentDate;
+
+                        readInTestResults(cmd, testResults);
+                    }
+                }
+            }
+            catch (MySqlException mex)
+            {
+                Debug.WriteLine(mex.Message + Environment.NewLine + mex.StackTrace);
+            }
+
+            return testResults;
+        }
+
+        private static void readInTestResults(MySqlCommand cmd, IList<TestResult> testResults)
+        {
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var testDateOrdinal = reader.GetOrdinal("testdate");
+                    var resultsOrdinal = reader.GetOrdinal("results");
+                    var appointmentDateOrdinal = reader.GetOrdinal("appointmentdate");
+                    var patientIdOrdinal = reader.GetOrdinal("patientID");
+                    var testCodeOrdinal = reader.GetOrdinal("testCode");
+
+                    var testDate = reader[testDateOrdinal] == DBNull.Value
+                        ? DateTime.Now
+                        : reader.GetDateTime(testDateOrdinal);
+                    var results = reader[resultsOrdinal] == DBNull.Value
+                        ? default
+                        : reader.GetString(resultsOrdinal);
+                    var appointmentDate = reader[appointmentDateOrdinal] == DBNull.Value
+                        ? DateTime.Now
+                        : reader.GetDateTime(appointmentDateOrdinal);
+                    var patientId = reader[patientIdOrdinal] == DBNull.Value
+                        ? 0
+                        : reader.GetInt32(patientIdOrdinal);
+                    var testCode = reader[testCodeOrdinal] == DBNull.Value
+                        ? 0
+                        : reader.GetInt32(testCodeOrdinal);
+
+                    var testResult = new TestResult(testDate,results,appointmentDate,patientId,testCode);
+                    testResults.Add(testResult);
+                }
+            }
         }
 
         private static bool checkForPatient(string patientId, string query,

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Text;
 using MySql.Data.MySqlClient;
 
 namespace CS3230Project.DAL
@@ -10,7 +9,6 @@ namespace CS3230Project.DAL
     /// </summary>
     public class AdminDal
     {
-        private const string Space = " \t";
         #region Methods
 
         /// <summary>
@@ -51,7 +49,7 @@ namespace CS3230Project.DAL
                 appendColumnNames(reader, columnsNamesAppended, columns, table);
                 columnsNamesAppended = true;
 
-                var fields = new string[columns]; ;
+                var fields = new string[columns];
                 for (var i = 0; i < columns; i++)
                 {
                     var currValue = reader[i] == DBNull.Value ? null : reader.GetString(i);
@@ -72,7 +70,8 @@ namespace CS3230Project.DAL
             return table;
         }
 
-        private static void appendColumnNames(IDataRecord record, bool columnsNamesAppended, int columns, DataTable dataTable)
+        private static void appendColumnNames(IDataRecord record, bool columnsNamesAppended, int columns,
+            DataTable dataTable)
         {
             if (columnsNamesAppended)
             {
@@ -91,7 +90,6 @@ namespace CS3230Project.DAL
                 var currDataColumn = new DataColumn(columnName);
                 dataTable.Columns.Add(currDataColumn);
             }
-
         }
 
         #endregion
