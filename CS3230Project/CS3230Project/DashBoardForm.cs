@@ -27,14 +27,36 @@ namespace CS3230Project
         {
             this.InitializeComponent();
             this.dashboardViewModel = new DashboardViewModel();
-            var greetingsText = this.greetingsLabel.Text;
-            this.greetingsLabel.Text = greetingsText + this.dashboardViewModel.RetrieveTitleAndName(employeeId);
-            this.patients = this.dashboardViewModel.RetrievePatients();
+
+            this.setupDashBoard(employeeId);
         }
 
         #endregion
 
         #region Methods
+
+        private void setupDashBoard(string employeeId)
+        {
+            var title = this.dashboardViewModel.RetrieveTitle(employeeId);
+            var firstName = this.dashboardViewModel.RetrieveFirstName(employeeId);
+
+            this.setupGreetingsText(employeeId, title, firstName);
+            this.patients = this.dashboardViewModel.RetrievePatients();
+
+            if (title != "Administrator")
+            {
+                return;
+            }
+
+            this.adminButton.Enabled = true;
+            this.adminButton.Visible = true;
+        }
+
+        private void setupGreetingsText(string employeeId, string title, string firstName)
+        {
+            var greetingsText = $"{this.greetingsLabel.Text} {title} {firstName}";
+            this.greetingsLabel.Text = greetingsText;
+        }
 
         private void loadPatientsIntoView()
         {
@@ -89,7 +111,7 @@ namespace CS3230Project
 
             var selectPatientIndex = this.mainInfoDisplay.SelectedIndex;
             var patient = this.patients[selectPatientIndex];
-            var address = this.dashboardViewModel.getAddress(patient);
+            var address = this.dashboardViewModel.RetrieveAddress(patient);
             var registrationForm = new RegistrationForm(patient, address);
             registrationForm.Show();
         }
@@ -104,6 +126,12 @@ namespace CS3230Project
         {
             base.OnClosing(e);
             hideNonLoginForms();
+        }
+
+        private void adminButton_Click(object sender, EventArgs e)
+        {
+            var adminQueryForm = new AdminQueryForm();
+            adminQueryForm.Show();
         }
 
         #endregion

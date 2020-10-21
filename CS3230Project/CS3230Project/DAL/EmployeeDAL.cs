@@ -11,7 +11,12 @@ namespace CS3230Project.DAL
     {
         #region Methods
 
-        public string RetrieveTitleAndName(string employeeId)
+        public string RetrieveTitle(string employeeId)
+        {
+            return retrieveTitle(employeeId);
+        }
+
+        public string RetrieveFirstName(string employeeId)
         {
             string name;
             var connection = DbConnection.GetConnection();
@@ -22,8 +27,6 @@ namespace CS3230Project.DAL
                 connection.Open();
                 name = retrieveFirstName(employeeId, nameQuery, connection);
             }
-
-            name = $" {retrieveTitle(employeeId)} {name}";
 
             return name;
         }

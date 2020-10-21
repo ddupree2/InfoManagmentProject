@@ -85,13 +85,13 @@ namespace CS3230Project
             return new List<Appointment>();
         }
 
-        private void visitsListView_SelectedIndexChanged(object sender, EventArgs e)
+        private void visitsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedVisit = this.visitsListBox.SelectedIndex;
             var visit = this.visits[selectedVisit];
         }
 
-        private void appointmentsListView_SelectedIndexChanged(object sender, EventArgs e)
+        private void appointmentsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedAppointment = this.appointmentsListBox.SelectedIndex;
             var appointment = this.appointments[selectedAppointment];
@@ -106,7 +106,7 @@ namespace CS3230Project
             foreach (var appointment in this.appointments)
             {
                 this.appointmentsListBox.Items.Add(
-                    "Date:" + appointment.AppointmentDate + "patientID:" + appointment.PatientId + "DoctorID:" + appointment.DoctorId);
+                    $"Date:{appointment.AppointmentDate}  patientID:{appointment.PatientId} doctorID:{appointment.DoctorId}");
             }
 
             foreach (var visit in this.visits)

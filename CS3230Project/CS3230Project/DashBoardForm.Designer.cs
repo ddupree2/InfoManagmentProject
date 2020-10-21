@@ -35,12 +35,13 @@
             this.mainInfoDisplay = new System.Windows.Forms.ListBox();
             this.editPatientButton = new System.Windows.Forms.Button();
             this.patientLookUpButton = new System.Windows.Forms.Button();
+            this.adminButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // logOutButton
             // 
             this.logOutButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.logOutButton.Location = new System.Drawing.Point(86, 315);
+            this.logOutButton.Location = new System.Drawing.Point(91, 268);
             this.logOutButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.logOutButton.Name = "logOutButton";
             this.logOutButton.Size = new System.Drawing.Size(220, 48);
@@ -52,7 +53,7 @@
             // registerPatientButton
             // 
             this.registerPatientButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.registerPatientButton.Location = new System.Drawing.Point(86, 128);
+            this.registerPatientButton.Location = new System.Drawing.Point(91, 81);
             this.registerPatientButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.registerPatientButton.Name = "registerPatientButton";
             this.registerPatientButton.Size = new System.Drawing.Size(220, 48);
@@ -92,7 +93,7 @@
             // editPatientButton
             // 
             this.editPatientButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editPatientButton.Location = new System.Drawing.Point(86, 222);
+            this.editPatientButton.Location = new System.Drawing.Point(91, 175);
             this.editPatientButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.editPatientButton.Name = "editPatientButton";
             this.editPatientButton.Size = new System.Drawing.Size(220, 48);
@@ -104,7 +105,7 @@
             // patientLookUpButton
             // 
             this.patientLookUpButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.patientLookUpButton.Location = new System.Drawing.Point(86, 409);
+            this.patientLookUpButton.Location = new System.Drawing.Point(91, 362);
             this.patientLookUpButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.patientLookUpButton.Name = "patientLookUpButton";
             this.patientLookUpButton.Size = new System.Drawing.Size(220, 48);
@@ -113,11 +114,24 @@
             this.patientLookUpButton.UseVisualStyleBackColor = true;
             this.patientLookUpButton.Click += new System.EventHandler(this.patientLookUpButton_Click);
             // 
+            // adminButton
+            // 
+            this.adminButton.Enabled = false;
+            this.adminButton.Location = new System.Drawing.Point(91, 453);
+            this.adminButton.Name = "adminButton";
+            this.adminButton.Size = new System.Drawing.Size(220, 48);
+            this.adminButton.TabIndex = 8;
+            this.adminButton.Text = "Query";
+            this.adminButton.UseVisualStyleBackColor = true;
+            this.adminButton.Visible = false;
+            this.adminButton.Click += new System.EventHandler(this.adminButton_Click);
+            // 
             // DashBoardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(885, 552);
+            this.Controls.Add(this.adminButton);
             this.Controls.Add(this.patientLookUpButton);
             this.Controls.Add(this.editPatientButton);
             this.Controls.Add(this.mainInfoDisplay);
@@ -129,7 +143,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "DashBoardForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "Dashboard";
             this.Activated += new System.EventHandler(this.DashBoardForm_Activated);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -145,5 +159,6 @@
         private System.Windows.Forms.ListBox mainInfoDisplay;
         private System.Windows.Forms.Button editPatientButton;
         private System.Windows.Forms.Button patientLookUpButton;
+        private System.Windows.Forms.Button adminButton;
     }
 }

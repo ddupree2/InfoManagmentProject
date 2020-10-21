@@ -251,7 +251,7 @@ namespace CS3230Project.DAL
         {
             var connection = DbConnection.GetConnection();
             const string patientIdQuery =
-                "SELECT * FROM appointment WHERE EXISTS (select patientID from patient where fname = @fname and lname = @lname)";
+                "SELECT * FROM appointment a JOIN patient p ON a.patientID = p.patientID where fname = @fname and lname = @lname";
 
             using (connection)
             {
@@ -278,7 +278,7 @@ namespace CS3230Project.DAL
         {
             var connection = DbConnection.GetConnection();
             const string patientIdQuery =
-                "SELECT * FROM appointment WHERE EXISTS (select patientID from patient where dob = @dob)";
+                "SELECT * FROM appointment a JOIN patient p ON a.patientID = p.patientID where dob = @dob";
 
             using (connection)
             {
@@ -286,7 +286,7 @@ namespace CS3230Project.DAL
                 using (var cmd = new MySqlCommand(patientIdQuery, connection))
                 {
                     cmd.Parameters.Add("@dob", MySqlDbType.Date);
-                    cmd.Parameters["@dob"].Value = dob.ToString("yyyy-MM-dd");
+                    cmd.Parameters["@dob"].Value = dob;
 
                     return retrieveAppointmentsList(cmd);
                 }
@@ -304,7 +304,7 @@ namespace CS3230Project.DAL
         {
             var connection = DbConnection.GetConnection();
             const string patientIdQuery =
-                "SELECT * FROM appointment WHERE EXISTS (select patientID from patient where fname = @fname and lname = @lname and dob = @dob)";
+                "SELECT * FROM appointment a JOIN patient p ON a.patientID = p.patientID where fname = @fname and lname = @lname and dob = @dob";
 
             using (connection)
             {
@@ -318,7 +318,7 @@ namespace CS3230Project.DAL
                     cmd.Parameters["@fname"].Value = firstName;
 
                     cmd.Parameters.Add("@dob", MySqlDbType.Date);
-                    cmd.Parameters["@dob"].Value = dob.ToString("yyyy-MM-dd");
+                    cmd.Parameters["@dob"].Value = dob;
 
                     return retrieveAppointmentsList(cmd);
                 }
@@ -345,8 +345,8 @@ namespace CS3230Project.DAL
                         ? "null"
                         : reader.GetString(reasonOrdinal);
                     var doctorId = reader[doctorIdOrdinal] == DBNull.Value
-                        ? 0
-                        : reader.GetInt32(doctorIdOrdinal);
+                        ? default
+                        : reader.GetString(doctorIdOrdinal);
                     var patientId = reader[patientIdOrdinal] == DBNull.Value
                         ? 0
                         : reader.GetInt32(patientIdOrdinal);
@@ -364,7 +364,7 @@ namespace CS3230Project.DAL
         {
             var connection = DbConnection.GetConnection();
             const string patientIdQuery =
-                "SELECT * FROM visit WHERE EXISTS (select patientID from patient where fname = @fname and lname = @lname)";
+                "SELECT * FROM visit v JOIN patient p ON v.patientID = p.patientID where fname = @fname and lname = @lname";
 
             using (connection)
             {
@@ -391,7 +391,7 @@ namespace CS3230Project.DAL
         {
             var connection = DbConnection.GetConnection();
             const string patientIdQuery =
-                "SELECT * FROM visit WHERE EXISTS (select patientID from patient where dob = @dob)";
+                "SELECT * FROM visit v JOIN patient p ON v.patientID = p.patientID where dob = @dob";
 
             using (connection)
             {
@@ -399,7 +399,7 @@ namespace CS3230Project.DAL
                 using (var cmd = new MySqlCommand(patientIdQuery, connection))
                 {
                     cmd.Parameters.Add("@dob", MySqlDbType.Date);
-                    cmd.Parameters["@dob"].Value = dob.ToString("yyyy-MM-dd");
+                    cmd.Parameters["@dob"].Value = dob;
 
                     return retrieveVisitList(cmd);
                 }
@@ -417,7 +417,7 @@ namespace CS3230Project.DAL
         {
             var connection = DbConnection.GetConnection();
             const string patientIdQuery =
-                "SELECT * FROM visit WHERE EXISTS (select patientID from patient where fname = @fname and lname = @lname and dob = @dob)";
+                "SELECT * FROM visit v JOIN patient p ON v.patientID = p.patientID where fname = @fname and lname = @lname and dob = @dob";
 
             using (connection)
             {
@@ -431,7 +431,7 @@ namespace CS3230Project.DAL
                     cmd.Parameters["@fname"].Value = firstName;
 
                     cmd.Parameters.Add("@dob", MySqlDbType.Date);
-                    cmd.Parameters["@dob"].Value = dob.ToString("yyyy-MM-dd");
+                    cmd.Parameters["@dob"].Value = dob;
 
                     return retrieveVisitList(cmd);
                 }
@@ -476,8 +476,8 @@ namespace CS3230Project.DAL
                         ? "null"
                         : reader.GetString(otherOrdinal);
                     var nurseId = reader[nurseIdOrdinal] == DBNull.Value
-                        ? 0
-                        : reader.GetInt32(nurseIdOrdinal);
+                        ? default
+                        : reader.GetString(nurseIdOrdinal);
                     var appointmentDate = reader[appointmentDateOrdinal] == DBNull.Value
                         ? DateTime.Now
                         : reader.GetDateTime(appointmentDateOrdinal);

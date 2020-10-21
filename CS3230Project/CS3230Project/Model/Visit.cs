@@ -64,7 +64,7 @@ namespace CS3230Project.Model
         /// <value>
         ///     The nurse identifier.
         /// </value>
-        public int NurseId { get; set; }
+        public string NurseId { get; set; }
 
         /// <summary>
         ///     Gets or sets the patient identifier.
@@ -121,7 +121,7 @@ namespace CS3230Project.Model
     ///     diagnosis
     /// </exception>
     public Visit(int systolicNum, int diastolicNum, int heartRate, int respirationRate, double bodyTemp,
-            string other, int nurseId, int patientId, DateTime appointmentDate, string diagnosis)
+            string other, string nurseId, int patientId, DateTime appointmentDate, string diagnosis)
         {
             this.SystolicNum = systolicNum;
             this.DiastolicNum = diastolicNum;

@@ -149,6 +149,7 @@
             this.appointmentsListBox.Name = "appointmentsListBox";
             this.appointmentsListBox.Size = new System.Drawing.Size(668, 264);
             this.appointmentsListBox.TabIndex = 6;
+            this.appointmentsListBox.SelectedIndexChanged += new System.EventHandler(this.appointmentsListBox_SelectedIndexChanged);
             // 
             // visitsListBox
             // 
@@ -159,6 +160,7 @@
             this.visitsListBox.Name = "visitsListBox";
             this.visitsListBox.Size = new System.Drawing.Size(668, 264);
             this.visitsListBox.TabIndex = 7;
+            this.visitsListBox.SelectedIndexChanged += new System.EventHandler(this.visitsListBox_SelectedIndexChanged);
             // 
             // enableDOBCeckBox
             // 

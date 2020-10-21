@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using CS3230Project.DAL;
 using CS3230Project.Model;
 
@@ -13,21 +9,32 @@ namespace CS3230Project.ViewModel
     /// </summary>
     public class DashboardViewModel
     {
+        #region Methods
 
         /// <summary>
-        /// Retrieves the name and title.
+        ///     Retrieves the name and title.
         /// </summary>
         /// <param name="employeeId">The employee identifier.</param>
         /// <returns>the title and name of the given employeeId</returns>
-        public string RetrieveTitleAndName(string employeeId)
+        public string RetrieveTitle(string employeeId)
         {
             var employeeDal = new EmployeeDal();
-
-            return employeeDal.RetrieveTitleAndName(employeeId);
+            return employeeDal.RetrieveTitle(employeeId);
         }
 
         /// <summary>
-        /// Retrieves the patients.
+        ///     Retrieves the name.
+        /// </summary>
+        /// <param name="employeeId">The employee identifier.</param>
+        /// <returns></returns>
+        public string RetrieveFirstName(string employeeId)
+        {
+            var employeeDal = new EmployeeDal();
+            return employeeDal.RetrieveFirstName(employeeId);
+        }
+
+        /// <summary>
+        ///     Retrieves the patients.
         /// </summary>
         /// <returns></returns>
         public IList<Patient> RetrievePatients()
@@ -39,16 +46,18 @@ namespace CS3230Project.ViewModel
         }
 
         /// <summary>
-        /// Gets the address.
+        ///     Gets the address.
         /// </summary>
         /// <param name="patient">The patient.</param>
         /// <returns></returns>
-        public Address getAddress(Patient patient)
+        public Address RetrieveAddress(Patient patient)
         {
-            var addressDAL = new AddressDal();
-            var address = addressDAL.RetrieveAddress(patient);
+            var addressDal = new AddressDal();
+            var address = addressDal.RetrieveAddress(patient);
 
             return address;
         }
+
+        #endregion
     }
 }
