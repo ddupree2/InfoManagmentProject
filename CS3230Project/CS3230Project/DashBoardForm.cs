@@ -50,7 +50,10 @@ namespace CS3230Project
         {
             foreach (Form form in Application.OpenForms)
             {
-                if (form.GetType() == typeof(RegistrationForm))
+                var notDashBoardForm = form.GetType() != typeof(DashBoardForm);
+                var notLoginForm = form.GetType() != typeof(LoginForm);
+
+                if (notLoginForm && notDashBoardForm)
                 {
                     form.Hide();
                 }
@@ -79,6 +82,12 @@ namespace CS3230Project
             var registrationForm = new RegistrationForm(patient, address);
             registrationForm.Show();
 
+        }
+
+        private void patientLookUpButton_Click(object sender, EventArgs e)
+        {
+            var patientLookupForm = new PatientLookupForm();
+            patientLookupForm.Show();
         }
     }
 }

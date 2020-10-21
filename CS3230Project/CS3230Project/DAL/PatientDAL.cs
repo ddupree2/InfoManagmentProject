@@ -14,7 +14,7 @@ namespace CS3230Project.DAL
         #region Methods
 
         /// <summary>
-        /// Inserts the patient.
+        ///     Inserts the patient.
         /// </summary>
         /// <param name="patient">The patient.</param>
         /// <returns></returns>
@@ -47,7 +47,7 @@ namespace CS3230Project.DAL
                         cmd.Parameters["@fname"].Value = patient.Fname;
 
                         cmd.Parameters.Add("@addressID", MySqlDbType.Int32);
-                        cmd.Parameters["@addressID"].Value = patient.AddressID;
+                        cmd.Parameters["@addressID"].Value = patient.AddressId;
 
                         cmd.Parameters.Add("@sex", MySqlDbType.VarChar);
                         cmd.Parameters["@sex"].Value = patient.Sex;
@@ -69,16 +69,15 @@ namespace CS3230Project.DAL
             {
                 throw new ArgumentException(ex.Message);
             }
-
         }
 
         private int generatePatientId()
         {
-            Random rnd = new Random();
+            var rnd = new Random();
             var patientId = 0;
             var idChecker = true;
 
-            while (idChecker == true)
+            while (idChecker)
             {
                 patientId = rnd.Next(1, 1000000000);
                 var patients = this.RetrievePatients();
@@ -89,11 +88,11 @@ namespace CS3230Project.DAL
             return patientId;
         }
 
-        private static bool checkIfIdExists(IList<Patient> patients, int patientID)
+        private static bool checkIfIdExists(IEnumerable<Patient> patients, int patientId)
         {
             foreach (var patient in patients)
             {
-                if (patient.PatientId == patientID)
+                if (patient.PatientId == patientId)
                 {
                     return true;
                 }
@@ -103,7 +102,7 @@ namespace CS3230Project.DAL
         }
 
         /// <summary>
-        /// Updates the patient information.
+        ///     Updates the patient information.
         /// </summary>
         /// <param name="patient">The patient.</param>
         /// <returns></returns>
@@ -117,7 +116,7 @@ namespace CS3230Project.DAL
                 using (conn)
                 {
                     conn.Open();
-                    var insertQuery =
+                    const string insertQuery =
                         "UPDATE `patient` SET  `lname`= @lname, `fname`= @fname, `sex`= @sex, `ssn`= @ssn, `dob` = @dob WHERE `patientID` = @patientId;";
                     using (var cmd = new MySqlCommand(insertQuery, conn))
                     {
@@ -156,7 +155,7 @@ namespace CS3230Project.DAL
         }
 
         /// <summary>
-        /// Retrieves the patients.
+        ///     Retrieves the patients.
         /// </summary>
         /// <returns></returns>
         /// <exception cref="ArgumentException">
@@ -172,37 +171,43 @@ namespace CS3230Project.DAL
                 using (conn)
                 {
                     conn.Open();
-                    var insertQuery =
-                        "SELECT * FROM patient";
+                    const string insertQuery = "SELECT * FROM patient";
                     using (var cmd = new MySqlCommand(insertQuery, conn))
                     {
-
                         using (var reader = cmd.ExecuteReader())
                         {
                             var lnameOrdinal = reader.GetOrdinal("lname");
                             var fnameOrdinal = reader.GetOrdinal("fname");
                             var sexOrdinal = reader.GetOrdinal("sex");
-                            var patientIDOrdinal = reader.GetOrdinal("patientID");
-                            var addressIDOrdinal = reader.GetOrdinal("addressID");
+                            var patientIdOrdinal = reader.GetOrdinal("patientID");
+                            var addressIdOrdinal = reader.GetOrdinal("addressID");
                             var ssnOrdinal = reader.GetOrdinal("ssn");
                             var dobOrdinal = reader.GetOrdinal("dob");
 
                             while (reader.Read())
                             {
-                                var patient = new Patient();
-
-                                 patient.Lname = reader[lnameOrdinal] == DBNull.Value ? "null" : reader.GetString(lnameOrdinal);
-                                 patient.Sex = reader[sexOrdinal] == DBNull.Value ? "null" : reader.GetString(sexOrdinal);
-                                 patient.Fname = reader[fnameOrdinal] == DBNull.Value ? "null" : reader.GetString(fnameOrdinal);
-                                 patient.PatientId = reader[patientIDOrdinal] == DBNull.Value ? 0 : reader.GetInt32(patientIDOrdinal);
-                                 patient.AddressID = reader[addressIDOrdinal] == DBNull.Value ? 0 : reader.GetInt32(addressIDOrdinal);
-                                 patient.Ssn = reader[ssnOrdinal] == DBNull.Value ? "null" : reader.GetString(ssnOrdinal);
-                                 patient.DateOfBirth = reader[dobOrdinal] == DBNull.Value ? DateTime.Now : reader.GetDateTime(dobOrdinal);
+                                var patient = new Patient {
+                                    Lname = reader[lnameOrdinal] == DBNull.Value
+                                        ? "null"
+                                        : reader.GetString(lnameOrdinal),
+                                    Sex = reader[sexOrdinal] == DBNull.Value ? "null" : reader.GetString(sexOrdinal),
+                                    Fname = reader[fnameOrdinal] == DBNull.Value
+                                        ? "null"
+                                        : reader.GetString(fnameOrdinal),
+                                    PatientId = reader[patientIdOrdinal] == DBNull.Value
+                                        ? 0
+                                        : reader.GetInt32(patientIdOrdinal),
+                                    AddressId = reader[addressIdOrdinal] == DBNull.Value
+                                        ? 0
+                                        : reader.GetInt32(addressIdOrdinal),
+                                    Ssn = reader[ssnOrdinal] == DBNull.Value ? "null" : reader.GetString(ssnOrdinal),
+                                    DateOfBirth = reader[dobOrdinal] == DBNull.Value
+                                        ? DateTime.Now
+                                        : reader.GetDateTime(dobOrdinal)
+                                };
 
                                 patients.Add(patient);
-
                             }
-
                         }
 
                         return patients;
@@ -220,13 +225,12 @@ namespace CS3230Project.DAL
         }
 
         /// <summary>
-        /// Finds the patient.
+        ///     Finds the patient.
         /// </summary>
         /// <param name="patientId">The patient identifier.</param>
         /// <returns></returns>
         public bool FindPatient(string patientId)
         {
-
             var connection = DbConnection.GetConnection();
             const string query = "select patientID from patient where patientID = @patientID";
 
@@ -235,6 +239,262 @@ namespace CS3230Project.DAL
                 connection.Open();
                 return checkForPatient(patientId, query, connection);
             }
+        }
+
+        /// <summary>
+        ///     Retrieves the appointments.
+        /// </summary>
+        /// <param name="firstName">The first name.</param>
+        /// <param name="lastName">The last name.</param>
+        /// <returns></returns>
+        public IList<Appointment> RetrieveAppointments(string firstName, string lastName)
+        {
+            var connection = DbConnection.GetConnection();
+            const string patientIdQuery =
+                "SELECT * FROM appointment WHERE EXISTS (select patientID from patient where fname = @fname and lname = @lname)";
+
+            using (connection)
+            {
+                connection.Open();
+                using (var cmd = new MySqlCommand(patientIdQuery, connection))
+                {
+                    cmd.Parameters.Add("@lname", MySqlDbType.VarChar);
+                    cmd.Parameters["@lname"].Value = lastName;
+
+                    cmd.Parameters.Add("@fname", MySqlDbType.VarChar);
+                    cmd.Parameters["@fname"].Value = firstName;
+
+                    return retrieveAppointmentsList(cmd);
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Retrieves the appointments.
+        /// </summary>
+        /// <param name="dob">The dob.</param>
+        /// <returns></returns>
+        public IList<Appointment> RetrieveAppointments(DateTime dob)
+        {
+            var connection = DbConnection.GetConnection();
+            const string patientIdQuery =
+                "SELECT * FROM appointment WHERE EXISTS (select patientID from patient where dob = @dob)";
+
+            using (connection)
+            {
+                connection.Open();
+                using (var cmd = new MySqlCommand(patientIdQuery, connection))
+                {
+                    cmd.Parameters.Add("@dob", MySqlDbType.Date);
+                    cmd.Parameters["@dob"].Value = dob.ToString("yyyy-MM-dd");
+
+                    return retrieveAppointmentsList(cmd);
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Retrieves the appointments.
+        /// </summary>
+        /// <param name="firstName">The first name.</param>
+        /// <param name="lastName">The last name.</param>
+        /// <param name="dob">The dob.</param>
+        /// <returns></returns>
+        public IList<Appointment> RetrieveAppointments(string firstName, string lastName, DateTime dob)
+        {
+            var connection = DbConnection.GetConnection();
+            const string patientIdQuery =
+                "SELECT * FROM appointment WHERE EXISTS (select patientID from patient where fname = @fname and lname = @lname and dob = @dob)";
+
+            using (connection)
+            {
+                connection.Open();
+                using (var cmd = new MySqlCommand(patientIdQuery, connection))
+                {
+                    cmd.Parameters.Add("@lname", MySqlDbType.VarChar);
+                    cmd.Parameters["@lname"].Value = lastName;
+
+                    cmd.Parameters.Add("@fname", MySqlDbType.VarChar);
+                    cmd.Parameters["@fname"].Value = firstName;
+
+                    cmd.Parameters.Add("@dob", MySqlDbType.Date);
+                    cmd.Parameters["@dob"].Value = dob.ToString("yyyy-MM-dd");
+
+                    return retrieveAppointmentsList(cmd);
+                }
+            }
+        }
+
+        private static IList<Appointment> retrieveAppointmentsList(MySqlCommand cmd)
+        {
+            IList<Appointment> appointments = new List<Appointment>();
+
+            using (var reader = cmd.ExecuteReader())
+            {
+                var appointmentDateOrdinal = reader.GetOrdinal("appointmentdate");
+                var reasonOrdinal = reader.GetOrdinal("reason");
+                var doctorIdOrdinal = reader.GetOrdinal("doctorID");
+                var patientIdOrdinal = reader.GetOrdinal("patientID");
+
+                while (reader.Read())
+                {
+                    var appointmentDate = reader[appointmentDateOrdinal] == DBNull.Value
+                        ? DateTime.Now
+                        : reader.GetDateTime(appointmentDateOrdinal);
+                    var reason = reader[reasonOrdinal] == DBNull.Value
+                        ? "null"
+                        : reader.GetString(reasonOrdinal);
+                    var doctorId = reader[doctorIdOrdinal] == DBNull.Value
+                        ? 0
+                        : reader.GetInt32(doctorIdOrdinal);
+                    var patientId = reader[patientIdOrdinal] == DBNull.Value
+                        ? 0
+                        : reader.GetInt32(patientIdOrdinal);
+
+                    var appointment = new Appointment(reason, patientId, doctorId, appointmentDate);
+
+                    appointments.Add(appointment);
+                }
+            }
+
+            return appointments;
+        }
+
+        public IList<Visit> RetrieveVisits(string firstName, string lastName)
+        {
+            var connection = DbConnection.GetConnection();
+            const string patientIdQuery =
+                "SELECT * FROM visit WHERE EXISTS (select patientID from patient where fname = @fname and lname = @lname)";
+
+            using (connection)
+            {
+                connection.Open();
+                using (var cmd = new MySqlCommand(patientIdQuery, connection))
+                {
+                    cmd.Parameters.Add("@lname", MySqlDbType.VarChar);
+                    cmd.Parameters["@lname"].Value = lastName;
+
+                    cmd.Parameters.Add("@fname", MySqlDbType.VarChar);
+                    cmd.Parameters["@fname"].Value = firstName;
+
+                    return retrieveVisitList(cmd);
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Retrieves the appointments.
+        /// </summary>
+        /// <param name="dob">The dob.</param>
+        /// <returns></returns>
+        public IList<Visit> RetrieveVisits(DateTime dob)
+        {
+            var connection = DbConnection.GetConnection();
+            const string patientIdQuery =
+                "SELECT * FROM visit WHERE EXISTS (select patientID from patient where dob = @dob)";
+
+            using (connection)
+            {
+                connection.Open();
+                using (var cmd = new MySqlCommand(patientIdQuery, connection))
+                {
+                    cmd.Parameters.Add("@dob", MySqlDbType.Date);
+                    cmd.Parameters["@dob"].Value = dob.ToString("yyyy-MM-dd");
+
+                    return retrieveVisitList(cmd);
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Retrieves the appointments.
+        /// </summary>
+        /// <param name="firstName">The first name.</param>
+        /// <param name="lastName">The last name.</param>
+        /// <param name="dob">The dob.</param>
+        /// <returns></returns>
+        public IList<Visit> RetrieveVisits(string firstName, string lastName, DateTime dob)
+        {
+            var connection = DbConnection.GetConnection();
+            const string patientIdQuery =
+                "SELECT * FROM visit WHERE EXISTS (select patientID from patient where fname = @fname and lname = @lname and dob = @dob)";
+
+            using (connection)
+            {
+                connection.Open();
+                using (var cmd = new MySqlCommand(patientIdQuery, connection))
+                {
+                    cmd.Parameters.Add("@lname", MySqlDbType.VarChar);
+                    cmd.Parameters["@lname"].Value = lastName;
+
+                    cmd.Parameters.Add("@fname", MySqlDbType.VarChar);
+                    cmd.Parameters["@fname"].Value = firstName;
+
+                    cmd.Parameters.Add("@dob", MySqlDbType.Date);
+                    cmd.Parameters["@dob"].Value = dob.ToString("yyyy-MM-dd");
+
+                    return retrieveVisitList(cmd);
+                }
+            }
+        }
+
+        private static IList<Visit> retrieveVisitList(MySqlCommand cmd)
+        {
+            IList<Visit> visits = new List<Visit>();
+
+            using (var reader = cmd.ExecuteReader())
+            {
+                var systolicNumberOrdinal = reader.GetOrdinal("systolicNum");
+                var diastolicNumberOrdinal = reader.GetOrdinal("diastolicNum");
+                var heartRateOrdinal = reader.GetOrdinal("heartrate");
+                var respirationRateOrdinal = reader.GetOrdinal("respirationrate");
+                var bodyTempOrdinal = reader.GetOrdinal("bodytemp");
+                var otherOrdinal = reader.GetOrdinal("other");
+                var nurseIdOrdinal = reader.GetOrdinal("nurseID");
+                var appointmentDateOrdinal = reader.GetOrdinal("appointmentdate");
+                var patientIdOrdinal = reader.GetOrdinal("patientID");
+                var diagnosisOrdinal = reader.GetOrdinal("diagnosis");
+
+                while (reader.Read())
+                {
+                    var systolicNum = reader[systolicNumberOrdinal] == DBNull.Value
+                        ? 0
+                        : reader.GetInt32(systolicNumberOrdinal);
+                    var diastolicNum = reader[diastolicNumberOrdinal] == DBNull.Value
+                        ? 0
+                        : reader.GetInt32(diastolicNumberOrdinal);
+                    var heartRate = reader[heartRateOrdinal] == DBNull.Value
+                        ? 0
+                        : reader.GetInt32(heartRateOrdinal);
+                    var respirationRate = reader[respirationRateOrdinal] == DBNull.Value
+                        ? 0
+                        : reader.GetInt32(respirationRateOrdinal);
+                    var bodyTemp = reader[bodyTempOrdinal] == DBNull.Value
+                        ? 0
+                        : reader.GetDouble(bodyTempOrdinal);
+                    var other = reader[otherOrdinal] == DBNull.Value
+                        ? "null"
+                        : reader.GetString(otherOrdinal);
+                    var nurseId = reader[nurseIdOrdinal] == DBNull.Value
+                        ? 0
+                        : reader.GetInt32(nurseIdOrdinal);
+                    var appointmentDate = reader[appointmentDateOrdinal] == DBNull.Value
+                        ? DateTime.Now
+                        : reader.GetDateTime(appointmentDateOrdinal);
+                    var patientId = reader[patientIdOrdinal] == DBNull.Value
+                        ? 0
+                        : reader.GetInt32(patientIdOrdinal);
+                    var diagnosis = reader[diagnosisOrdinal] == DBNull.Value
+                        ? "null"
+                        : reader.GetString(diagnosisOrdinal);
+
+                    var visit = new Visit(systolicNum, diastolicNum, heartRate, respirationRate, bodyTemp, other,
+                        nurseId, patientId, appointmentDate, diagnosis);
+                    visits.Add(visit);
+                }
+            }
+
+            return visits;
         }
 
         private static bool checkForPatient(string patientId, string query,
@@ -275,7 +535,7 @@ namespace CS3230Project.DAL
                 using (conn)
                 {
                     conn.Open();
-                    var deleteQuery = "DELETE FROM `patient` WHERE `patientID` = @patientId;";
+                    const string deleteQuery = "DELETE FROM `patient` WHERE `patientID` = @patientId;";
                     using (var cmd = new MySqlCommand(deleteQuery, conn))
                     {
                         cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);

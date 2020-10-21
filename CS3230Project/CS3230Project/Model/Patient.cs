@@ -14,7 +14,7 @@ namespace CS3230Project.Model
 
         public string Lname;
 
-        public int AddressID;
+        public int AddressId;
 
         public string Sex;
 
@@ -38,7 +38,7 @@ namespace CS3230Project.Model
             this.Ssn = ssn;
             this.Fname = fname;
             this.Lname = lname;
-            this.AddressID = addressID;
+            this.AddressId = addressID;
             this.Sex = sex;
             this.DateOfBirth = dob;
         }

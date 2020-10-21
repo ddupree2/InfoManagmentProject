@@ -208,7 +208,7 @@ namespace CS3230Project.DAL
         /// </exception>
         public Address RetrieveAddress(Patient patient)
         {
-            var addressId = patient.AddressID;
+            var addressId = patient.AddressId;
             var address = new Address();
 
             try
