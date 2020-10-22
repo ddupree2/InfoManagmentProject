@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using CS3230Project.DAL;
 
 namespace CS3230Project.ViewModel
@@ -36,6 +37,11 @@ namespace CS3230Project.ViewModel
         public DataTable RetrieveQueryResults(string query)
         {
             return this.adminDal.RetrieveQueryResults(query);
+        }
+
+        public DataTable RetrieveVisitsBetween(DateTime startDateTime, DateTime endDateTime)
+        {
+            return this.adminDal.RetrieveVisitsBetween(startDateTime, endDateTime);
         }
 
         #endregion

@@ -11,6 +11,32 @@ namespace CS3230Project.DAL
     {
         #region Methods
 
+        public DataTable RetrieveVisitsBetween(DateTime startDateTime, DateTime endDateTime)
+        {
+            var startDate = startDateTime.ToString("yyyy-MM-dd") + " 00:00:00";
+            var endDate = endDateTime.ToString("yyyy-MM-dd") + " 23:59:59";
+            const string visitsBetweenQuery =
+                "SELECT * FROM visit WHERE appointmentdate BETWEEN @startDate AND @endDate";
+            var connection = DbConnection.GetConnection();
+
+            using (connection)
+            {
+                connection.Open();
+                using (var cmd = new MySqlCommand(visitsBetweenQuery, connection))
+                {
+                    cmd.Parameters.Add("@startDate", MySqlDbType.DateTime);
+                    cmd.Parameters["@startDate"].Value = DateTime.Parse(startDate);
+
+                    cmd.Parameters.Add("@endDate", MySqlDbType.DateTime);
+                    cmd.Parameters["@endDate"].Value = DateTime.Parse(endDate);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        return readInResults(reader);
+                    }
+                }
+            }
+        }
+
         /// <summary>
         ///     Retrieves the query results for the give query.
         /// </summary>
