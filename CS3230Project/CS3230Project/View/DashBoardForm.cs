@@ -135,5 +135,21 @@ namespace CS3230Project
         }
 
         #endregion
+
+        private void appointmentBtn_Click(object sender, EventArgs e)
+        {
+            var patientNotSelected = this.mainInfoDisplay.SelectedIndex < 0;
+            if (patientNotSelected)
+            {
+                MessageBox.Show(@"please select a patient.");
+                return;
+            }
+
+            var selectPatientIndex = this.mainInfoDisplay.SelectedIndex;
+            var patient = this.patients[selectPatientIndex];
+            var appointmentForm = new AppointmentForm(patient);
+            appointmentForm.Show();
+
+        }
     }
 }

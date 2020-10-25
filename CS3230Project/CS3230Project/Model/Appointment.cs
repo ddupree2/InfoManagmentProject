@@ -25,7 +25,7 @@ namespace CS3230Project.Model
         /// <value>
         ///     The patient identifier.
         /// </value>
-        public int PatientId { get; set; }
+        public string PatientId { get; set; }
 
         /// <summary>
         ///     Gets or sets the doctor identifier.
@@ -43,7 +43,7 @@ namespace CS3230Project.Model
         /// </value>
         public DateTime AppointmentDate { get; set; }
 
-        public Appointment(string reason, int patientId, string doctorId, DateTime appointmentDate)
+        public Appointment(string reason, string patientId, string doctorId, DateTime appointmentDate)
         {
             this.Reason = reason ?? throw new ArgumentNullException(nameof(reason));
             this.PatientId = patientId;

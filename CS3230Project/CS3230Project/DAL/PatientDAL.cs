@@ -348,8 +348,8 @@ namespace CS3230Project.DAL
                         ? default
                         : reader.GetString(doctorIdOrdinal);
                     var patientId = reader[patientIdOrdinal] == DBNull.Value
-                        ? 0
-                        : reader.GetInt32(patientIdOrdinal);
+                        ? "null"
+                        : reader.GetString(patientIdOrdinal);
 
                     var appointment = new Appointment(reason, patientId, doctorId, appointmentDate);
 

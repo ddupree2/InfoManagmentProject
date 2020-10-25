@@ -93,51 +93,54 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdminQueryForm.cs">
+    <Compile Include="View\AdminQueryForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AdminQueryForm.Designer.cs">
+    <Compile Include="View\AdminQueryForm.Designer.cs">
       <DependentUpon>AdminQueryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DAL\AddressDAL.cs" />
     <Compile Include="DAL\AdminDAL.cs" />
     <Compile Include="DAL\AppointmentDAL.cs" />
     <Compile Include="DAL\DbConnection.cs" />
+    <Compile Include="DAL\DoctorDAL.cs" />
     <Compile Include="DAL\EmployeeDAL.cs" />
     <Compile Include="DAL\LoginDAL.cs" />
     <Compile Include="DAL\PatientDAL.cs" />
     <Compile Include="DAL\VisitsDAL.cs" />
-    <Compile Include="DashBoardForm.cs">
+    <Compile Include="View\DashBoardForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DashBoardForm.Designer.cs">
+    <Compile Include="View\DashBoardForm.Designer.cs">
       <DependentUpon>DashBoardForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AppointmentForm.cs">
+    <Compile Include="View\AppointmentForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AppointmentForm.Designer.cs">
+    <Compile Include="View\AppointmentForm.Designer.cs">
       <DependentUpon>AppointmentForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Appointment.cs" />
+    <Compile Include="Model\Doctor.cs" />
+    <Compile Include="Model\Employee.cs" />
     <Compile Include="Model\TestResult.cs" />
     <Compile Include="Model\Visit.cs" />
-    <Compile Include="PatientLookupForm.cs">
+    <Compile Include="View\PatientLookupForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PatientLookupForm.Designer.cs">
+    <Compile Include="View\PatientLookupForm.Designer.cs">
       <DependentUpon>PatientLookupForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RegistrationForm.cs">
+    <Compile Include="View\RegistrationForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RegistrationForm.Designer.cs">
+    <Compile Include="View\RegistrationForm.Designer.cs">
       <DependentUpon>RegistrationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="LoginForm.cs">
+    <Compile Include="View\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoginForm.Designer.cs">
+    <Compile Include="View\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Address.cs" />
@@ -150,28 +153,28 @@
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\PatientLookupViewModel.cs" />
     <Compile Include="ViewModel\RegistrationViewModel.cs" />
-    <Compile Include="VisitForm.cs">
+    <Compile Include="View\VisitForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="VisitForm.Designer.cs">
+    <Compile Include="View\VisitForm.Designer.cs">
       <DependentUpon>VisitForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AdminQueryForm.resx">
+    <EmbeddedResource Include="View\AdminQueryForm.resx">
       <DependentUpon>AdminQueryForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DashBoardForm.resx">
+    <EmbeddedResource Include="View\DashBoardForm.resx">
       <DependentUpon>DashBoardForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AppointmentForm.resx">
+    <EmbeddedResource Include="View\AppointmentForm.resx">
       <DependentUpon>AppointmentForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PatientLookupForm.resx">
+    <EmbeddedResource Include="View\PatientLookupForm.resx">
       <DependentUpon>PatientLookupForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RegistrationForm.resx">
+    <EmbeddedResource Include="View\RegistrationForm.resx">
       <DependentUpon>RegistrationForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoginForm.resx">
+    <EmbeddedResource Include="View\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -183,7 +186,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="VisitForm.resx">
+    <EmbeddedResource Include="View\VisitForm.resx">
       <DependentUpon>VisitForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />

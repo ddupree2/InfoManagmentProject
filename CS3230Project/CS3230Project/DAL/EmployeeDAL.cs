@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using CS3230Project.Model;
 using MySql.Data.MySqlClient;
 
 namespace CS3230Project.DAL
@@ -133,6 +135,66 @@ namespace CS3230Project.DAL
             }
 
             return isNurse;
+        }
+
+        public IList<Employee> RetrieveEmployees()
+        {
+            IList<Employee> employees = new List<Employee>();
+
+            try
+            {
+                var conn = DbConnection.GetConnection();
+                using (conn)
+                {
+                    conn.Open();
+                    const string insertQuery = "SELECT eID, fname, lname, addressID, dob FROM employee";
+                    using (var cmd = new MySqlCommand(insertQuery, conn))
+                    {
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            var lnameOrdinal = reader.GetOrdinal("lname");
+                            var fnameOrdinal = reader.GetOrdinal("fname");
+                            var addressIdOrdinal = reader.GetOrdinal("addressID");
+                            var dobOrdinal = reader.GetOrdinal("dob");
+                            var eIdOrdinal = reader.GetOrdinal("eID");
+
+                            while (reader.Read())
+                            {
+                                var employee = new Employee()
+                                {
+                                    Lname = reader[lnameOrdinal] == DBNull.Value
+                                        ? "null"
+                                        : reader.GetString(lnameOrdinal),
+                                    Fname = reader[fnameOrdinal] == DBNull.Value
+                                        ? "null"
+                                        : reader.GetString(fnameOrdinal),
+                                    EId = reader[eIdOrdinal] == DBNull.Value
+                                        ? "null"
+                                        : reader.GetString(eIdOrdinal),
+                                    AddressId = reader[addressIdOrdinal] == DBNull.Value
+                                        ? 0
+                                        : reader.GetInt32(addressIdOrdinal),
+                                    Dob = reader[dobOrdinal] == DBNull.Value
+                                        ? DateTime.Now
+                                        : reader.GetDateTime(dobOrdinal)
+                                };
+
+                                employees.Add(employee);
+                            }
+                        }
+
+                        return employees;
+                    }
+                }
+            }
+            catch (MySqlException mex)
+            {
+                throw new ArgumentException(mex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
         }
 
         #endregion

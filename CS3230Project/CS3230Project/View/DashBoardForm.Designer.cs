@@ -36,12 +36,13 @@
             this.editPatientButton = new System.Windows.Forms.Button();
             this.patientLookUpButton = new System.Windows.Forms.Button();
             this.adminButton = new System.Windows.Forms.Button();
+            this.appointmentBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // logOutButton
             // 
             this.logOutButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.logOutButton.Location = new System.Drawing.Point(91, 268);
+            this.logOutButton.Location = new System.Drawing.Point(91, 474);
             this.logOutButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.logOutButton.Name = "logOutButton";
             this.logOutButton.Size = new System.Drawing.Size(220, 48);
@@ -68,7 +69,7 @@
             this.greetingsLabel.Location = new System.Drawing.Point(120, 43);
             this.greetingsLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.greetingsLabel.Name = "greetingsLabel";
-            this.greetingsLabel.Size = new System.Drawing.Size(49, 20);
+            this.greetingsLabel.Size = new System.Drawing.Size(61, 25);
             this.greetingsLabel.TabIndex = 2;
             this.greetingsLabel.Text = "Hello,";
             // 
@@ -77,23 +78,23 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(424, 14);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(71, 20);
+            this.label1.Size = new System.Drawing.Size(88, 25);
             this.label1.TabIndex = 4;
             this.label1.Text = "Patients:";
             // 
             // mainInfoDisplay
             // 
             this.mainInfoDisplay.FormattingEnabled = true;
-            this.mainInfoDisplay.ItemHeight = 20;
+            this.mainInfoDisplay.ItemHeight = 25;
             this.mainInfoDisplay.Location = new System.Drawing.Point(428, 43);
             this.mainInfoDisplay.Name = "mainInfoDisplay";
-            this.mainInfoDisplay.Size = new System.Drawing.Size(430, 484);
+            this.mainInfoDisplay.Size = new System.Drawing.Size(430, 479);
             this.mainInfoDisplay.TabIndex = 5;
             // 
             // editPatientButton
             // 
             this.editPatientButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editPatientButton.Location = new System.Drawing.Point(91, 175);
+            this.editPatientButton.Location = new System.Drawing.Point(91, 139);
             this.editPatientButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.editPatientButton.Name = "editPatientButton";
             this.editPatientButton.Size = new System.Drawing.Size(220, 48);
@@ -105,7 +106,7 @@
             // patientLookUpButton
             // 
             this.patientLookUpButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.patientLookUpButton.Location = new System.Drawing.Point(91, 362);
+            this.patientLookUpButton.Location = new System.Drawing.Point(91, 296);
             this.patientLookUpButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.patientLookUpButton.Name = "patientLookUpButton";
             this.patientLookUpButton.Size = new System.Drawing.Size(220, 48);
@@ -117,7 +118,7 @@
             // adminButton
             // 
             this.adminButton.Enabled = false;
-            this.adminButton.Location = new System.Drawing.Point(91, 453);
+            this.adminButton.Location = new System.Drawing.Point(91, 418);
             this.adminButton.Name = "adminButton";
             this.adminButton.Size = new System.Drawing.Size(220, 48);
             this.adminButton.TabIndex = 8;
@@ -126,11 +127,22 @@
             this.adminButton.Visible = false;
             this.adminButton.Click += new System.EventHandler(this.adminButton_Click);
             // 
+            // appointmentBtn
+            // 
+            this.appointmentBtn.Location = new System.Drawing.Point(91, 195);
+            this.appointmentBtn.Name = "appointmentBtn";
+            this.appointmentBtn.Size = new System.Drawing.Size(220, 54);
+            this.appointmentBtn.TabIndex = 9;
+            this.appointmentBtn.Text = "Appointment";
+            this.appointmentBtn.UseVisualStyleBackColor = true;
+            this.appointmentBtn.Click += new System.EventHandler(this.appointmentBtn_Click);
+            // 
             // DashBoardForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(885, 552);
+            this.Controls.Add(this.appointmentBtn);
             this.Controls.Add(this.adminButton);
             this.Controls.Add(this.patientLookUpButton);
             this.Controls.Add(this.editPatientButton);
@@ -160,5 +172,6 @@
         private System.Windows.Forms.Button editPatientButton;
         private System.Windows.Forms.Button patientLookUpButton;
         private System.Windows.Forms.Button adminButton;
+        private System.Windows.Forms.Button appointmentBtn;
     }
 }
