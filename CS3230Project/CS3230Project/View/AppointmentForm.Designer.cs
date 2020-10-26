@@ -1,4 +1,4 @@
-﻿namespace CS3230Project.View
+﻿namespace CS3230Project
 {
     partial class AppointmentForm
     {

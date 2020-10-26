@@ -39,7 +39,7 @@ namespace CS3230Project
             this.InitializeComponent();
 
             this.patient = patient;
-            this.doctors = this.appointmentViewModel.getDoctors();
+            this.doctors = this.appointmentViewModel.RetrieveDoctors();
             this.addDoctorsToComboBox();
             this.addPatientToPatientField();
             this.fillAppointmentInfo();
@@ -65,7 +65,7 @@ namespace CS3230Project
 
         private IList<Appointment> getPatientAppointments()
         {
-            IList<Appointment> appointmentList = this.appointmentViewModel.GetAppointments(this.patient);
+            IList<Appointment> appointmentList = this.appointmentViewModel.RetrieveAppointments(this.patient);
             return appointmentList;
         }
 
@@ -143,7 +143,7 @@ namespace CS3230Project
             var successfulRegistration = false;
             try
             {
-                successfulRegistration = appointmentViewModel.registerAppointment(appointment);
+                successfulRegistration = appointmentViewModel.UpdateAppointment(appointment);
             }
             catch (MySqlException)
             {
@@ -297,6 +297,7 @@ namespace CS3230Project
                 this.doctorIDComboBox.Enabled = true;
                 this.appointmentDateTimePicker.Enabled = true;
                 this.timePicker.Enabled = true;
+                this.appointmentTimePassedLabel.Visible = false;
             }
             else
             {
