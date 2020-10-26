@@ -5,8 +5,12 @@ using System.Windows.Forms;
 using CS3230Project.ViewModel;
 using MySql.Data.MySqlClient;
 
-namespace CS3230Project
+namespace CS3230Project.View
 {
+    /// <summary>
+    ///     Visual representation of an admin query form
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class AdminQueryForm : Form
     {
         #region Data members

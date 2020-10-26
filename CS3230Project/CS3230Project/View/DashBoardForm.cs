@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using CS3230Project.Model;
+using CS3230Project.View;
 using CS3230Project.ViewModel;
 
 namespace CS3230Project

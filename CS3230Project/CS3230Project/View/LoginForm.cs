@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using CS3230Project.ViewModel;
 
-namespace CS3230Project
+namespace CS3230Project.View
 {
     public partial class LoginForm : Form
     {

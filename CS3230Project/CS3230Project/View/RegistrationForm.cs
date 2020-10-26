@@ -5,15 +5,19 @@ using CS3230Project.Model;
 using CS3230Project.ViewModel;
 using MySql.Data.MySqlClient;
 
-namespace CS3230Project
+namespace CS3230Project.View
 {
+    /// <summary>
+    ///     Visual representation of a patient registration form
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class RegistrationForm : Form
     {
+        #region Data members
+
         private const int ValidZipCodeLength = 5;
         private const int ValidSsnLength = 9;
         private const int ValidContactNumberLength = 10;
-
-        #region Data members
 
         private readonly RegistrationViewModel registrationViewmodel;
 
@@ -25,12 +29,20 @@ namespace CS3230Project
 
         #region Constructors
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="RegistrationForm" /> class.
+        /// </summary>
         public RegistrationForm()
         {
             this.InitializeComponent();
             this.registrationViewmodel = new RegistrationViewModel();
         }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="RegistrationForm" /> class.
+        /// </summary>
+        /// <param name="patient">The patient.</param>
+        /// <param name="address">The address.</param>
         public RegistrationForm(Patient patient, Address address)
         {
             this.InitializeComponent();

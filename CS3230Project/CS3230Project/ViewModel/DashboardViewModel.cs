@@ -40,7 +40,7 @@ namespace CS3230Project.ViewModel
         public IList<Patient> RetrievePatients()
         {
             var patientDAL = new PatientDal();
-            var patients = patientDAL.RetrievePatients();
+            var patients = patientDAL.RetrieveAllPatients();
 
             return patients;
         }
