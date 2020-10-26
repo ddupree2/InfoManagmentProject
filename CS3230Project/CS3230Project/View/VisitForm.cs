@@ -1,18 +1,19 @@
 ﻿using System.Globalization;
-using System.Linq;
 using System.Windows.Forms;
 using CS3230Project.Model;
+using CS3230Project.ViewModel;
 
-namespace CS3230Project
+namespace CS3230Project.View
 {
     /// <summary>
-    ///     Represents a patient visit in the view
+    ///     Represents a patient visitViewModel in the view
     /// </summary>
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class VisitForm : Form
     {
         #region Data members
 
+        private readonly VisitViewModel visitViewModel;
         private readonly Visit visit;
 
         #endregion
@@ -27,6 +28,7 @@ namespace CS3230Project
         {
             this.InitializeComponent();
             this.visit = visit;
+            this.visitViewModel = new VisitViewModel(visit);
             this.setupVistForm();
         }
 
@@ -53,12 +55,9 @@ namespace CS3230Project
 
         private void populateTestResultsListView()
         {
-            var testResults = this.visit.TestResults;
-            foreach (var testResult in testResults)
-            {
-                this.testResultsListBox.Items.Add(
-                    $"test code:{testResult.TestCode} date completed:{testResult.TestDate}");
-            }
+            var testResults = this.visitViewModel.RetrieveTestResults();
+            this.testResultsGridView.DataSource = testResults;
+            this.testResultsGridView.AutoResizeColumns();
         }
 
         private bool isFinalDiagnosis()

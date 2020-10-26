@@ -13,7 +13,7 @@ namespace CS3230Project.DAL
     /// </summary>
     public class AppointmentDal
     {
-        public bool registerAppointment(Appointment appointment)
+        public bool RegisterAppointment(Appointment appointment)
         {
             try
             {
@@ -21,8 +21,7 @@ namespace CS3230Project.DAL
                 using (conn)
                 {
                     conn.Open();
-                    var insertQuery =
-                        "INSERT INTO `appointment` (`appointmentdate`, `reason`, `doctorID`, `patientID`) VALUES (@appointmentdate, @reason, @doctorID, @patientID);";
+                    const string insertQuery = "INSERT INTO `appointment` (`appointmentdate`, `reason`, `doctorID`, `patientID`) VALUES (@appointmentdate, @reason, @doctorID, @patientID);";
                     using (var cmd = new MySqlCommand(insertQuery, conn))
                     {
 
@@ -94,7 +93,7 @@ namespace CS3230Project.DAL
             }
         }
 
-        public IList<Appointment> GetAppointments(Patient patient)
+        public IList<Appointment> RetrieveAppointments(Patient patient)
         {
             var appointments = new List<Appointment>();
             
@@ -104,8 +103,7 @@ namespace CS3230Project.DAL
                 using (conn)
                 {
                     conn.Open();
-                    var selectQuery =
-                        "SELECT appointmentdate, reason, doctorID FROM appointment WHERE patientID = @patientID";
+                    const string selectQuery = "SELECT appointmentdate, reason, doctorID FROM appointment WHERE patientID = @patientID";
                     using (var cmd = new MySqlCommand(selectQuery, conn))
                     {
 

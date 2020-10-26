@@ -49,6 +49,14 @@ namespace CS3230Project.Model
         /// </value>
         public int TestCode { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the name of the test.
+        /// </summary>
+        /// <value>
+        ///     The name of the test.
+        /// </value>
+        public string TestName { get; set; }
+
         #endregion
 
         #region Constructors
@@ -61,14 +69,17 @@ namespace CS3230Project.Model
         /// <param name="appointmentDate">The appointment date.</param>
         /// <param name="patientId">The patient identifier.</param>
         /// <param name="testCode">The test code.</param>
+        /// <param name="testName"></param>
         /// <exception cref="ArgumentNullException">results</exception>
-        public TestResult(DateTime testDate, string results, DateTime appointmentDate, int patientId, int testCode)
+        public TestResult(DateTime testDate, string results, DateTime appointmentDate, int patientId, int testCode,
+            string testName)
         {
             this.TestDate = testDate;
             this.Results = results ?? throw new ArgumentNullException(nameof(results));
             this.AppointmentDate = appointmentDate;
             this.PatientId = patientId;
             this.TestCode = testCode;
+            this.TestName = testName ?? throw new ArgumentNullException(nameof(testName));
         }
 
         #endregion

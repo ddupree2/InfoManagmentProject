@@ -7,7 +7,7 @@ using CS3230Project.Model;
 using CS3230Project.ViewModel;
 using MySql.Data.MySqlClient;
 
-namespace CS3230Project
+namespace CS3230Project.View
 {
     public partial class PatientLookupForm : Form
     {

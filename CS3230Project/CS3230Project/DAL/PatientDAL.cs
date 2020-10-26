@@ -28,8 +28,7 @@ namespace CS3230Project.DAL
                 using (conn)
                 {
                     conn.Open();
-                    var insertQuery =
-                        "INSERT INTO `patient` (`patientID`, `lname`, `fname`, `addressID`, `sex`, ssn, `dob`) VALUES (@patientID, @lname, @fname, @addressID, @sex, @ssn, @dob);";
+                    const string insertQuery = "INSERT INTO `patient` (`patientID`, `lname`, `fname`, `addressID`, `sex`, ssn, `dob`) VALUES (@patientID, @lname, @fname, @addressID, @sex, @ssn, @dob);";
                     using (var cmd = new MySqlCommand(insertQuery, conn))
                     {
                         var patientId = this.generatePatientId();
@@ -80,7 +79,7 @@ namespace CS3230Project.DAL
             while (idChecker)
             {
                 patientId = rnd.Next(1, 1000000000);
-                var patients = this.RetrievePatients();
+                var patients = this.RetrieveAllPatients();
 
                 idChecker = checkIfIdExists(patients, patientId);
             }
@@ -161,7 +160,7 @@ namespace CS3230Project.DAL
         /// <exception cref="ArgumentException">
         /// </exception>
         /// <returns>A list of all patients in the database.</returns>
-        public IList<Patient> RetrievePatients()
+        public IList<Patient> RetrieveAllPatients()
         {
             IList<Patient> patients = new List<Patient>();
 
@@ -186,7 +185,8 @@ namespace CS3230Project.DAL
 
                             while (reader.Read())
                             {
-                                var patient = new Patient {
+                                var patient = new Patient
+                                {
                                     Lname = reader[lnameOrdinal] == DBNull.Value
                                         ? "null"
                                         : reader.GetString(lnameOrdinal),
@@ -221,6 +221,67 @@ namespace CS3230Project.DAL
             catch (Exception ex)
             {
                 throw new ArgumentException(ex.Message);
+            }
+        }
+
+        /// <summary>
+        ///     Retrieves the patient.
+        /// </summary>
+        /// <param name="patientId">The patient identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentException">
+        /// </exception>
+        public Patient RetrievePatient(string patientId)
+        {
+            Patient patient = null;
+
+            var conn = DbConnection.GetConnection();
+            using (conn)
+            {
+                conn.Open();
+                const string insertQuery = "SELECT * FROM patient WHERE patientID = @patientID";
+                using (var cmd = new MySqlCommand(insertQuery, conn))
+                {
+                    cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
+                    cmd.Parameters["@patientID"].Value = patientId;
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        var lnameOrdinal = reader.GetOrdinal("lname");
+                        var fnameOrdinal = reader.GetOrdinal("fname");
+                        var sexOrdinal = reader.GetOrdinal("sex");
+                        var patientIdOrdinal = reader.GetOrdinal("patientID");
+                        var addressIdOrdinal = reader.GetOrdinal("addressID");
+                        var ssnOrdinal = reader.GetOrdinal("ssn");
+                        var dobOrdinal = reader.GetOrdinal("dob");
+
+                        if (reader.Read())
+                        {
+                            patient = new Patient
+                            {
+                                Lname = reader[lnameOrdinal] == DBNull.Value
+                                    ? "null"
+                                    : reader.GetString(lnameOrdinal),
+                                Sex = reader[sexOrdinal] == DBNull.Value ? "null" : reader.GetString(sexOrdinal),
+                                Fname = reader[fnameOrdinal] == DBNull.Value
+                                    ? "null"
+                                    : reader.GetString(fnameOrdinal),
+                                PatientId = reader[patientIdOrdinal] == DBNull.Value
+                                    ? 0
+                                    : reader.GetInt32(patientIdOrdinal),
+                                AddressId = reader[addressIdOrdinal] == DBNull.Value
+                                    ? 0
+                                    : reader.GetInt32(addressIdOrdinal),
+                                Ssn = reader[ssnOrdinal] == DBNull.Value ? "null" : reader.GetString(ssnOrdinal),
+                                DateOfBirth = reader[dobOrdinal] == DBNull.Value
+                                    ? DateTime.Now
+                                    : reader.GetDateTime(dobOrdinal)
+                            };
+                        }
+                    }
+
+                    return patient;
+                }
             }
         }
 
@@ -511,7 +572,7 @@ namespace CS3230Project.DAL
                 {
                     conn.Open();
                     const string deleteQuery =
-                        "SELECT * FROM `testResults` WHERE `patientID` = @patientId AND 'appointmentdate' = @appointmentDate;";
+                        "SELECT testdate, results, appointmentdate, patientID, r.testCode, testName FROM testResults r JOIN test t ON r.testCode = t.testCode WHERE `appointmentdate` = @appointmentDate AND `patientID` = @patientId;";
                     using (var cmd = new MySqlCommand(deleteQuery, conn))
                     {
                         cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
@@ -532,7 +593,7 @@ namespace CS3230Project.DAL
             return testResults;
         }
 
-        private static void readInTestResults(MySqlCommand cmd, IList<TestResult> testResults)
+        private static void readInTestResults(MySqlCommand cmd, ICollection<TestResult> testResults)
         {
             using (var reader = cmd.ExecuteReader())
             {
@@ -543,6 +604,7 @@ namespace CS3230Project.DAL
                     var appointmentDateOrdinal = reader.GetOrdinal("appointmentdate");
                     var patientIdOrdinal = reader.GetOrdinal("patientID");
                     var testCodeOrdinal = reader.GetOrdinal("testCode");
+                    var testNameOrdinal = reader.GetOrdinal("testName");
 
                     var testDate = reader[testDateOrdinal] == DBNull.Value
                         ? DateTime.Now
@@ -559,8 +621,11 @@ namespace CS3230Project.DAL
                     var testCode = reader[testCodeOrdinal] == DBNull.Value
                         ? 0
                         : reader.GetInt32(testCodeOrdinal);
+                    var testName = reader[testNameOrdinal] == DBNull.Value
+                        ? default
+                        : reader.GetString(testNameOrdinal);
 
-                    var testResult = new TestResult(testDate,results,appointmentDate,patientId,testCode);
+                    var testResult = new TestResult(testDate, results, appointmentDate, patientId, testCode, testName);
                     testResults.Add(testResult);
                 }
             }

@@ -93,6 +93,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ViewModel\VisitViewModel.cs" />
     <Compile Include="View\AdminQueryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,10 +154,8 @@
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\PatientLookupViewModel.cs" />
     <Compile Include="ViewModel\RegistrationViewModel.cs" />
-    <Compile Include="View\VisitForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\VisitForm.Designer.cs">
+    <Compile Include="View\VisitForm.cs" />
+    <Compile Include="View\VisitForm.designer.cs">
       <DependentUpon>VisitForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="View\AdminQueryForm.resx">
