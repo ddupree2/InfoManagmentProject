@@ -57,7 +57,11 @@ namespace CS3230Project
                 this.appointmentDataGrid.Rows.Add(appointment.AppointmentDate);
             }
 
+            this.appointmentDataGrid.Rows.Add("New Appointment");
+
+
         }
+        
 
         private IList<Appointment> getPatientAppointments()
         {
@@ -153,6 +157,7 @@ namespace CS3230Project
             {
                 showSuccessfulRegisterMessage(registered);
                 this.fillAppointmentInfo();
+                this.turnLabelsBack();
             }
         }
 
@@ -194,6 +199,26 @@ namespace CS3230Project
             this.warningLabel.Visible = true;
         }
 
+        private void turnLabelsBack()
+        {
+            this.appointmentLabel.Text = @"Appointment Date:";
+            this.appointmentLabel.ForeColor = Color.Black;
+
+            this.timeLabel.Text = @"Time: ";
+            this.timeLabel.ForeColor = Color.Black;
+
+            this.doctorLabel.Text = @" Doctor";
+            this.doctorLabel.ForeColor = Color.Black;
+
+            this.patientLabel.Text = @"Patient";
+            this.patientLabel.ForeColor = Color.Black;
+
+            this.reasonLabel.Text = @"Reason(s)";
+            this.reasonLabel.ForeColor = Color.Black;
+
+            this.warningLabel.Visible = false;
+        }
+
         private bool checkIfFieldsAreNull()
         {
             var checker = this.doctorIDComboBox.Text == string.Empty || this.appointmentDateTimePicker.Text == string.Empty ||
@@ -211,8 +236,16 @@ namespace CS3230Project
 
         private void updateButton_Click(object sender, EventArgs e)
         {
-             var appointmentSelected = this.appointmentDataGrid.SelectedRows.Count == 1;
-             if (appointmentSelected == false)
+           
+            var emptyField = this.checkIfFieldsAreNull();
+            if (emptyField)
+            {
+                this.turnLabelsRed();
+                return;
+            }
+
+            var appointmentSelected = this.appointmentDataGrid.CurrentCell.RowIndex;
+             if (appointmentSelected < 0)
              {
                 MessageBox.Show(@"please select an appointment.");
                 return;
@@ -226,9 +259,11 @@ namespace CS3230Project
              var successfulUpdate = this.appointmentViewModel.UpdateAppointment(appointmentToUpdate);
              if (successfulUpdate)
              {
+                 this.turnLabelsBack();
                  MessageBox.Show(@"Appointment Updated");
                  this.fillAppointmentInfo();
-             }
+                 this.appointmentDataGrid.ClearSelection();
+            }
 
         }
 
@@ -245,14 +280,59 @@ namespace CS3230Project
 
         private void appointmentDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            var newAppointmentCell = this.appointmentDataGrid.RowCount - 1;
             var cell = this.appointmentDataGrid.CurrentCell.RowIndex;
+            if (cell >= newAppointmentCell)
+            {
+                this.addNewAppointmentButton.Visible = true;
+                this.updateButton.Visible = false;
+                
+                this.reasonTextBox.Text = string.Empty;
+                this.doctorIDComboBox.Text = string.Empty;
+                
+                this.timePicker.Enabled = true;
+                this.appointmentDateTimePicker.Enabled = true;
 
-            this.reasonTextBox.Text = this.appointments[cell].Reason;
-            var doctorID = this.appointments[cell].DoctorId;
-            var doctorName = this.findDoctor(doctorID);
-            this.doctorIDComboBox.Text = doctorName;
-            this.appointmentDateTimePicker.Text = this.appointments[cell].AppointmentDate.ToShortDateString();
-            this.timePicker.Text = this.appointments[cell].AppointmentDate.ToShortTimeString();
+                this.reasonTextBox.Enabled = true;
+                this.doctorIDComboBox.Enabled = true;
+                this.appointmentDateTimePicker.Enabled = true;
+                this.timePicker.Enabled = true;
+            }
+            else
+            {
+                this.addNewAppointmentButton.Visible = false;
+                this.reasonTextBox.Text = this.appointments[cell].Reason;
+                
+                var doctorId = this.appointments[cell].DoctorId;
+                var doctorName = this.findDoctor(doctorId);
+                
+                this.doctorIDComboBox.Text = doctorName;
+                this.appointmentDateTimePicker.Text = this.appointments[cell].AppointmentDate.ToShortDateString();
+                this.timePicker.Text = this.appointments[cell].AppointmentDate.ToShortTimeString();
+                this.checkIfAppointmentHasPassed(this.appointments[cell].AppointmentDate);
+                
+                this.timePicker.Enabled = false;
+                this.appointmentDateTimePicker.Enabled = false;
+            }
+        }
+
+        private void checkIfAppointmentHasPassed(DateTime time)
+        {
+            if (DateTime.Now > time)
+            {
+                this.appointmentTimePassedLabel.Visible = true;
+                this.updateButton.Visible = false;
+                this.reasonTextBox.Enabled = false;
+                this.doctorIDComboBox.Enabled = false;
+            }
+            else
+            {
+                this.appointmentTimePassedLabel.Visible = false;
+                this.updateButton.Visible = true;
+                this.reasonTextBox.Enabled = true;
+                this.doctorIDComboBox.Enabled = true;
+            }
+
         }
 
         private string findDoctor(string doctorID)
