@@ -50,5 +50,10 @@ namespace CS3230Project.Model
             this.DoctorId = doctorId;
             this.AppointmentDate = appointmentDate;
         }
+
+        public Appointment()
+        {
+
+        }
     }
 }

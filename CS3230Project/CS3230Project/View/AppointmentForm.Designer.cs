@@ -35,10 +35,17 @@
             this.patientLabel = new System.Windows.Forms.Label();
             this.reasonTextBox = new System.Windows.Forms.TextBox();
             this.reasonLabel = new System.Windows.Forms.Label();
-            this.saveButton = new System.Windows.Forms.Button();
+            this.addNewAppointmentButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.doctorIDComboBox = new System.Windows.Forms.ComboBox();
             this.warningLabel = new System.Windows.Forms.Label();
+            this.timeLabel = new System.Windows.Forms.Label();
+            this.timePicker = new System.Windows.Forms.DateTimePicker();
+            this.appointmentDataGrid = new System.Windows.Forms.DataGridView();
+            this.appointmentTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameLabel = new System.Windows.Forms.Label();
+            this.updateButton = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.appointmentDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // appointmentDateTimePicker
@@ -62,7 +69,7 @@
             // doctorLabel
             // 
             this.doctorLabel.AutoSize = true;
-            this.doctorLabel.Location = new System.Drawing.Point(73, 120);
+            this.doctorLabel.Location = new System.Drawing.Point(70, 164);
             this.doctorLabel.Name = "doctorLabel";
             this.doctorLabel.Size = new System.Drawing.Size(69, 25);
             this.doctorLabel.TabIndex = 2;
@@ -71,7 +78,7 @@
             // patientIDTextBox
             // 
             this.patientIDTextBox.Enabled = false;
-            this.patientIDTextBox.Location = new System.Drawing.Point(154, 191);
+            this.patientIDTextBox.Location = new System.Drawing.Point(186, 215);
             this.patientIDTextBox.MaxLength = 20;
             this.patientIDTextBox.Name = "patientIDTextBox";
             this.patientIDTextBox.Size = new System.Drawing.Size(282, 30);
@@ -80,7 +87,7 @@
             // patientLabel
             // 
             this.patientLabel.AutoSize = true;
-            this.patientLabel.Location = new System.Drawing.Point(73, 194);
+            this.patientLabel.Location = new System.Drawing.Point(70, 215);
             this.patientLabel.Name = "patientLabel";
             this.patientLabel.Size = new System.Drawing.Size(72, 25);
             this.patientLabel.TabIndex = 4;
@@ -104,15 +111,15 @@
             this.reasonLabel.TabIndex = 7;
             this.reasonLabel.Text = "Reason(s):";
             // 
-            // saveButton
+            // addNewAppointmentButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(407, 476);
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(100, 37);
-            this.saveButton.TabIndex = 8;
-            this.saveButton.Text = "Save";
-            this.saveButton.UseVisualStyleBackColor = true;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            this.addNewAppointmentButton.Location = new System.Drawing.Point(407, 476);
+            this.addNewAppointmentButton.Name = "addNewAppointmentButton";
+            this.addNewAppointmentButton.Size = new System.Drawing.Size(100, 37);
+            this.addNewAppointmentButton.TabIndex = 8;
+            this.addNewAppointmentButton.Text = "Add New";
+            this.addNewAppointmentButton.UseVisualStyleBackColor = true;
+            this.addNewAppointmentButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // cancelButton
             // 
@@ -128,7 +135,7 @@
             // 
             this.doctorIDComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.doctorIDComboBox.FormattingEnabled = true;
-            this.doctorIDComboBox.Location = new System.Drawing.Point(148, 120);
+            this.doctorIDComboBox.Location = new System.Drawing.Point(186, 161);
             this.doctorIDComboBox.MaxDropDownItems = 20;
             this.doctorIDComboBox.Name = "doctorIDComboBox";
             this.doctorIDComboBox.Size = new System.Drawing.Size(288, 33);
@@ -145,16 +152,78 @@
             this.warningLabel.Text = "Please fill in all required fields.";
             this.warningLabel.Visible = false;
             // 
+            // timeLabel
+            // 
+            this.timeLabel.AutoSize = true;
+            this.timeLabel.Location = new System.Drawing.Point(75, 95);
+            this.timeLabel.Name = "timeLabel";
+            this.timeLabel.Size = new System.Drawing.Size(56, 25);
+            this.timeLabel.TabIndex = 12;
+            this.timeLabel.Text = "Time";
+            // 
+            // timePicker
+            // 
+            this.timePicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.timePicker.Location = new System.Drawing.Point(186, 95);
+            this.timePicker.Name = "timePicker";
+            this.timePicker.ShowUpDown = true;
+            this.timePicker.Size = new System.Drawing.Size(232, 30);
+            this.timePicker.TabIndex = 13;
+            // 
+            // appointmentDataGrid
+            // 
+            this.appointmentDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.appointmentDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.appointmentTime});
+            this.appointmentDataGrid.Location = new System.Drawing.Point(660, 50);
+            this.appointmentDataGrid.Name = "appointmentDataGrid";
+            this.appointmentDataGrid.RowHeadersWidth = 51;
+            this.appointmentDataGrid.RowTemplate.Height = 24;
+            this.appointmentDataGrid.Size = new System.Drawing.Size(273, 480);
+            this.appointmentDataGrid.TabIndex = 14;
+            this.appointmentDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.appointmentDataGrid_CellClick);
+            // 
+            // appointmentTime
+            // 
+            this.appointmentTime.HeaderText = "Date";
+            this.appointmentTime.MinimumWidth = 6;
+            this.appointmentTime.Name = "appointmentTime";
+            this.appointmentTime.ReadOnly = true;
+            this.appointmentTime.Width = 220;
+            // 
+            // nameLabel
+            // 
+            this.nameLabel.AutoSize = true;
+            this.nameLabel.Location = new System.Drawing.Point(655, 13);
+            this.nameLabel.Name = "nameLabel";
+            this.nameLabel.Size = new System.Drawing.Size(0, 25);
+            this.nameLabel.TabIndex = 15;
+            // 
+            // updateButton
+            // 
+            this.updateButton.Location = new System.Drawing.Point(287, 476);
+            this.updateButton.Name = "updateButton";
+            this.updateButton.Size = new System.Drawing.Size(100, 37);
+            this.updateButton.TabIndex = 16;
+            this.updateButton.Text = "Update";
+            this.updateButton.UseVisualStyleBackColor = true;
+            this.updateButton.Click += new System.EventHandler(this.updateButton_Click);
+            // 
             // AppointmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(638, 521);
+            this.ClientSize = new System.Drawing.Size(956, 546);
+            this.Controls.Add(this.updateButton);
+            this.Controls.Add(this.nameLabel);
+            this.Controls.Add(this.appointmentDataGrid);
+            this.Controls.Add(this.timePicker);
+            this.Controls.Add(this.timeLabel);
             this.Controls.Add(this.warningLabel);
             this.Controls.Add(this.doctorIDComboBox);
             this.Controls.Add(this.cancelButton);
-            this.Controls.Add(this.saveButton);
+            this.Controls.Add(this.addNewAppointmentButton);
             this.Controls.Add(this.reasonLabel);
             this.Controls.Add(this.reasonTextBox);
             this.Controls.Add(this.patientIDTextBox);
@@ -167,6 +236,8 @@
             this.Name = "AppointmentForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Appointment Info";
+            this.Load += new System.EventHandler(this.AppointmentForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.appointmentDataGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -181,9 +252,15 @@
         private System.Windows.Forms.Label patientLabel;
         private System.Windows.Forms.TextBox reasonTextBox;
         private System.Windows.Forms.Label reasonLabel;
-        private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.Button addNewAppointmentButton;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.ComboBox doctorIDComboBox;
         private System.Windows.Forms.Label warningLabel;
+        private System.Windows.Forms.Label timeLabel;
+        private System.Windows.Forms.DateTimePicker timePicker;
+        private System.Windows.Forms.DataGridView appointmentDataGrid;
+        private System.Windows.Forms.Label nameLabel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn appointmentTime;
+        private System.Windows.Forms.Button updateButton;
     }
 }

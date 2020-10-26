@@ -32,5 +32,26 @@ namespace CS3230Project.ViewModel
 
             return success;
         }
+
+        public IList<Appointment> GetAppointments(Patient patient)
+        {
+            var appointmentDal = new AppointmentDal();
+
+            var appointments = appointmentDal.GetAppointments(patient);
+
+            return appointments;
+
+        }
+
+        public bool UpdateAppointment(Appointment appointmentToUpdate)
+        {
+            var appointmentDal = new AppointmentDal();
+
+            var success = appointmentDal.UpdateAppointment(appointmentToUpdate);
+
+            return success;
+
+
+        }
     }
 }

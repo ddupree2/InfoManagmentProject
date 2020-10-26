@@ -106,7 +106,7 @@
             // patientLookUpButton
             // 
             this.patientLookUpButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.patientLookUpButton.Location = new System.Drawing.Point(91, 296);
+            this.patientLookUpButton.Location = new System.Drawing.Point(91, 362);
             this.patientLookUpButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.patientLookUpButton.Name = "patientLookUpButton";
             this.patientLookUpButton.Size = new System.Drawing.Size(220, 48);

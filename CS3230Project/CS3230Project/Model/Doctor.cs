@@ -18,5 +18,12 @@ namespace CS3230Project.Model
         {
 
         }
+
+        public bool IsDoctor(string doctorID)
+        {
+            var checker = false || this.DoctorId.Equals(doctorID);
+
+            return checker;
+        }
     }
 }

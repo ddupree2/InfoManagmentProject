@@ -24,8 +24,8 @@ namespace CS3230Project.DAL
                     {
                         
                     
-                        const string insertQuery = "SELECT doctorID FROM doctor WHERE eID = @eID";
-                        using (var cmd = new MySqlCommand(insertQuery, conn))
+                        const string selectQuery = "SELECT doctorID FROM doctor WHERE eID = @eID";
+                        using (var cmd = new MySqlCommand(selectQuery, conn))
                         {
                             cmd.Parameters.Add("@eID", MySqlDbType.VarChar);
                             cmd.Parameters["@eID"].Value = person.EId;
