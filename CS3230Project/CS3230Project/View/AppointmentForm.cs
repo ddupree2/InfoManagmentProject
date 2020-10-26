@@ -37,6 +37,10 @@ namespace CS3230Project.View
             this.setupForCurrentAppointment();
         }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="AppointmentForm" /> class.
+        /// </summary>
+        /// <param name="patient">The patient.</param>
         public AppointmentForm(Patient patient)
         {
             this.InitializeComponent();
@@ -225,7 +229,7 @@ namespace CS3230Project.View
             appointmentToUpdate.DoctorId = this.doctors[doctorIdLocator].DoctorId;
 
             var successfulUpdate = this.appointmentViewModel.UpdateAppointment(appointmentToUpdate);
-            
+
             if (!successfulUpdate)
             {
                 return;

@@ -25,6 +25,7 @@ namespace CS3230Project.View
         {
             this.InitializeComponent();
             this.patientLookupViewModel = new PatientLookupViewModel();
+            this.patientGridView.MultiSelect = false;
         }
 
         #endregion
@@ -47,7 +48,7 @@ namespace CS3230Project.View
 
             if (haveResults)
             {
-                this.loadVisitsAndAppointmentsIntoView();
+
             }
             else
             {
@@ -85,41 +86,6 @@ namespace CS3230Project.View
             return new List<Appointment>();
         }
 
-        private void visitsListBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var selectedVisit = this.visitsListBox.SelectedIndex;
-            selectedVisit = selectedVisit > 0 ? selectedVisit : 0;
-            var visit = this.visits[selectedVisit];
-            var vistForm = new VisitForm(visit);
-            vistForm.Show();
-        }
-
-        private void appointmentsListBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var selectedAppointment = this.appointmentsListBox.SelectedIndex;
-            selectedAppointment = selectedAppointment > 0 ? selectedAppointment : 0;
-            var appointment = this.appointments[selectedAppointment];
-            var appointmentForm = new AppointmentForm(appointment);
-            appointmentForm.Show();
-        }
-
-        private void loadVisitsAndAppointmentsIntoView()
-        {
-            this.appointmentsListBox.Items.Clear();
-            this.visitsListBox.Items.Clear();
-            foreach (var appointment in this.appointments)
-            {
-                this.appointmentsListBox.Items.Add(
-                    $"Date:{appointment.AppointmentDate}  patientID:{appointment.PatientId} doctorID:{appointment.DoctorId}");
-            }
-
-            foreach (var visit in this.visits)
-            {
-                this.visitsListBox.Items.Add(
-                    $"Date:{visit.AppointmentDate}  patientID:{visit.PatientId} nurseID:{visit.NurseId}");
-            }
-        }
-
         private static void showNoResultsMessage(string name, string eventString)
         {
             const string noResultsTitle = "No Results";
@@ -129,5 +95,24 @@ namespace CS3230Project.View
         }
 
         #endregion
+
+        private void patientGridView_DataSourceChanged(object sender, EventArgs e)
+        {
+            if (this.patientGridView.Rows.Count > 1)
+            {
+                this.viewAppointmentsButton.Enabled = true;
+                this.viewAppointmentsButton.Enabled = true;
+            }
+            else
+            {
+                this.viewAppointmentsButton.Enabled = false;
+                this.viewAppointmentsButton.Enabled = false;
+            }
+        }
+
+        private void viewAppointmentsButton_Click(object sender, EventArgs e)
+        {
+            var patientIndex = this.patientGridView.CurrentCell.RowIndex;
+        }
     }
 }

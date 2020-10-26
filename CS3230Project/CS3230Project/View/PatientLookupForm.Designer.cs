@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.appointmentsLabel = new System.Windows.Forms.Label();
-            this.visitsLabel = new System.Windows.Forms.Label();
             this.patientSearchButton = new System.Windows.Forms.Button();
             this.firstNameTextBox = new System.Windows.Forms.TextBox();
             this.firstNameLabel = new System.Windows.Forms.Label();
@@ -38,30 +36,13 @@
             this.dobLabel = new System.Windows.Forms.Label();
             this.dobDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
-            this.appointmentsListBox = new System.Windows.Forms.ListBox();
-            this.visitsListBox = new System.Windows.Forms.ListBox();
             this.enableDOBCeckBox = new System.Windows.Forms.CheckBox();
+            this.patientGridView = new System.Windows.Forms.DataGridView();
+            this.label2 = new System.Windows.Forms.Label();
+            this.viewVisits = new System.Windows.Forms.Button();
+            this.viewAppointmentsButton = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.patientGridView)).BeginInit();
             this.SuspendLayout();
-            // 
-            // appointmentsLabel
-            // 
-            this.appointmentsLabel.AutoSize = true;
-            this.appointmentsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.appointmentsLabel.Location = new System.Drawing.Point(12, 178);
-            this.appointmentsLabel.Name = "appointmentsLabel";
-            this.appointmentsLabel.Size = new System.Drawing.Size(112, 20);
-            this.appointmentsLabel.TabIndex = 2;
-            this.appointmentsLabel.Text = "Appointments:";
-            // 
-            // visitsLabel
-            // 
-            this.visitsLabel.AutoSize = true;
-            this.visitsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.visitsLabel.Location = new System.Drawing.Point(12, 472);
-            this.visitsLabel.Name = "visitsLabel";
-            this.visitsLabel.Size = new System.Drawing.Size(51, 20);
-            this.visitsLabel.TabIndex = 3;
-            this.visitsLabel.Text = "Visits:";
             // 
             // patientSearchButton
             // 
@@ -141,28 +122,6 @@
             this.label1.TabIndex = 11;
             this.label1.Text = "And/Or";
             // 
-            // appointmentsListBox
-            // 
-            this.appointmentsListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.appointmentsListBox.FormattingEnabled = true;
-            this.appointmentsListBox.ItemHeight = 20;
-            this.appointmentsListBox.Location = new System.Drawing.Point(12, 201);
-            this.appointmentsListBox.Name = "appointmentsListBox";
-            this.appointmentsListBox.Size = new System.Drawing.Size(668, 264);
-            this.appointmentsListBox.TabIndex = 6;
-            this.appointmentsListBox.SelectedIndexChanged += new System.EventHandler(this.appointmentsListBox_SelectedIndexChanged);
-            // 
-            // visitsListBox
-            // 
-            this.visitsListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.visitsListBox.FormattingEnabled = true;
-            this.visitsListBox.ItemHeight = 20;
-            this.visitsListBox.Location = new System.Drawing.Point(12, 495);
-            this.visitsListBox.Name = "visitsListBox";
-            this.visitsListBox.Size = new System.Drawing.Size(668, 264);
-            this.visitsListBox.TabIndex = 7;
-            this.visitsListBox.SelectedIndexChanged += new System.EventHandler(this.visitsListBox_SelectedIndexChanged);
-            // 
             // enableDOBCeckBox
             // 
             this.enableDOBCeckBox.AutoSize = true;
@@ -174,14 +133,58 @@
             this.enableDOBCeckBox.Text = "Enable DOB Search";
             this.enableDOBCeckBox.UseVisualStyleBackColor = true;
             // 
+            // patientGridView
+            // 
+            this.patientGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.patientGridView.Location = new System.Drawing.Point(12, 245);
+            this.patientGridView.Name = "patientGridView";
+            this.patientGridView.Size = new System.Drawing.Size(675, 461);
+            this.patientGridView.TabIndex = 12;
+            this.patientGridView.DataSourceChanged += new System.EventHandler(this.patientGridView_DataSourceChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(12, 222);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(71, 20);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Patients:";
+            // 
+            // viewVisits
+            // 
+            this.viewVisits.Enabled = false;
+            this.viewVisits.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.viewVisits.Location = new System.Drawing.Point(127, 723);
+            this.viewVisits.Name = "viewVisits";
+            this.viewVisits.Size = new System.Drawing.Size(176, 39);
+            this.viewVisits.TabIndex = 14;
+            this.viewVisits.Text = "View Visits";
+            this.viewVisits.UseVisualStyleBackColor = true;
+            // 
+            // viewAppointmentsButton
+            // 
+            this.viewAppointmentsButton.Enabled = false;
+            this.viewAppointmentsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.viewAppointmentsButton.Location = new System.Drawing.Point(404, 723);
+            this.viewAppointmentsButton.Name = "viewAppointmentsButton";
+            this.viewAppointmentsButton.Size = new System.Drawing.Size(176, 39);
+            this.viewAppointmentsButton.TabIndex = 15;
+            this.viewAppointmentsButton.Text = "View Appointments";
+            this.viewAppointmentsButton.UseVisualStyleBackColor = true;
+            this.viewAppointmentsButton.Click += new System.EventHandler(this.viewAppointmentsButton_Click);
+            // 
             // PatientLookupForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(699, 774);
+            this.Controls.Add(this.viewAppointmentsButton);
+            this.Controls.Add(this.viewVisits);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.patientGridView);
             this.Controls.Add(this.enableDOBCeckBox);
-            this.Controls.Add(this.visitsListBox);
-            this.Controls.Add(this.appointmentsListBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dobDateTimePicker);
             this.Controls.Add(this.dobLabel);
@@ -190,19 +193,16 @@
             this.Controls.Add(this.firstNameLabel);
             this.Controls.Add(this.firstNameTextBox);
             this.Controls.Add(this.patientSearchButton);
-            this.Controls.Add(this.visitsLabel);
-            this.Controls.Add(this.appointmentsLabel);
             this.Name = "PatientLookupForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Patient Lookup";
+            ((System.ComponentModel.ISupportInitialize)(this.patientGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Label appointmentsLabel;
-        private System.Windows.Forms.Label visitsLabel;
         private System.Windows.Forms.Button patientSearchButton;
         private System.Windows.Forms.TextBox firstNameTextBox;
         private System.Windows.Forms.Label firstNameLabel;
@@ -211,8 +211,10 @@
         private System.Windows.Forms.Label dobLabel;
         private System.Windows.Forms.DateTimePicker dobDateTimePicker;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ListBox appointmentsListBox;
-        private System.Windows.Forms.ListBox visitsListBox;
         private System.Windows.Forms.CheckBox enableDOBCeckBox;
+        private System.Windows.Forms.DataGridView patientGridView;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button viewVisits;
+        private System.Windows.Forms.Button viewAppointmentsButton;
     }
 }
