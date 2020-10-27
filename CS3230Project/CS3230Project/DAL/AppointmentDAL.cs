@@ -144,5 +144,53 @@ namespace CS3230Project.DAL
                 throw new ArgumentException(ex.Message);
             }
         }
+
+        public void RetrieveDoctorAppointments(IList<Doctor> doctors)
+        {
+            try
+            {
+                var conn = DbConnection.GetConnection();
+                using (conn)
+                {
+                    conn.Open();
+
+                    foreach (var doctor in doctors)
+                    {
+
+
+                        const string selectQuery = "SELECT appointmentdate FROM appointment WHERE doctorID = @doctorID";
+                        
+                        using (var cmd = new MySqlCommand(selectQuery, conn))
+                        {
+
+                            cmd.Parameters.Add("@doctorID", MySqlDbType.VarChar);
+                            cmd.Parameters["@doctorID"].Value = doctor.DoctorId;
+
+                            using (var reader = cmd.ExecuteReader())
+                            {
+                                var appointmentDateOrdinal = reader.GetOrdinal("appointmentdate");
+
+                                while (reader.Read())
+                                {
+
+                                    var dateTime = reader[appointmentDateOrdinal] == DBNull.Value ? DateTime.Now : reader.GetDateTime(appointmentDateOrdinal);
+                                    
+                                    doctor.Appointments.Add(dateTime);
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+            }
+            catch (MySqlException mex)
+            {
+                throw new ArgumentException(mex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
+        }
     }
 }

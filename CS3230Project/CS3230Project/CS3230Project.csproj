@@ -154,6 +154,7 @@
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\PatientLookupViewModel.cs" />
     <Compile Include="ViewModel\RegistrationViewModel.cs" />
+    <Compile Include="View\Times.cs" />
     <Compile Include="View\VisitForm.cs">
       <SubType>Form</SubType>
     </Compile>

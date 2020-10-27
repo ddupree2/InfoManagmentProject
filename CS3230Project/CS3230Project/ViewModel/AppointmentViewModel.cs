@@ -68,6 +68,13 @@ namespace CS3230Project.ViewModel
             return success;
         }
 
+        public void RetrieveDoctorsAppointments(IList<Doctor> doctors)
+        {
+            var appointmentDal = new AppointmentDal();
+
+            appointmentDal.RetrieveDoctorAppointments(doctors);
+        }
+
         #endregion
     }
 }

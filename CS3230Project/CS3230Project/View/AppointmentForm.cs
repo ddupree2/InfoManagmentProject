@@ -5,8 +5,10 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using CS3230Project.Model;
+using CS3230Project.View;
 using CS3230Project.ViewModel;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Asn1.Cms;
 
 namespace CS3230Project
 {
@@ -34,12 +36,17 @@ namespace CS3230Project
             this.setupForCurrentAppointment();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppointmentForm"/> class.
+        /// </summary>
+        /// <param name="patient">The patient.</param>
         public AppointmentForm(Patient patient)
         {
             this.InitializeComponent();
 
             this.patient = patient;
             this.doctors = this.appointmentViewModel.RetrieveDoctors();
+            this.appointmentViewModel.RetrieveDoctorsAppointments(this.doctors);
             this.addDoctorsToComboBox();
             this.addPatientToPatientField();
             this.fillAppointmentInfo();
@@ -131,9 +138,9 @@ namespace CS3230Project
             var doctorId = this.doctors[doctorIdLocator].DoctorId;
             var patientId = this.patient.PatientId.ToString();
             var appointmentDate = this.appointmentDateTimePicker.Value.Date;
-            var time = this.timePicker.Value.TimeOfDay;
+            var time = this.timeComboBox.Text;
 
-            var dateAndTimeString = appointmentDate.ToShortDateString() + " " + time.ToString();
+            var dateAndTimeString = appointmentDate.ToShortDateString() + " " + time;
             var dateAndTime = DateTime.Parse(dateAndTimeString);
 
 
@@ -143,7 +150,8 @@ namespace CS3230Project
             var successfulRegistration = false;
             try
             {
-                successfulRegistration = appointmentViewModel.UpdateAppointment(appointment);
+                successfulRegistration = appointmentViewModel.RegisterAppointment(appointment);
+                this.appointmentViewModel.RetrieveDoctorsAppointments(this.doctors);
             }
             catch (MySqlException)
             {
@@ -158,7 +166,15 @@ namespace CS3230Project
                 showSuccessfulRegisterMessage(registered);
                 this.fillAppointmentInfo();
                 this.turnLabelsBack();
+                this.emptyForm();
             }
+        }
+
+        private void emptyForm()
+        {
+            this.timeComboBox.SelectedItem = null;
+            this.reasonTextBox.Text = string.Empty;
+            this.doctorIDComboBox.SelectedItem = null;
         }
 
         private  void showSuccessfulRegisterMessage(string registered)
@@ -222,7 +238,7 @@ namespace CS3230Project
         private bool checkIfFieldsAreNull()
         {
             var checker = this.doctorIDComboBox.Text == string.Empty || this.appointmentDateTimePicker.Text == string.Empty ||
-                          this.reasonTextBox.Text == string.Empty || this.timePicker.Text == string.Empty;
+                          this.reasonTextBox.Text == string.Empty || this.timeComboBox.Text == string.Empty;
 
             return checker;
         }
@@ -263,6 +279,8 @@ namespace CS3230Project
                  MessageBox.Show(@"Appointment Updated");
                  this.fillAppointmentInfo();
                  this.appointmentDataGrid.ClearSelection();
+                 this.appointmentViewModel.RetrieveDoctorsAppointments(this.doctors);
+                 this.emptyForm();
             }
 
         }
@@ -290,13 +308,13 @@ namespace CS3230Project
                 this.reasonTextBox.Text = string.Empty;
                 this.doctorIDComboBox.Text = string.Empty;
                 
-                this.timePicker.Enabled = true;
+                this.timeComboBox.Enabled = true;
                 this.appointmentDateTimePicker.Enabled = true;
 
                 this.reasonTextBox.Enabled = true;
                 this.doctorIDComboBox.Enabled = true;
                 this.appointmentDateTimePicker.Enabled = true;
-                this.timePicker.Enabled = true;
+                this.timeComboBox.Enabled = true;
                 this.appointmentTimePassedLabel.Visible = false;
             }
             else
@@ -309,10 +327,10 @@ namespace CS3230Project
                 
                 this.doctorIDComboBox.Text = doctorName;
                 this.appointmentDateTimePicker.Text = this.appointments[cell].AppointmentDate.ToShortDateString();
-                this.timePicker.Text = this.appointments[cell].AppointmentDate.ToShortTimeString();
+                this.timeComboBox.Text = this.appointments[cell].AppointmentDate.ToShortTimeString();
                 this.checkIfAppointmentHasPassed(this.appointments[cell].AppointmentDate);
                 
-                this.timePicker.Enabled = false;
+                this.timeComboBox.Enabled = false;
                 this.appointmentDateTimePicker.Enabled = false;
             }
         }
@@ -350,6 +368,46 @@ namespace CS3230Project
             }
 
             return doctorName;
+        }
+
+
+        private void doctorIDComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.doctorIDComboBox.SelectedIndex >= 0)
+            {
+                this.updateTimeComboBox();
+            }
+        }
+
+        private void updateTimeComboBox()
+        {
+            this.timeComboBox.Items.Clear();
+            this.timeComboBox.Text = string.Empty;
+            var selectedDate = this.appointmentDateTimePicker.Value.Date;
+
+            var timeSlots = new Times(this.doctors[this.doctorIDComboBox.SelectedIndex], selectedDate);
+
+            foreach (var time in timeSlots.times)
+            {
+                this.timeComboBox.Items.Add(time);
+            }
+
+            if (this.timeComboBox.Items.Count > 0)
+            {
+                this.timeComboBox.Enabled = true;
+            }
+            else
+            {
+                this.timeComboBox.Enabled = false;
+            }
+        }
+
+        private void appointmentDateTimePicker_Leave(object sender, EventArgs e)
+        {
+            if (this.doctorIDComboBox.SelectedIndex >= 0)
+            {
+                this.updateTimeComboBox();
+            }
         }
     }
 }

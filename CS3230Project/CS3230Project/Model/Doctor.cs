@@ -12,6 +12,8 @@ namespace CS3230Project.Model
         public string DoctorId;
 
         public Employee Employee;
+
+        public IList<DateTime> Appointments = new List<DateTime>();
     
 
         public Doctor()
