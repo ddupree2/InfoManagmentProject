@@ -135,9 +135,12 @@
             // 
             // patientGridView
             // 
+            this.patientGridView.AllowUserToAddRows = false;
+            this.patientGridView.AllowUserToDeleteRows = false;
             this.patientGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.patientGridView.Location = new System.Drawing.Point(12, 245);
             this.patientGridView.Name = "patientGridView";
+            this.patientGridView.ReadOnly = true;
             this.patientGridView.Size = new System.Drawing.Size(675, 461);
             this.patientGridView.TabIndex = 12;
             this.patientGridView.DataSourceChanged += new System.EventHandler(this.patientGridView_DataSourceChanged);
@@ -162,6 +165,7 @@
             this.viewVisits.TabIndex = 14;
             this.viewVisits.Text = "View Visits";
             this.viewVisits.UseVisualStyleBackColor = true;
+            this.viewVisits.Click += new System.EventHandler(this.viewVisits_Click);
             // 
             // viewAppointmentsButton
             // 

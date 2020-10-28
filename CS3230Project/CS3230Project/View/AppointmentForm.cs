@@ -1,32 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using CS3230Project.Model;
-using CS3230Project.View;
 using CS3230Project.ViewModel;
 using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Asn1.Cms;
 
-namespace CS3230Project
+namespace CS3230Project.View
 {
+    /// <summary>
+    ///     Visual representation of an appointment form
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class AppointmentForm : Form
     {
+        #region Data members
 
-        private Appointment appointment;
+        private readonly Appointment appointment;
 
-        private AppointmentViewModel appointmentViewModel = new AppointmentViewModel();
+        private readonly AppointmentViewModel appointmentViewModel = new AppointmentViewModel();
 
-        private Patient patient;
+        private readonly Patient patient;
 
-        private IList<Doctor> doctors;
+        private readonly IList<Doctor> doctors;
 
         private IList<Appointment> appointments;
-        #region Constructors        
+
+        #endregion
+
+        #region Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="AppointmentForm"/> class.
+        ///     Initializes a new instance of the <see cref="AppointmentForm" /> class.
         /// </summary>
         /// <param name="appointment">The appointment.</param>
         public AppointmentForm(Appointment appointment)
@@ -37,7 +42,7 @@ namespace CS3230Project
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AppointmentForm"/> class.
+        ///     Initializes a new instance of the <see cref="AppointmentForm" /> class.
         /// </summary>
         /// <param name="patient">The patient.</param>
         public AppointmentForm(Patient patient)
@@ -53,9 +58,12 @@ namespace CS3230Project
             this.nameLabel.Text = this.patient.Fname + " " + this.patient.Lname;
         }
 
+        #endregion
+
+        #region Methods
+
         private void fillAppointmentGrid()
         {
-
             this.appointmentDataGrid.Rows.Clear();
             this.appointmentDataGrid.Refresh();
 
@@ -65,14 +73,11 @@ namespace CS3230Project
             }
 
             this.appointmentDataGrid.Rows.Add("New Appointment");
-
-
         }
-        
 
         private IList<Appointment> getPatientAppointments()
         {
-            IList<Appointment> appointmentList = this.appointmentViewModel.RetrieveAppointments(this.patient);
+            var appointmentList = this.appointmentViewModel.RetrieveAppointments(this.patient);
             return appointmentList;
         }
 
@@ -84,8 +89,7 @@ namespace CS3230Project
 
         private void addDoctorsToComboBox()
         {
-            
-            foreach (var doctor in doctors)
+            foreach (var doctor in this.doctors)
             {
                 var doctorName = doctor.Employee.Fname + " " + doctor.Employee.Lname;
 
@@ -114,14 +118,10 @@ namespace CS3230Project
         private void loadInAppointmentInfo()
         {
             this.appointmentDateTimePicker.Value = this.appointment.AppointmentDate;
-            this.doctorIDComboBox.Text = this.appointment.DoctorId.ToString();
-            this.patientIDTextBox.Text = this.appointment.PatientId.ToString();
+            this.doctorIDComboBox.Text = this.appointment.DoctorId;
+            this.patientIDTextBox.Text = this.appointment.PatientId;
             this.reasonTextBox.Text = this.appointment.Reason;
         }
-
-        #endregion
-
-        #region Methods
 
         private void saveButton_Click(object sender, EventArgs e)
         {
@@ -143,7 +143,6 @@ namespace CS3230Project
             var dateAndTimeString = appointmentDate.ToShortDateString() + " " + time;
             var dateAndTime = DateTime.Parse(dateAndTimeString);
 
-
             var appointment = new Appointment(reason, patientId, doctorId, dateAndTime);
             var appointmentViewModel = new AppointmentViewModel();
 
@@ -155,15 +154,16 @@ namespace CS3230Project
             }
             catch (MySqlException)
             {
-                showFailedRegistrationMessage();
+                this.showFailedRegistrationMessage();
             }
 
-            var doctorName = this.doctors[doctorIdLocator].Employee.Fname + " " + this.doctors[doctorIdLocator].Employee.Lname;
+            var doctorName = this.doctors[doctorIdLocator].Employee.Fname + " " +
+                             this.doctors[doctorIdLocator].Employee.Lname;
             var registered = this.patient.Fname + " " + this.patient.Lname + " is registered to see doctor " +
                              doctorName + "on : " + dateAndTime;
             if (successfulRegistration)
             {
-                showSuccessfulRegisterMessage(registered);
+                this.showSuccessfulRegisterMessage(registered);
                 this.fillAppointmentInfo();
                 this.turnLabelsBack();
                 this.emptyForm();
@@ -177,7 +177,7 @@ namespace CS3230Project
             this.doctorIDComboBox.SelectedItem = null;
         }
 
-        private  void showSuccessfulRegisterMessage(string registered)
+        private void showSuccessfulRegisterMessage(string registered)
         {
             const string issueTitle = "Successful Registration";
             const MessageBoxIcon issueType = MessageBoxIcon.Information;
@@ -196,7 +196,7 @@ namespace CS3230Project
         private void turnLabelsRed()
         {
             var star = "*";
-            
+
             this.appointmentLabel.Text = star + @"Appointment Date:";
             this.appointmentLabel.ForeColor = Color.Red;
 
@@ -237,7 +237,8 @@ namespace CS3230Project
 
         private bool checkIfFieldsAreNull()
         {
-            var checker = this.doctorIDComboBox.Text == string.Empty || this.appointmentDateTimePicker.Text == string.Empty ||
+            var checker = this.doctorIDComboBox.Text == string.Empty ||
+                          this.appointmentDateTimePicker.Text == string.Empty ||
                           this.reasonTextBox.Text == string.Empty || this.timeComboBox.Text == string.Empty;
 
             return checker;
@@ -245,14 +246,11 @@ namespace CS3230Project
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            Hide();
         }
-
-        #endregion
 
         private void updateButton_Click(object sender, EventArgs e)
         {
-           
             var emptyField = this.checkIfFieldsAreNull();
             if (emptyField)
             {
@@ -261,28 +259,27 @@ namespace CS3230Project
             }
 
             var appointmentSelected = this.appointmentDataGrid.CurrentCell.RowIndex;
-             if (appointmentSelected < 0)
-             {
+            if (appointmentSelected < 0)
+            {
                 MessageBox.Show(@"please select an appointment.");
                 return;
-             }
-
-             var appointmentToUpdate = this.appointments[this.appointmentDataGrid.CurrentCell.RowIndex];
-             appointmentToUpdate.Reason = this.reasonTextBox.Text;
-             var doctorIdLocator = this.doctorIDComboBox.SelectedIndex;
-             appointmentToUpdate.DoctorId = this.doctors[doctorIdLocator].DoctorId;
-
-             var successfulUpdate = this.appointmentViewModel.UpdateAppointment(appointmentToUpdate);
-             if (successfulUpdate)
-             {
-                 this.turnLabelsBack();
-                 MessageBox.Show(@"Appointment Updated");
-                 this.fillAppointmentInfo();
-                 this.appointmentDataGrid.ClearSelection();
-                 this.appointmentViewModel.RetrieveDoctorsAppointments(this.doctors);
-                 this.emptyForm();
             }
 
+            var appointmentToUpdate = this.appointments[this.appointmentDataGrid.CurrentCell.RowIndex];
+            appointmentToUpdate.Reason = this.reasonTextBox.Text;
+            var doctorIdLocator = this.doctorIDComboBox.SelectedIndex;
+            appointmentToUpdate.DoctorId = this.doctors[doctorIdLocator].DoctorId;
+
+            var successfulUpdate = this.appointmentViewModel.UpdateAppointment(appointmentToUpdate);
+            if (successfulUpdate)
+            {
+                this.turnLabelsBack();
+                MessageBox.Show(@"Appointment Updated");
+                this.fillAppointmentInfo();
+                this.appointmentDataGrid.ClearSelection();
+                this.appointmentViewModel.RetrieveDoctorsAppointments(this.doctors);
+                this.emptyForm();
+            }
         }
 
         private void AppointmentForm_Load(object sender, EventArgs e)
@@ -304,10 +301,10 @@ namespace CS3230Project
             {
                 this.addNewAppointmentButton.Visible = true;
                 this.updateButton.Visible = false;
-                
+
                 this.reasonTextBox.Text = string.Empty;
                 this.doctorIDComboBox.Text = string.Empty;
-                
+
                 this.timeComboBox.Enabled = true;
                 this.appointmentDateTimePicker.Enabled = true;
 
@@ -321,15 +318,15 @@ namespace CS3230Project
             {
                 this.addNewAppointmentButton.Visible = false;
                 this.reasonTextBox.Text = this.appointments[cell].Reason;
-                
+
                 var doctorId = this.appointments[cell].DoctorId;
                 var doctorName = this.findDoctor(doctorId);
-                
+
                 this.doctorIDComboBox.Text = doctorName;
                 this.appointmentDateTimePicker.Text = this.appointments[cell].AppointmentDate.ToShortDateString();
                 this.timeComboBox.Text = this.appointments[cell].AppointmentDate.ToShortTimeString();
                 this.checkIfAppointmentHasPassed(this.appointments[cell].AppointmentDate);
-                
+
                 this.timeComboBox.Enabled = false;
                 this.appointmentDateTimePicker.Enabled = false;
             }
@@ -351,14 +348,13 @@ namespace CS3230Project
                 this.reasonTextBox.Enabled = true;
                 this.doctorIDComboBox.Enabled = true;
             }
-
         }
 
         private string findDoctor(string doctorID)
         {
             var doctorName = string.Empty;
 
-            foreach (var doctor in doctors)
+            foreach (var doctor in this.doctors)
             {
                 if (doctor.IsDoctor(doctorID))
                 {
@@ -369,7 +365,6 @@ namespace CS3230Project
 
             return doctorName;
         }
-
 
         private void doctorIDComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -409,5 +404,7 @@ namespace CS3230Project
                 this.updateTimeComboBox();
             }
         }
+
+        #endregion
     }
 }

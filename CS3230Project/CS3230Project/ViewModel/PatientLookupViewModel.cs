@@ -86,6 +86,35 @@ namespace CS3230Project.ViewModel
             return visits;
         }
 
+        /// <summary>
+        ///     Retrieves the patients.
+        /// </summary>
+        /// <param name="firstName">The first name.</param>
+        /// <param name="lastName">The last name.</param>
+        /// <param name="dob">The dob.</param>
+        /// <returns></returns>
+        public IList<Patient> RetrievePatients(string firstName, string lastName, DateTime dob)
+        {
+            IList<Patient> visits = new List<Patient>();
+            var missingName = firstName == null || lastName == null;
+            var missingDob = dob == default;
+
+            if (!missingName && !missingDob)
+            {
+                visits = this.patientDal.RetrievePatients(firstName, lastName, dob);
+            }
+            else if (missingName && !missingDob)
+            {
+                visits = this.patientDal.RetrievePatients(dob);
+            }
+            else if (!missingName)
+            {
+                visits = this.patientDal.RetrievePatients(firstName, lastName);
+            }
+
+            return visits;
+        }
+
         #endregion
     }
 }

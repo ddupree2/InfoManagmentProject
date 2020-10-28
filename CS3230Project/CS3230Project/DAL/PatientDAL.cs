@@ -250,6 +250,12 @@ namespace CS3230Project.DAL
             }
         }
 
+        /// <summary>
+        /// Retrieves the patients.
+        /// </summary>
+        /// <param name="firstName">The first name.</param>
+        /// <param name="lastName">The last name.</param>
+        /// <returns></returns>
         public IList<Patient> RetrievePatients(string firstName, string lastName)
         {
             var patients = new List<Patient>();
@@ -274,6 +280,13 @@ namespace CS3230Project.DAL
             }
         }
 
+        /// <summary>
+        /// Retrieves the patients.
+        /// </summary>
+        /// <param name="firstName">The first name.</param>
+        /// <param name="lastName">The last name.</param>
+        /// <param name="dob">The dob.</param>
+        /// <returns></returns>
         public IList<Patient> RetrievePatients(string firstName, string lastName, DateTime dob)
         {
             var patients = new List<Patient>();
