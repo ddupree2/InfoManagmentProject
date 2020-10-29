@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
 using CS3230Project.DAL;
 using CS3230Project.Model;
 
@@ -113,6 +115,57 @@ namespace CS3230Project.ViewModel
             }
 
             return visits;
+        }
+
+        public DataTable RetrievePatientsTable(IList<Patient> patients)
+        {
+            var patientTable = new DataTable();
+            var addressDal = new AddressDal();
+
+            addPatientColumns(patientTable);
+            foreach (var patient in patients)
+            {
+                var patientAddress = addressDal.RetrieveAddress(patient);
+                var patientDataRow = patientTable.NewRow();
+                addPatientRow(patientDataRow, patient, patientAddress, patientTable);
+
+            }
+
+            return patientTable;
+        }
+
+        private static void addPatientColumns(DataTable patientTable)
+        {
+            patientTable.Columns.Add(new DataColumn("Patient ID"));
+            patientTable.Columns.Add(new DataColumn("First Name"));
+            patientTable.Columns.Add(new DataColumn("Last Name"));
+            patientTable.Columns.Add(new DataColumn("SSN"));
+            patientTable.Columns.Add(new DataColumn("Address 1"));
+            patientTable.Columns.Add(new DataColumn("Address 2"));
+            patientTable.Columns.Add(new DataColumn("City"));
+            patientTable.Columns.Add(new DataColumn("State"));
+            patientTable.Columns.Add(new DataColumn("Zip Code"));
+            patientTable.Columns.Add(new DataColumn("Contact #"));
+            patientTable.Columns.Add(new DataColumn("Gender"));
+            patientTable.Columns.Add(new DataColumn("Date of Birth"));
+        }
+
+        private static void addPatientRow(DataRow patientDataRow, Patient patient, Address patientAddress, DataTable patientTable)
+        {
+            patientDataRow["Patient ID"] = patient.PatientId;
+            patientDataRow["First Name"] = patient.Fname;
+            patientDataRow["Last Name"] = patient.Lname;
+            patientDataRow["SSN"] = patient.Ssn;
+            patientDataRow["Address 1"] = patientAddress.Address1;
+            patientDataRow["Address 2"] = patientAddress.Address2;
+            patientDataRow["City"] = patientAddress.City;
+            patientDataRow["State"] = patientAddress.State;
+            patientDataRow["Zip Code"] = patientAddress.Zip;
+            patientDataRow["Contact #"] = patientAddress.ContactNum;
+            patientDataRow["Gender"] = patient.Sex;
+            patientDataRow["Date of Birth"] = patient.DateOfBirth;
+
+            patientTable.Rows.Add(patientDataRow);
         }
 
         #endregion

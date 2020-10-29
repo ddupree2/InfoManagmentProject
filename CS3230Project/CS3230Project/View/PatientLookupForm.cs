@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
@@ -19,8 +18,6 @@ namespace CS3230Project.View
         #region Data members
 
         private readonly PatientLookupViewModel patientLookupViewModel;
-        private IList<Appointment> appointments;
-        private IList<Visit> visits;
         private IList<Patient> patients;
 
         #endregion
@@ -56,7 +53,8 @@ namespace CS3230Project.View
             Debug.WriteLine($"Patients exist? {haveResults} # Patients: {this.patients.Count}");
             if (haveResults)
             {
-                this.patientGridView.DataSource = this.patients;
+                var patientTable = this.patientLookupViewModel.RetrievePatientsTable(this.patients);
+                this.patientGridView.DataSource = patientTable;
                 this.patientGridView.AutoResizeColumns();
             }
             else
@@ -78,36 +76,6 @@ namespace CS3230Project.View
             }
 
             return new List<Patient>();
-        }
-
-        private IList<Visit> retrieveVisits(string firstName, string lastName, DateTime dob)
-        {
-            try
-            {
-                return this.patientLookupViewModel.RetrieveVisits(firstName, lastName, dob);
-            }
-            catch (MySqlException mex)
-            {
-                Debug.WriteLine(mex.Message + Environment.NewLine + mex.StackTrace);
-                showNoResultsMessage($"{firstName} {lastName} {dob}", "visits");
-            }
-
-            return new List<Visit>();
-        }
-
-        private IList<Appointment> retrieveAppointments(string firstName, string lastName, DateTime dob)
-        {
-            try
-            {
-                return this.patientLookupViewModel.RetrieveAppointments(firstName, lastName, dob);
-            }
-            catch (MySqlException mex)
-            {
-                Debug.WriteLine(mex.Message + Environment.NewLine + mex.StackTrace);
-                showNoResultsMessage($"{firstName} {lastName} {dob}", "appointments");
-            }
-
-            return new List<Appointment>();
         }
 
         private static void showNoResultsMessage(string name, string eventString)
@@ -136,6 +104,9 @@ namespace CS3230Project.View
         {
             var patientIndex = this.patientGridView.CurrentCell.RowIndex;
             Debug.WriteLine($"appointments: patient index: {patientIndex}");
+            var patient = this.patients[patientIndex];
+            var appointmentForm = new AppointmentForm(patient);
+            appointmentForm.Show();
         }
 
         private void viewVisits_Click(object sender, EventArgs e)
