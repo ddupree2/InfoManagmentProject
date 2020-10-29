@@ -53,7 +53,7 @@ namespace CS3230Project.DAL
             }
         }
 
-        public bool UpdateAppointment(Appointment appointmentToUpdate)
+        public bool DeleteAppointment(Appointment appointmentToUpdate)
         {
             try
             {
@@ -61,15 +61,10 @@ namespace CS3230Project.DAL
                 using (conn)
                 {
                     conn.Open();
-                    var updateQuery =
-                        "UPDATE `appointment` SET  `reason`= @reason, `doctorID`= @doctorID WHERE `patientID` = @patientID and `appointmentdate` = @appointmentdate;";
-                    using (var cmd = new MySqlCommand(updateQuery, conn))
+                    var deleteQuery =
+                        "DELETE FROM `appointment` WHERE patientID = @patientID and appointmentdate = @appointmentdate;" ;
+                    using (var cmd = new MySqlCommand(deleteQuery, conn))
                     {
-                        cmd.Parameters.Add("@reason", MySqlDbType.VarChar);
-                        cmd.Parameters["@reason"].Value = appointmentToUpdate.Reason;
-
-                        cmd.Parameters.Add("@doctorID", MySqlDbType.VarChar);
-                        cmd.Parameters["@doctorID"].Value = appointmentToUpdate.DoctorId;
 
                         cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
                         cmd.Parameters["@patientID"].Value = appointmentToUpdate.PatientId;

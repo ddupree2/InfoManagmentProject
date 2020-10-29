@@ -46,6 +46,7 @@
             this.updateButton = new System.Windows.Forms.Button();
             this.appointmentTimePassedLabel = new System.Windows.Forms.Label();
             this.timeComboBox = new System.Windows.Forms.ComboBox();
+            this.deleteButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.appointmentDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -213,7 +214,7 @@
             // 
             this.appointmentTimePassedLabel.AutoSize = true;
             this.appointmentTimePassedLabel.ForeColor = System.Drawing.Color.Red;
-            this.appointmentTimePassedLabel.Location = new System.Drawing.Point(75, 482);
+            this.appointmentTimePassedLabel.Location = new System.Drawing.Point(119, 482);
             this.appointmentTimePassedLabel.Name = "appointmentTimePassedLabel";
             this.appointmentTimePassedLabel.Size = new System.Drawing.Size(282, 25);
             this.appointmentTimePassedLabel.TabIndex = 17;
@@ -229,12 +230,24 @@
             this.timeComboBox.Size = new System.Drawing.Size(171, 33);
             this.timeComboBox.TabIndex = 18;
             // 
+            // deleteButton
+            // 
+            this.deleteButton.Location = new System.Drawing.Point(12, 482);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(101, 31);
+            this.deleteButton.TabIndex = 19;
+            this.deleteButton.Text = "Delete";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Visible = false;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
             // AppointmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(956, 546);
+            this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.timeComboBox);
             this.Controls.Add(this.appointmentTimePassedLabel);
             this.Controls.Add(this.updateButton);
@@ -284,5 +297,6 @@
         private System.Windows.Forms.Label appointmentTimePassedLabel;
         private System.Windows.Forms.DataGridViewTextBoxColumn appointmentTime;
         private System.Windows.Forms.ComboBox timeComboBox;
+        private System.Windows.Forms.Button deleteButton;
     }
 }

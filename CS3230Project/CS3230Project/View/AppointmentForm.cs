@@ -50,6 +50,7 @@ namespace CS3230Project.View
             this.InitializeComponent();
 
             this.patient = patient;
+            this.appointments = new List<Appointment>();
             this.doctors = this.appointmentViewModel.RetrieveDoctors();
             this.appointmentViewModel.RetrieveDoctorsAppointments(this.doctors);
             this.addDoctorsToComboBox();
@@ -123,16 +124,8 @@ namespace CS3230Project.View
             this.reasonTextBox.Text = this.appointment.Reason;
         }
 
-        private void saveButton_Click(object sender, EventArgs e)
+        private Appointment createNewAppointment()
         {
-            this.appointmentDataGrid.ClearSelection();
-            var emptyField = this.checkIfFieldsAreNull();
-            if (emptyField)
-            {
-                this.turnLabelsRed();
-                return;
-            }
-
             var reason = this.reasonTextBox.Text;
             var doctorIdLocator = this.doctorIDComboBox.SelectedIndex;
             var doctorId = this.doctors[doctorIdLocator].DoctorId;
@@ -144,12 +137,26 @@ namespace CS3230Project.View
             var dateAndTime = DateTime.Parse(dateAndTimeString);
 
             var appointment = new Appointment(reason, patientId, doctorId, dateAndTime);
+
+            return appointment;
+        }
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            this.appointmentDataGrid.ClearSelection();
+            var emptyField = this.checkIfFieldsAreNull();
+            if (emptyField)
+            {
+                this.turnLabelsRed();
+                return;
+            }
+
+            var newAppointment = this.createNewAppointment();
             var appointmentViewModel = new AppointmentViewModel();
 
             var successfulRegistration = false;
             try
             {
-                successfulRegistration = appointmentViewModel.RegisterAppointment(appointment);
+                successfulRegistration = appointmentViewModel.RegisterAppointment(newAppointment);
                 this.appointmentViewModel.RetrieveDoctorsAppointments(this.doctors);
             }
             catch (MySqlException)
@@ -157,10 +164,10 @@ namespace CS3230Project.View
                 this.showFailedRegistrationMessage();
             }
 
-            var doctorName = this.doctors[doctorIdLocator].Employee.Fname + " " +
-                             this.doctors[doctorIdLocator].Employee.Lname;
+            var doctorName = this.doctors[this.doctorIDComboBox.SelectedIndex].Employee.Fname + " " +
+                             this.doctors[this.doctorIDComboBox.SelectedIndex].Employee.Lname;
             var registered = this.patient.Fname + " " + this.patient.Lname + " is registered to see doctor " +
-                             doctorName + "on : " + dateAndTime;
+                             doctorName + "on : " + newAppointment.AppointmentDate;
             if (successfulRegistration)
             {
                 this.showSuccessfulRegisterMessage(registered);
@@ -265,20 +272,17 @@ namespace CS3230Project.View
                 return;
             }
 
-            var appointmentToUpdate = this.appointments[this.appointmentDataGrid.CurrentCell.RowIndex];
-            appointmentToUpdate.Reason = this.reasonTextBox.Text;
-            var doctorIdLocator = this.doctorIDComboBox.SelectedIndex;
-            appointmentToUpdate.DoctorId = this.doctors[doctorIdLocator].DoctorId;
+            var appointmentToRemove = this.appointments[this.appointmentDataGrid.CurrentCell.RowIndex];
+            var appointmentToAdd = this.createNewAppointment();
 
-            var successfulUpdate = this.appointmentViewModel.UpdateAppointment(appointmentToUpdate);
+            var successfulUpdate = this.appointmentViewModel.UpdateAppointment(appointmentToAdd, appointmentToRemove);
             if (successfulUpdate)
             {
-                this.turnLabelsBack();
                 MessageBox.Show(@"Appointment Updated");
-                this.fillAppointmentInfo();
+                this.refreshAppointmentGrid();
                 this.appointmentDataGrid.ClearSelection();
                 this.appointmentViewModel.RetrieveDoctorsAppointments(this.doctors);
-                this.emptyForm();
+                
             }
         }
 
@@ -289,7 +293,7 @@ namespace CS3230Project.View
 
         private void fillAppointmentInfo()
         {
-            this.appointments = this.getPatientAppointments();
+           this.appointments = this.getPatientAppointments();
             this.fillAppointmentGrid();
         }
 
@@ -299,6 +303,7 @@ namespace CS3230Project.View
             var cell = this.appointmentDataGrid.CurrentCell.RowIndex;
             if (cell >= newAppointmentCell)
             {
+                this.deleteButton.Visible = false;
                 this.addNewAppointmentButton.Visible = true;
                 this.updateButton.Visible = false;
 
@@ -316,6 +321,7 @@ namespace CS3230Project.View
             }
             else
             {
+                this.deleteButton.Visible = true;
                 this.addNewAppointmentButton.Visible = false;
                 this.reasonTextBox.Text = this.appointments[cell].Reason;
 
@@ -327,8 +333,8 @@ namespace CS3230Project.View
                 this.timeComboBox.Text = this.appointments[cell].AppointmentDate.ToShortTimeString();
                 this.checkIfAppointmentHasPassed(this.appointments[cell].AppointmentDate);
 
-                this.timeComboBox.Enabled = false;
-                this.appointmentDateTimePicker.Enabled = false;
+                this.timeComboBox.Enabled = true;
+                this.appointmentDateTimePicker.Enabled = true;
             }
         }
 
@@ -406,5 +412,28 @@ namespace CS3230Project.View
         }
 
         #endregion
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            var appointment = this.appointments[this.appointmentDataGrid.CurrentCell.RowIndex];
+            var success = this.appointmentViewModel.DeleteAppointment(appointment);
+
+            if (success)
+            {
+                MessageBox.Show(@"Appointment Deleted");
+                this.refreshAppointmentGrid();
+            }
+            else
+            {
+                MessageBox.Show(@"Appointment was unable to be deleted");
+            }
+        }
+
+        private void refreshAppointmentGrid()
+        {
+            this.fillAppointmentInfo();
+            this.turnLabelsBack();
+            this.emptyForm();
+        }
     }
 }
