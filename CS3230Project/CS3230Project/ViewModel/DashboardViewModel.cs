@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CS3230Project.DAL;
 using CS3230Project.Model;
 
@@ -56,6 +57,21 @@ namespace CS3230Project.ViewModel
             var address = addressDal.RetrieveAddress(patient);
 
             return address;
+        }
+
+        /// <summary>
+        ///     Determines whether the specified patient has appointments.
+        /// </summary>
+        /// <param name="patient">The patient.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified patient has appointments; otherwise, <c>false</c>.
+        /// </returns>
+        public bool HasAppointments(Patient patient)
+        {
+            var appointmentDal = new AppointmentDal();
+            var appointments = appointmentDal.RetrieveAppointments(patient);
+
+            return appointments.Any();
         }
 
         #endregion

@@ -1,4 +1,8 @@
-﻿using System.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using CS3230Project.DAL;
 using CS3230Project.Model;
 
 namespace CS3230Project.ViewModel
@@ -17,39 +21,32 @@ namespace CS3230Project.ViewModel
         private const string TestCode = "Test Code";
         private const string TestName = "Test Name";
 
-        private readonly Visit visit;
-
-        #endregion
-
-        #region Constructors
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="VisitViewModel" /> class.
-        /// </summary>
-        /// <param name="visit">The visit.</param>
-        public VisitViewModel(Visit visit)
-        {
-            this.visit = visit;
-        }
-
         #endregion
 
         #region Methods
 
         /// <summary>
+        ///     Retrieves the nurses.
+        /// </summary>
+        /// <returns></returns>
+        public IList<Nurse> RetrieveNurses()
+        {
+            var nurseDal = new NurseDal();
+            var nurses = nurseDal.RetrieveNurses();
+            return nurses;
+        }
+
+        /// <summary>
         ///     Retrieves the test results.
         /// </summary>
         /// <returns> data-table containing the test results</returns>
-        public DataTable RetrieveTestResults()
+        public DataTable RetrieveTestResults(Visit visit)
         {
             var testResultsTable = new DataTable();
             addColumns(testResultsTable);
 
-            var testResults = this.visit.TestResults;
-            foreach (var testResult in testResults)
-            {
-                addRowData(testResultsTable, testResult);
-            }
+            var testResults = visit.TestResults;
+            foreach (var testResult in testResults) addRowData(testResultsTable, testResult);
 
             return testResultsTable;
         }
@@ -81,6 +78,29 @@ namespace CS3230Project.ViewModel
             dataRow[TestCode] = testResult.TestCode;
             dataRow[TestName] = testResult.TestName;
             testResultsTable.Rows.Add(dataRow);
+        }
+
+        /// <summary>
+        ///     Retrieves the appointment dates.
+        /// </summary>
+        /// <param name="patient">The patient.</param>
+        /// <returns></returns>
+        public IList<DateTime> RetrieveAppointmentDates(Patient patient)
+        {
+            var allAppointments = new AppointmentViewModel().RetrieveAppointments(patient);
+
+            var appointmentDates = (from appointment in allAppointments
+                where appointment.AppointmentDate.Date <= DateTime.Now
+                select appointment.AppointmentDate).ToList();
+
+            return appointmentDates;
+        }
+
+        public IList<Visit> RetrieveVisits(int patientID, DateTime appointmentDate)
+        {
+            var visitsDal = new VisitsDal();
+            var visits = visitsDal.RetrieveVisits(patientID, appointmentDate);
+            return visits;
         }
 
         #endregion

@@ -1,4 +1,7 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Windows.Forms;
 using CS3230Project.Model;
 using CS3230Project.ViewModel;
@@ -14,7 +17,7 @@ namespace CS3230Project.View
         #region Data members
 
         private readonly VisitViewModel visitViewModel;
-        private readonly Visit visit;
+        private readonly Patient patient;
 
         #endregion
 
@@ -24,11 +27,11 @@ namespace CS3230Project.View
         ///     Initializes a new instance of the <see cref="VisitForm" /> class.
         /// </summary>
         /// <param name="visit">The visit.</param>
-        public VisitForm(Visit visit)
+        public VisitForm(Patient patient)
         {
             this.InitializeComponent();
-            this.visit = visit;
-            this.visitViewModel = new VisitViewModel(visit);
+            this.visitViewModel = new VisitViewModel();
+            this.patient = patient;
             this.setupVistForm();
         }
 
@@ -38,24 +41,50 @@ namespace CS3230Project.View
 
         private void setupVistForm()
         {
-            this.AppointmentDateTimePicker.Value = this.visit.AppointmentDate;
-            this.patientIDTextBox.Text = this.visit.PatientId.ToString();
-            this.nurseIDTextBox.Text = this.visit.NurseId;
-            this.diagnosisTextBox.Text = this.visit.Diagnosis;
-            this.diastolicTextBox.Text = this.visit.DiastolicNum.ToString();
-            this.systolicTextBox.Text = this.visit.SystolicNum.ToString();
-            this.bodyTempTextBox.Text = this.visit.BodyTemp.ToString(CultureInfo.InvariantCulture);
-            this.heartRateTextBox.Text = this.visit.HeartRate.ToString();
-            this.respirationRateTextBox.Text = this.visit.RespirationRate.ToString();
-            this.finalDiagnosisCheckBox.Checked = this.isFinalDiagnosis();
-            this.otherTextBox.Text = this.visit.Other;
+            this.apppointmentComboBox.DataSource = this.visitViewModel.RetrieveAppointmentDates(this.patient);
+            this.apppointmentComboBox.SelectedIndex = 0;
 
-            this.populateTestResultsListView();
+            var nurses = this.visitViewModel.RetrieveNurses();
+            this.nurseComboBox.DataSource = this.getNurseNames(nurses);
+            this.nurseComboBox.SelectedIndex = 0;
+
+            var existingVisit = this.visitViewModel.RetrieveVisits(this.patient.PatientId, (DateTime) this.apppointmentComboBox.SelectedItem).FirstOrDefault();
+            if (existingVisit != null)
+            {
+                fillVisitForm(existingVisit);
+                this.populateTestResultsListView(existingVisit);
+
+            }
+            else
+            {
+                this.patientIDTextBox.Text = this.patient.PatientId.ToString();
+            }
+
+            this.nameTextBox.Text = $@"{this.patient.Fname} {this.patient.Lname}";
         }
 
-        private void populateTestResultsListView()
+        private void fillVisitForm(Visit existingVisit)
         {
-            var testResults = this.visitViewModel.RetrieveTestResults();
+            this.patientIDTextBox.Text = existingVisit.PatientId.ToString();
+            this.diagnosisTextBox.Text = existingVisit.Diagnosis;
+            this.diastolicTextBox.Text = existingVisit.DiastolicNum.ToString();
+            this.systolicTextBox.Text = existingVisit.SystolicNum.ToString();
+            this.bodyTempTextBox.Text = existingVisit.BodyTemp.ToString(CultureInfo.InvariantCulture);
+            this.heartRateTextBox.Text = existingVisit.HeartRate.ToString();
+            this.respirationRateTextBox.Text = existingVisit.RespirationRate.ToString();
+            this.finalDiagnosisCheckBox.Checked = this.isFinalDiagnosis();
+            this.otherTextBox.Text = existingVisit.Other;
+        }
+
+        private IList<string> getNurseNames(IList<Nurse> nurses)
+        {
+            var nurseNames = nurses.Select(nurse => $"{nurse.Fname} {nurse.Lname}").ToList();
+            return nurseNames;
+        }
+
+        private void populateTestResultsListView(Visit existingVisit)
+        {
+            var testResults = this.visitViewModel.RetrieveTestResults(existingVisit);
             this.testResultsGridView.DataSource = testResults;
             this.testResultsGridView.AutoResizeColumns();
         }

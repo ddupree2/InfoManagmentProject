@@ -93,6 +93,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAL\NurseDAL.cs" />
+    <Compile Include="Model\Nurse.cs" />
     <Compile Include="ViewModel\VisitViewModel.cs" />
     <Compile Include="View\AdminQueryForm.cs">
       <SubType>Form</SubType>
