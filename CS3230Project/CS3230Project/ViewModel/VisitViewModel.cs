@@ -22,6 +22,8 @@ namespace CS3230Project.ViewModel
         private const string TestCode = "Test Code";
         private const string TestName = "Test Name";
 
+        private readonly VisitsDal visistDal;
+
         #endregion
 
         #region Properties
@@ -48,8 +50,9 @@ namespace CS3230Project.ViewModel
 
         public VisitViewModel(Patient patient)
         {
-            Nurses = retrieveNurses();
-            AppointmentsDates = retrieveAppointmentDates(patient);
+            this.Nurses = retrieveNurses();
+            this.AppointmentsDates = retrieveAppointmentDates(patient);
+            this.visistDal = new VisitsDal();
         }
 
         #endregion
@@ -70,7 +73,7 @@ namespace CS3230Project.ViewModel
         /// <returns></returns>
         public Nurse RetrieveNurse(string nurseId)
         {
-            return Nurses.FirstOrDefault(nurse => nurse.NurseId.Equals(nurseId));
+            return this.Nurses.FirstOrDefault(nurse => nurse.NurseId.Equals(nurseId));
         }
 
         /// <summary>
@@ -121,7 +124,7 @@ namespace CS3230Project.ViewModel
         ///     Retrieves the appointment dates.
         /// </summary>
         /// <param name="patient">The patient.</param>
-        /// <returns></returns>
+        /// <returns>the IList of appointment dates</returns>
         private static IList<DateTime> retrieveAppointmentDates(Patient patient)
         {
             var allAppointments = new AppointmentViewModel().RetrieveAppointments(patient);
@@ -133,11 +136,46 @@ namespace CS3230Project.ViewModel
             return appointmentDates;
         }
 
+        /// <summary>
+        ///     Retrieves the visits.
+        /// </summary>
+        /// <param name="patientID">The patient identifier.</param>
+        /// <param name="appointmentDate">The appointment date.</param>
+        /// <returns>the IList of visits</returns>
         public IList<Visit> RetrieveVisits(int patientID, DateTime appointmentDate)
         {
             var visitsDal = new VisitsDal();
             var visits = visitsDal.RetrieveVisits(patientID, appointmentDate);
             return visits;
+        }
+
+        /// <summary>
+        ///     Checks if visits exist for the datetime and patientId.
+        /// </summary>
+        /// <param name="patientId">The patient identifier.</param>
+        /// <param name="appointmentDate">The appointment date.</param>
+        /// <returns>true iff a visit exists for the given patient id and appointment date</returns>
+        public bool VisitsExist(int patientId, DateTime appointmentDate)
+        {
+            return this.visistDal.VisitExists(patientId, appointmentDate);
+        }
+
+        /// <summary>
+        ///     Inserts the visit.
+        /// </summary>
+        /// <param name="visit">The visit.</param>
+        public void InsertVisit(Visit visit)
+        {
+            this.visistDal.InsertVisit(visit);
+        }
+
+        /// <summary>
+        ///     Updates the visit.
+        /// </summary>
+        /// <param name="visit">The visit.</param>
+        public void UpdateVisit(Visit visit)
+        {
+            this.visistDal.UpdateVist(visit);
         }
 
         #endregion

@@ -1,10 +1,7 @@
-﻿using CS3230Project.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CS3230Project.Model;
 using MySql.Data.MySqlClient;
 
 namespace CS3230Project.DAL
@@ -15,16 +12,16 @@ namespace CS3230Project.DAL
     public class VisitsDal
     {
         /// <summary>
-        /// Retrieves the visits.
+        ///     Retrieves the visits.
         /// </summary>
-        /// <param name="patientID">The patient identifier.</param>
+        /// <param name="patientID">The visit identifier.</param>
         /// <param name="appointmentDate">The appointment date.</param>
         /// <returns> an IList of visits</returns>
         public IList<Visit> RetrieveVisits(int patientID, DateTime appointmentDate)
         {
             var connection = DbConnection.GetConnection();
             const string patientIdQuery =
-                "SELECT * FROM visit v JOIN patient p ON v.patientID = p.patientID where v.patientID = @patientID and appointmentdate = @appointmentDate";
+                "SELECT * FROM visit v JOIN visit p ON v.patientID = p.patientID where v.patientID = @patientID and v.appointmentdate = @appointmentDate";
 
             using (connection)
             {
@@ -171,6 +168,146 @@ namespace CS3230Project.DAL
 
                     var testResult = new TestResult(testDate, results, appointmentDate, patientId, testCode, testName);
                     testResults.Add(testResult);
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Checks if visits exists for the given visit id and appointment date.
+        /// </summary>
+        /// <param name="patientId">The visit identifier.</param>
+        /// <param name="appointmentDate">The appointment date.</param>
+        /// <returns>true iff a visit exists for the given visit id and appointment date</returns>
+        public bool VisitExists(int patientId, DateTime appointmentDate)
+        {
+            var conn = DbConnection.GetConnection();
+            using (conn)
+            {
+                conn.Open();
+
+                const string visitExistsQuery =
+                    "SELECT patientID, appointmentdate FROM visit WHERE appointmentdate = @appointmentDate AND patientID = @patientID;";
+                using (var cmd = new MySqlCommand(visitExistsQuery, conn))
+                {
+                    cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
+                    cmd.Parameters["@patientID"].Value = patientId.ToString();
+
+                    cmd.Parameters.Add("@appointmentDate", MySqlDbType.DateTime);
+                    cmd.Parameters["@appointmentDate"].Value = appointmentDate;
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        return reader.Read();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Inserts the visit.
+        /// </summary>
+        /// <param name="visit">The visit.</param>
+        /// <returns>true iff the visit is successfully inserted</returns>
+        public bool InsertVisit(Visit visit)
+        {
+            var conn = DbConnection.GetConnection();
+            using (conn)
+            {
+                conn.Open();
+                const string insertQuery =
+                    "INSERT INTO `visit` (`systolicNum`, `diastolicNum`, `heartrate`, `respirationrate`, `bodytemp`, `other`, `nurseID`, `appointmentdate`, `patientID`,`diagnosis`) " +
+                    "VALUES (@systolicNum, @diastolicNum, @heartrate, @respirationrate, @bodytemp, @other, @nurseID, @appointmentDate, @patientID, @diagnosis);";
+                using (var cmd = new MySqlCommand(insertQuery, conn))
+                {
+                    cmd.Parameters.Add("@systolicNum", MySqlDbType.Int32);
+                    cmd.Parameters["@systolicNum"].Value = visit.SystolicNum;
+
+                    cmd.Parameters.Add("@diastolicNum", MySqlDbType.Int32);
+                    cmd.Parameters["@diastolicNum"].Value = visit.DiastolicNum;
+
+                    cmd.Parameters.Add("@heartrate", MySqlDbType.Int32);
+                    cmd.Parameters["@heartrate"].Value = visit.HeartRate;
+
+                    cmd.Parameters.Add("@respirationrate", MySqlDbType.Int32);
+                    cmd.Parameters["@respirationrate"].Value = visit.RespirationRate;
+
+                    cmd.Parameters.Add("@bodytemp", MySqlDbType.Double);
+                    cmd.Parameters["@bodytemp"].Value = visit.BodyTemp;
+
+                    cmd.Parameters.Add("@other", MySqlDbType.VarChar);
+                    cmd.Parameters["@other"].Value = visit.Other;
+
+                    cmd.Parameters.Add("@nurseID", MySqlDbType.VarChar);
+                    cmd.Parameters["@nurseID"].Value = visit.NurseId;
+
+                    cmd.Parameters.Add("@appointmentDate", MySqlDbType.DateTime);
+                    cmd.Parameters["@appointmentDate"].Value = visit.AppointmentDate;
+
+                    cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
+                    cmd.Parameters["@patientID"].Value = visit.PatientId;
+
+                    cmd.Parameters.Add("@diagnosis", MySqlDbType.VarChar);
+                    cmd.Parameters["@diagnosis"].Value = visit.Diagnosis;
+
+                    cmd.ExecuteNonQuery();
+
+                    return true;
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Updates the visit information.
+        /// </summary>
+        /// <param name="visit">The visit.</param>
+        /// <returns>true iff the visit was updated</returns>
+        /// <exception cref="ArgumentException">
+        /// </exception>
+        public bool UpdateVist(Visit visit)
+        {
+            var conn = DbConnection.GetConnection();
+            using (conn)
+            {
+                conn.Open();
+                const string insertQuery =
+                    "UPDATE `visit` SET  `systolicNum`= @systolicNum, `diastolicNum`= @diastolicNum, `heartrate`= @heartrate, `respirationrate`= @respirationrate, " +
+                    "`bodytemp` = @bodytemp, `other` = @other, `nurseID` = @nurseID, `diagnosis` = @diagnosis WHERE `patientID` = @patientID AND `appointmentdate` = @appointmentDate;";
+                
+                using (var cmd = new MySqlCommand(insertQuery, conn))
+                {
+                    cmd.Parameters.Add("@systolicNum", MySqlDbType.Int32);
+                    cmd.Parameters["@systolicNum"].Value = visit.SystolicNum;
+
+                    cmd.Parameters.Add("@diastolicNum", MySqlDbType.Int32);
+                    cmd.Parameters["@diastolicNum"].Value = visit.DiastolicNum;
+
+                    cmd.Parameters.Add("@heartrate", MySqlDbType.Int32);
+                    cmd.Parameters["@heartrate"].Value = visit.HeartRate;
+
+                    cmd.Parameters.Add("@respirationrate", MySqlDbType.Int32);
+                    cmd.Parameters["@respirationrate"].Value = visit.RespirationRate;
+
+                    cmd.Parameters.Add("@bodytemp", MySqlDbType.Double);
+                    cmd.Parameters["@bodytemp"].Value = visit.BodyTemp;
+
+                    cmd.Parameters.Add("@other", MySqlDbType.VarChar);
+                    cmd.Parameters["@other"].Value = visit.Other;
+
+                    cmd.Parameters.Add("@nurseID", MySqlDbType.VarChar);
+                    cmd.Parameters["@nurseID"].Value = visit.NurseId;
+
+                    cmd.Parameters.Add("@appointmentDate", MySqlDbType.DateTime);
+                    cmd.Parameters["@appointmentDate"].Value = visit.AppointmentDate;
+
+                    cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
+                    cmd.Parameters["@patientID"].Value = visit.PatientId;
+
+                    cmd.Parameters.Add("@diagnosis", MySqlDbType.VarChar);
+                    cmd.Parameters["@diagnosis"].Value = visit.Diagnosis;
+
+                    cmd.ExecuteNonQuery();
+
+                    return true;
                 }
             }
         }

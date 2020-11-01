@@ -53,6 +53,14 @@
             this.label9 = new System.Windows.Forms.Label();
             this.nameTextBox = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
+            this.addUpdateButton = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
+            this.requiredFieldsLabel = new System.Windows.Forms.Label();
+            this.systolicEmptyLabel = new System.Windows.Forms.Label();
+            this.diastolicEmptyLabel = new System.Windows.Forms.Label();
+            this.heartRateEmptyLabel = new System.Windows.Forms.Label();
+            this.respirationEmptyLabel = new System.Windows.Forms.Label();
+            this.bodyTempEmptyLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.testResultsGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -120,7 +128,7 @@
             // 
             this.label7.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(98, 553);
+            this.label7.Location = new System.Drawing.Point(98, 550);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(53, 20);
             this.label7.TabIndex = 7;
@@ -130,64 +138,76 @@
             // 
             this.systolicTextBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.systolicTextBox.Location = new System.Drawing.Point(157, 267);
+            this.systolicTextBox.MaxLength = 11;
             this.systolicTextBox.Name = "systolicTextBox";
             this.systolicTextBox.Size = new System.Drawing.Size(274, 26);
-            this.systolicTextBox.TabIndex = 8;
+            this.systolicTextBox.TabIndex = 5;
+            this.systolicTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.systolicTextBox_KeyPress);
             // 
             // diagnosisTextBox
             // 
             this.diagnosisTextBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.diagnosisTextBox.Location = new System.Drawing.Point(157, 607);
+            this.diagnosisTextBox.Location = new System.Drawing.Point(157, 628);
             this.diagnosisTextBox.Multiline = true;
             this.diagnosisTextBox.Name = "diagnosisTextBox";
-            this.diagnosisTextBox.Size = new System.Drawing.Size(274, 73);
-            this.diagnosisTextBox.TabIndex = 9;
+            this.diagnosisTextBox.Size = new System.Drawing.Size(274, 52);
+            this.diagnosisTextBox.TabIndex = 11;
             // 
             // otherTextBox
             // 
             this.otherTextBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.otherTextBox.Location = new System.Drawing.Point(157, 550);
+            this.otherTextBox.MaxLength = 300;
+            this.otherTextBox.Multiline = true;
             this.otherTextBox.Name = "otherTextBox";
-            this.otherTextBox.Size = new System.Drawing.Size(274, 26);
-            this.otherTextBox.TabIndex = 13;
+            this.otherTextBox.Size = new System.Drawing.Size(274, 72);
+            this.otherTextBox.TabIndex = 10;
             // 
             // bodyTempTextBox
             // 
             this.bodyTempTextBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.bodyTempTextBox.Location = new System.Drawing.Point(157, 492);
+            this.bodyTempTextBox.MaxLength = 5;
             this.bodyTempTextBox.Name = "bodyTempTextBox";
             this.bodyTempTextBox.Size = new System.Drawing.Size(274, 26);
-            this.bodyTempTextBox.TabIndex = 14;
+            this.bodyTempTextBox.TabIndex = 9;
+            this.bodyTempTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.bodyTempTextBox_KeyPress);
             // 
             // respirationRateTextBox
             // 
             this.respirationRateTextBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.respirationRateTextBox.Location = new System.Drawing.Point(157, 437);
+            this.respirationRateTextBox.MaxLength = 11;
             this.respirationRateTextBox.Name = "respirationRateTextBox";
             this.respirationRateTextBox.Size = new System.Drawing.Size(274, 26);
-            this.respirationRateTextBox.TabIndex = 15;
+            this.respirationRateTextBox.TabIndex = 8;
+            this.respirationRateTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.respirationRateTextBox_KeyPress);
             // 
             // heartRateTextBox
             // 
             this.heartRateTextBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.heartRateTextBox.Location = new System.Drawing.Point(157, 378);
+            this.heartRateTextBox.MaxLength = 11;
             this.heartRateTextBox.Name = "heartRateTextBox";
             this.heartRateTextBox.Size = new System.Drawing.Size(274, 26);
-            this.heartRateTextBox.TabIndex = 16;
+            this.heartRateTextBox.TabIndex = 7;
+            this.heartRateTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.heartRateTextBox_KeyPress);
             // 
             // diastolicTextBox
             // 
             this.diastolicTextBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.diastolicTextBox.Location = new System.Drawing.Point(157, 322);
+            this.diastolicTextBox.MaxLength = 11;
             this.diastolicTextBox.Name = "diastolicTextBox";
             this.diastolicTextBox.Size = new System.Drawing.Size(274, 26);
-            this.diastolicTextBox.TabIndex = 17;
+            this.diastolicTextBox.TabIndex = 6;
+            this.diastolicTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.diastolicTextBox_KeyPress);
             // 
             // label10
             // 
             this.label10.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(68, 607);
+            this.label10.Location = new System.Drawing.Point(68, 628);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(83, 20);
             this.label10.TabIndex = 20;
@@ -200,7 +220,7 @@
             this.finalDiagnosisCheckBox.Location = new System.Drawing.Point(446, 656);
             this.finalDiagnosisCheckBox.Name = "finalDiagnosisCheckBox";
             this.finalDiagnosisCheckBox.Size = new System.Drawing.Size(136, 24);
-            this.finalDiagnosisCheckBox.TabIndex = 22;
+            this.finalDiagnosisCheckBox.TabIndex = 12;
             this.finalDiagnosisCheckBox.Text = "Final Diagnosis";
             this.finalDiagnosisCheckBox.UseVisualStyleBackColor = true;
             this.finalDiagnosisCheckBox.CheckedChanged += new System.EventHandler(this.finalDiagnosisCheckBox_CheckedChanged);
@@ -231,7 +251,7 @@
             this.patientIDTextBox.Location = new System.Drawing.Point(157, 162);
             this.patientIDTextBox.Name = "patientIDTextBox";
             this.patientIDTextBox.Size = new System.Drawing.Size(274, 26);
-            this.patientIDTextBox.TabIndex = 25;
+            this.patientIDTextBox.TabIndex = 3;
             // 
             // label8
             // 
@@ -249,7 +269,7 @@
             this.nurseComboBox.Location = new System.Drawing.Point(157, 215);
             this.nurseComboBox.Name = "nurseComboBox";
             this.nurseComboBox.Size = new System.Drawing.Size(274, 28);
-            this.nurseComboBox.TabIndex = 29;
+            this.nurseComboBox.TabIndex = 4;
             // 
             // appointmentComboBox
             // 
@@ -257,7 +277,7 @@
             this.appointmentComboBox.Location = new System.Drawing.Point(157, 58);
             this.appointmentComboBox.Name = "appointmentComboBox";
             this.appointmentComboBox.Size = new System.Drawing.Size(274, 28);
-            this.appointmentComboBox.TabIndex = 30;
+            this.appointmentComboBox.TabIndex = 1;
             this.appointmentComboBox.SelectedIndexChanged += new System.EventHandler(this.apppointmentComboBox_SelectedIndexChanged);
             // 
             // label9
@@ -277,7 +297,7 @@
             this.nameTextBox.Location = new System.Drawing.Point(157, 111);
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(274, 26);
-            this.nameTextBox.TabIndex = 31;
+            this.nameTextBox.TabIndex = 2;
             // 
             // label12
             // 
@@ -289,11 +309,109 @@
             this.label12.TabIndex = 33;
             this.label12.Text = "Appointment:";
             // 
+            // addUpdateButton
+            // 
+            this.addUpdateButton.Location = new System.Drawing.Point(882, 697);
+            this.addUpdateButton.Name = "addUpdateButton";
+            this.addUpdateButton.Size = new System.Drawing.Size(155, 38);
+            this.addUpdateButton.TabIndex = 13;
+            this.addUpdateButton.Text = "Add";
+            this.addUpdateButton.UseVisualStyleBackColor = true;
+            this.addUpdateButton.Click += new System.EventHandler(this.addUpdateButton_Click);
+            // 
+            // cancelButton
+            // 
+            this.cancelButton.Location = new System.Drawing.Point(1070, 697);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(155, 38);
+            this.cancelButton.TabIndex = 14;
+            this.cancelButton.Text = "Cancel";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            // 
+            // requiredFieldsLabel
+            // 
+            this.requiredFieldsLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.requiredFieldsLabel.AutoSize = true;
+            this.requiredFieldsLabel.ForeColor = System.Drawing.Color.Red;
+            this.requiredFieldsLabel.Location = new System.Drawing.Point(47, 9);
+            this.requiredFieldsLabel.Name = "requiredFieldsLabel";
+            this.requiredFieldsLabel.Size = new System.Drawing.Size(130, 20);
+            this.requiredFieldsLabel.TabIndex = 34;
+            this.requiredFieldsLabel.Text = "Required Fields *";
+            this.requiredFieldsLabel.Visible = false;
+            // 
+            // systolicEmptyLabel
+            // 
+            this.systolicEmptyLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.systolicEmptyLabel.AutoSize = true;
+            this.systolicEmptyLabel.ForeColor = System.Drawing.Color.Red;
+            this.systolicEmptyLabel.Location = new System.Drawing.Point(61, 267);
+            this.systolicEmptyLabel.Name = "systolicEmptyLabel";
+            this.systolicEmptyLabel.Size = new System.Drawing.Size(15, 20);
+            this.systolicEmptyLabel.TabIndex = 35;
+            this.systolicEmptyLabel.Text = "*";
+            this.systolicEmptyLabel.Visible = false;
+            // 
+            // diastolicEmptyLabel
+            // 
+            this.diastolicEmptyLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.diastolicEmptyLabel.AutoSize = true;
+            this.diastolicEmptyLabel.ForeColor = System.Drawing.Color.Red;
+            this.diastolicEmptyLabel.Location = new System.Drawing.Point(55, 322);
+            this.diastolicEmptyLabel.Name = "diastolicEmptyLabel";
+            this.diastolicEmptyLabel.Size = new System.Drawing.Size(15, 20);
+            this.diastolicEmptyLabel.TabIndex = 36;
+            this.diastolicEmptyLabel.Text = "*";
+            this.diastolicEmptyLabel.Visible = false;
+            // 
+            // heartRateEmptyLabel
+            // 
+            this.heartRateEmptyLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.heartRateEmptyLabel.AutoSize = true;
+            this.heartRateEmptyLabel.ForeColor = System.Drawing.Color.Red;
+            this.heartRateEmptyLabel.Location = new System.Drawing.Point(47, 378);
+            this.heartRateEmptyLabel.Name = "heartRateEmptyLabel";
+            this.heartRateEmptyLabel.Size = new System.Drawing.Size(15, 20);
+            this.heartRateEmptyLabel.TabIndex = 37;
+            this.heartRateEmptyLabel.Text = "*";
+            this.heartRateEmptyLabel.Visible = false;
+            // 
+            // respirationEmptyLabel
+            // 
+            this.respirationEmptyLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.respirationEmptyLabel.AutoSize = true;
+            this.respirationEmptyLabel.ForeColor = System.Drawing.Color.Red;
+            this.respirationEmptyLabel.Location = new System.Drawing.Point(8, 436);
+            this.respirationEmptyLabel.Name = "respirationEmptyLabel";
+            this.respirationEmptyLabel.Size = new System.Drawing.Size(15, 20);
+            this.respirationEmptyLabel.TabIndex = 38;
+            this.respirationEmptyLabel.Text = "*";
+            this.respirationEmptyLabel.Visible = false;
+            // 
+            // bodyTempEmptyLabel
+            // 
+            this.bodyTempEmptyLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.bodyTempEmptyLabel.AutoSize = true;
+            this.bodyTempEmptyLabel.ForeColor = System.Drawing.Color.Red;
+            this.bodyTempEmptyLabel.Location = new System.Drawing.Point(47, 492);
+            this.bodyTempEmptyLabel.Name = "bodyTempEmptyLabel";
+            this.bodyTempEmptyLabel.Size = new System.Drawing.Size(15, 20);
+            this.bodyTempEmptyLabel.TabIndex = 39;
+            this.bodyTempEmptyLabel.Text = "*";
+            this.bodyTempEmptyLabel.Visible = false;
+            // 
             // VisitForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1237, 747);
+            this.Controls.Add(this.bodyTempEmptyLabel);
+            this.Controls.Add(this.heartRateEmptyLabel);
+            this.Controls.Add(this.systolicEmptyLabel);
+            this.Controls.Add(this.requiredFieldsLabel);
+            this.Controls.Add(this.cancelButton);
+            this.Controls.Add(this.addUpdateButton);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.nameTextBox);
@@ -319,6 +437,8 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.diastolicEmptyLabel);
+            this.Controls.Add(this.respirationEmptyLabel);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "VisitForm";
@@ -356,5 +476,13 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox nameTextBox;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button addUpdateButton;
+        private System.Windows.Forms.Button cancelButton;
+        private System.Windows.Forms.Label requiredFieldsLabel;
+        private System.Windows.Forms.Label systolicEmptyLabel;
+        private System.Windows.Forms.Label diastolicEmptyLabel;
+        private System.Windows.Forms.Label heartRateEmptyLabel;
+        private System.Windows.Forms.Label respirationEmptyLabel;
+        private System.Windows.Forms.Label bodyTempEmptyLabel;
     }
 }

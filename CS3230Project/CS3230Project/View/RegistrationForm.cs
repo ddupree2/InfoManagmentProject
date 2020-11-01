@@ -244,6 +244,11 @@ namespace CS3230Project.View
 
         private void ssnTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
+            allowOnlyDigits(e);
+        }
+
+        private static void allowOnlyDigits(KeyPressEventArgs e)
+        {
             if (!(char.IsDigit(e.KeyChar) || e.KeyChar == (char) Keys.Back))
             {
                 e.Handled = true;
@@ -252,18 +257,12 @@ namespace CS3230Project.View
 
         private void zipCodeTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!(char.IsDigit(e.KeyChar) || e.KeyChar == (char) Keys.Back))
-            {
-                e.Handled = true;
-            }
+            allowOnlyDigits(e);
         }
 
         private void contactNumberTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!(char.IsDigit(e.KeyChar) || e.KeyChar == (char) Keys.Back))
-            {
-                e.Handled = true;
-            }
+            allowOnlyDigits(e);
         }
 
         private void firstNameTextBox_Enter(object sender, EventArgs e)
