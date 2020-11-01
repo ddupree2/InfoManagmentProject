@@ -49,7 +49,7 @@
             this.patientIDTextBox = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.nurseComboBox = new System.Windows.Forms.ComboBox();
-            this.apppointmentComboBox = new System.Windows.Forms.ComboBox();
+            this.appointmentComboBox = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.nameTextBox = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -203,6 +203,7 @@
             this.finalDiagnosisCheckBox.TabIndex = 22;
             this.finalDiagnosisCheckBox.Text = "Final Diagnosis";
             this.finalDiagnosisCheckBox.UseVisualStyleBackColor = true;
+            this.finalDiagnosisCheckBox.CheckedChanged += new System.EventHandler(this.finalDiagnosisCheckBox_CheckedChanged);
             // 
             // testResultsGridView
             // 
@@ -250,13 +251,14 @@
             this.nurseComboBox.Size = new System.Drawing.Size(274, 28);
             this.nurseComboBox.TabIndex = 29;
             // 
-            // apppointmentComboBox
+            // appointmentComboBox
             // 
-            this.apppointmentComboBox.FormattingEnabled = true;
-            this.apppointmentComboBox.Location = new System.Drawing.Point(157, 58);
-            this.apppointmentComboBox.Name = "apppointmentComboBox";
-            this.apppointmentComboBox.Size = new System.Drawing.Size(274, 28);
-            this.apppointmentComboBox.TabIndex = 30;
+            this.appointmentComboBox.FormattingEnabled = true;
+            this.appointmentComboBox.Location = new System.Drawing.Point(157, 58);
+            this.appointmentComboBox.Name = "appointmentComboBox";
+            this.appointmentComboBox.Size = new System.Drawing.Size(274, 28);
+            this.appointmentComboBox.TabIndex = 30;
+            this.appointmentComboBox.SelectedIndexChanged += new System.EventHandler(this.apppointmentComboBox_SelectedIndexChanged);
             // 
             // label9
             // 
@@ -295,7 +297,7 @@
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.nameTextBox);
-            this.Controls.Add(this.apppointmentComboBox);
+            this.Controls.Add(this.appointmentComboBox);
             this.Controls.Add(this.nurseComboBox);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label11);
@@ -350,7 +352,7 @@
         private System.Windows.Forms.TextBox patientIDTextBox;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox nurseComboBox;
-        private System.Windows.Forms.ComboBox apppointmentComboBox;
+        private System.Windows.Forms.ComboBox appointmentComboBox;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox nameTextBox;
         private System.Windows.Forms.Label label12;

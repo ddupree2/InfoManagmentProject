@@ -12,6 +12,7 @@ namespace CS3230Project.ViewModel
     /// </summary>
     public class VisitViewModel
     {
+
         #region Data members
 
         private const string TestDate = "Test Date";
@@ -23,17 +24,53 @@ namespace CS3230Project.ViewModel
 
         #endregion
 
-        #region Methods
+        #region Properties
 
         /// <summary>
-        ///     Retrieves the nurses.
+        ///     Gets or sets the nurses.
         /// </summary>
-        /// <returns></returns>
-        public IList<Nurse> RetrieveNurses()
+        /// <value>
+        ///     The nurses.
+        /// </value>
+        public IList<Nurse> Nurses { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the appointments dates.
+        /// </summary>
+        /// <value>
+        ///     The appointments dates.
+        /// </value>
+        public IList<DateTime> AppointmentsDates { get; set; }
+
+        #endregion
+
+        #region Constructors
+
+        public VisitViewModel(Patient patient)
+        {
+            Nurses = retrieveNurses();
+            AppointmentsDates = retrieveAppointmentDates(patient);
+        }
+
+        #endregion
+
+        #region Methods
+
+        private static IList<Nurse> retrieveNurses()
         {
             var nurseDal = new NurseDal();
             var nurses = nurseDal.RetrieveNurses();
             return nurses;
+        }
+
+        /// <summary>
+        ///     Retrieves the nurse.
+        /// </summary>
+        /// <param name="nurseId">The nurse identifier.</param>
+        /// <returns></returns>
+        public Nurse RetrieveNurse(string nurseId)
+        {
+            return Nurses.FirstOrDefault(nurse => nurse.NurseId.Equals(nurseId));
         }
 
         /// <summary>
@@ -85,7 +122,7 @@ namespace CS3230Project.ViewModel
         /// </summary>
         /// <param name="patient">The patient.</param>
         /// <returns></returns>
-        public IList<DateTime> RetrieveAppointmentDates(Patient patient)
+        private static IList<DateTime> retrieveAppointmentDates(Patient patient)
         {
             var allAppointments = new AppointmentViewModel().RetrieveAppointments(patient);
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CS3230Project.DAL;
 using CS3230Project.Model;
@@ -71,7 +72,7 @@ namespace CS3230Project.ViewModel
             var appointmentDal = new AppointmentDal();
             var appointments = appointmentDal.RetrieveAppointments(patient);
 
-            return appointments.Any();
+            return appointments.Any(appointment => appointment.AppointmentDate <= DateTime.Now);
         }
 
         #endregion
