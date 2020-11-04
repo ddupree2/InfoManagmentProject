@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Diagnostics;
 using MySql.Data.MySqlClient;
 
@@ -20,30 +21,36 @@ namespace CS3230Project.DAL
         public bool Authenticate(string employeeId, string password)
         {
             var connection = DbConnection.GetConnection();
-            const string query = "select eID from login where eID = @eID and password = @password";
+            const string command = "login_verifyLogin";
 
             using (connection)
             {
                 connection.Open();
-                return checkCredentials(employeeId, password, query, connection);
+                return checkCredentials(employeeId, password, command, connection);
             }
         }
 
-        private static bool checkCredentials(string employeeId, string password, string query,
+        private static bool checkCredentials(string employeeId, string password, string command,
             MySqlConnection connection)
         {
             var foundEmployeeId = false;
             try
             {
-                using (var cmd = new MySqlCommand(query, connection))
+                using (var cmd = new MySqlCommand(command, connection))
                 {
                     Debug.WriteLine(
-                        $"eID: {employeeId}, isPotentialPassword: {password != null && !password.Equals(string.Empty)}");
-                    cmd.Parameters.Add("@eID", MySqlDbType.VarChar);
-                    cmd.Parameters["@eID"].Value = employeeId;
-                    cmd.Parameters.AddWithValue("@password", password);
+                        $"id: {employeeId}, isPotentialPassword: {password != null && !password.Equals(string.Empty)}");
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@id", MySqlDbType.VarChar);
+                    cmd.Parameters["@id"].Value = employeeId;
+                    cmd.Parameters["@id"].Direction = ParameterDirection.Input;
+                    
+                    cmd.Parameters.AddWithValue("@pass", password);
+                    cmd.Parameters["@pass"].Direction = ParameterDirection.Input;
+
                     var currEmployeeId = cmd.ExecuteScalar();
-                    Debug.WriteLine($"Found eID: {currEmployeeId}");
+                    Debug.WriteLine($"Found id: {currEmployeeId}");
                     foundEmployeeId = currEmployeeId != null;
                 }
             }

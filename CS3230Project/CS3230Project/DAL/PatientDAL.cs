@@ -231,9 +231,9 @@ namespace CS3230Project.DAL
             using (conn)
             {
                 conn.Open();
-                const string insertQuery =
+                const string selectQuery =
                     "SELECT lname, fname, sex, patientID, addressID, ssn, dob FROM patient WHERE fname = @fname and lname = @lname";
-                using (var cmd = new MySqlCommand(insertQuery, conn))
+                using (var cmd = new MySqlCommand(selectQuery, conn))
                 {
                     cmd.Parameters.Add("@lname", MySqlDbType.VarChar);
                     cmd.Parameters["@lname"].Value = lastName;
