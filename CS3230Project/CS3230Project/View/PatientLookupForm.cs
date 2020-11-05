@@ -61,6 +61,14 @@ namespace CS3230Project.View
             {
                 showNoResultsMessage($"{firstName} {lastName} {dob}", "patients");
             }
+
+            this.resetForm();
+        }
+
+        private void resetForm()
+        {
+            this.firstNameTextBox.Text = string.Empty;
+            this.lastNameTextBox.Text = string.Empty;
         }
 
         private IList<Patient> retrievePatients(string firstName, string lastName, DateTime dob)
