@@ -39,7 +39,7 @@
             this.enableDOBCeckBox = new System.Windows.Forms.CheckBox();
             this.patientGridView = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
-            this.viewVisits = new System.Windows.Forms.Button();
+            this.viewVisitsButton = new System.Windows.Forms.Button();
             this.viewAppointmentsButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.patientGridView)).BeginInit();
             this.SuspendLayout();
@@ -155,17 +155,17 @@
             this.label2.TabIndex = 13;
             this.label2.Text = "Patients:";
             // 
-            // viewVisits
+            // viewVisitsButton
             // 
-            this.viewVisits.Enabled = false;
-            this.viewVisits.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.viewVisits.Location = new System.Drawing.Point(127, 723);
-            this.viewVisits.Name = "viewVisits";
-            this.viewVisits.Size = new System.Drawing.Size(176, 39);
-            this.viewVisits.TabIndex = 14;
-            this.viewVisits.Text = "View Visits";
-            this.viewVisits.UseVisualStyleBackColor = true;
-            this.viewVisits.Click += new System.EventHandler(this.viewVisits_Click);
+            this.viewVisitsButton.Enabled = false;
+            this.viewVisitsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.viewVisitsButton.Location = new System.Drawing.Point(127, 723);
+            this.viewVisitsButton.Name = "viewVisitsButton";
+            this.viewVisitsButton.Size = new System.Drawing.Size(176, 39);
+            this.viewVisitsButton.TabIndex = 14;
+            this.viewVisitsButton.Text = "View Visits";
+            this.viewVisitsButton.UseVisualStyleBackColor = true;
+            this.viewVisitsButton.Click += new System.EventHandler(this.viewVisits_Click);
             // 
             // viewAppointmentsButton
             // 
@@ -185,7 +185,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(699, 774);
             this.Controls.Add(this.viewAppointmentsButton);
-            this.Controls.Add(this.viewVisits);
+            this.Controls.Add(this.viewVisitsButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.patientGridView);
             this.Controls.Add(this.enableDOBCeckBox);
@@ -218,7 +218,7 @@
         private System.Windows.Forms.CheckBox enableDOBCeckBox;
         private System.Windows.Forms.DataGridView patientGridView;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button viewVisits;
+        private System.Windows.Forms.Button viewVisitsButton;
         private System.Windows.Forms.Button viewAppointmentsButton;
     }
 }
