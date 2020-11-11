@@ -82,6 +82,19 @@ namespace CS3230Project.ViewModel
             return success;
         }
 
+        /// <summary>
+        /// Determines whether the specified patient has appointment.
+        /// </summary>
+        /// <param name="patient">The patient.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified patient has appointment; otherwise, <c>false</c>.
+        /// </returns>
+        public bool HasAppointment(Patient patient)
+        {
+            var appointmentDal = new AppointmentDal();
+            return appointmentDal.HasAppointment(patient);
+        }
+
         public void RetrieveDoctorsAppointments(IList<Doctor> doctors)
         {
             var appointmentDal = new AppointmentDal();

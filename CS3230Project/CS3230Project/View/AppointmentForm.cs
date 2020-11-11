@@ -338,7 +338,6 @@ namespace CS3230Project.View
             }
             else
             {
-                deleteButton.Visible = true;
                 addNewAppointmentButton.Visible = false;
                 reasonTextBox.Text = appointments[cell].Reason;
 
@@ -349,9 +348,25 @@ namespace CS3230Project.View
                 appointmentDateTimePicker.Text = appointments[cell].AppointmentDate.ToShortDateString();
                 timeComboBox.Text = appointments[cell].AppointmentDate.ToShortTimeString();
                 checkIfAppointmentHasPassed(appointments[cell].AppointmentDate);
-
+                this.checkIfCanBeDeleted(this.appointments[cell].AppointmentDate);
                 timeComboBox.Enabled = true;
                 appointmentDateTimePicker.Enabled = true;
+            }
+        }
+
+        private void checkIfCanBeDeleted(DateTime date)
+        {
+            try
+            {
+                var visits = new VisitViewModel(this.patient);
+                if (!visits.VisitsExist(this.patient.PatientId, date))
+                {
+                    this.deleteButton.Visible = true;
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.ToString());
             }
         }
 

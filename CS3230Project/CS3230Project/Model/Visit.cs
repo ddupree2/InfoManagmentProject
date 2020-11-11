@@ -154,10 +154,6 @@ namespace CS3230Project.Model
             this.TestResults = new List<TestResult>();
         }
 
-        public int convertFinalDiagnosisForDatabaseStorage()
-        {
-            return this.FinalDiagnosis == false ? 0 : 1;
-        }
 
         #endregion
     }

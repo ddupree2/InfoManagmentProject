@@ -46,10 +46,10 @@ namespace CS3230Project.View
         public RegistrationForm(Patient patient, Address address)
         {
             this.InitializeComponent();
-            this.showUpdateButtons();
             this.patient = patient;
             this.address = address;
             this.filledForm();
+            this.showUpdateButtons();
             this.registrationViewmodel = new RegistrationViewModel();
         }
 
@@ -63,8 +63,29 @@ namespace CS3230Project.View
             this.RegisterButton.Enabled = false;
             this.updateButton.Visible = true;
             this.updateButton.Enabled = true;
-            this.deleteButton.Visible = true;
-            this.deleteButton.Enabled = true;
+            this.checkIfCanBeDeleted();
+        }
+
+        private void checkIfCanBeDeleted()
+        {
+            try
+            {
+                var appointments = new AppointmentViewModel();
+                if (!appointments.HasAppointment(this.patient))
+                {
+                    this.deleteButton.Visible = true;
+                    this.deleteButton.Enabled = true;
+                }
+                else
+                {
+                    this.deleteButton.Enabled = false;
+                    this.deleteButton.Visible = false;
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void RegisterButton_Click(object sender, EventArgs e)

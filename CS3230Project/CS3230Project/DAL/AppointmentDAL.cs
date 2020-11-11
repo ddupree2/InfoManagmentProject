@@ -88,6 +88,35 @@ namespace CS3230Project.DAL
             }
         }
 
+        /// <summary>
+        /// Determines whether the specified patient has appointment.
+        /// </summary>
+        /// <param name="patient">The patient.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified patient has appointment; otherwise, <c>false</c>.
+        /// </returns>
+        public bool HasAppointment(Patient patient)
+        { 
+            var conn = DbConnection.GetConnection();
+            using (conn)
+            {
+                conn.Open();
+
+                const string visitExistsQuery =
+                    "SELECT patientID FROM appointment WHERE patientID = @patientID;";
+                using (var cmd = new MySqlCommand(visitExistsQuery, conn))
+                {
+                    cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
+                    cmd.Parameters["@patientID"].Value = patient.PatientId.ToString();
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        return reader.Read();
+                    }
+                }
+            }
+        }
+
         public IList<Appointment> RetrieveAppointments(Patient patient)
         {
             var appointments = new List<Appointment>();
