@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using CS3230Project.Model;
 using CS3230Project.ViewModel;
@@ -62,7 +63,7 @@ namespace CS3230Project.View
             var existingVisit = this.visits.FirstOrDefault();
             if (existingVisit != null)
             {
-                fillVisitForm(existingVisit);
+                this.fillVisitForm(existingVisit);
                 this.populateTestResultsListView(existingVisit);
             }
             else
@@ -91,7 +92,7 @@ namespace CS3230Project.View
 
         private void fillVisitForm(Visit existingVisit)
         {
-            
+            this.checkIfFinalDiagnosisIsPresent(existingVisit);
 
             this.diagnosisTextBox.Text = existingVisit.Diagnosis;
             this.diastolicTextBox.Text = existingVisit.DiastolicNum.ToString();
@@ -102,14 +103,23 @@ namespace CS3230Project.View
             this.otherTextBox.Text = existingVisit.Other;
             this.addUpdateButton.Text = @"Update";
 
-            var isFinalDiagnosis = this.isFinalDiagnosis();
-            this.updateEnableProperties(!isFinalDiagnosis);
-            this.addUpdateButton.Enabled = !isFinalDiagnosis;
-            this.finalDiagnosisCheckBox.Checked = isFinalDiagnosis;
-
             var nurse = this.visitViewModel.RetrieveNurse(existingVisit.NurseId);
             var nurseName = $"{nurse.Fname} {nurse.Lname}";
             this.nurseComboBox.SelectedItem = nurseName;
+        }
+
+        private void checkIfFinalDiagnosisIsPresent(Visit existingVisit)
+        {
+            if (existingVisit.FinalDiagnosis)
+            {
+                this.updateEnableProperties(false);
+                this.finalDiagnosisCheckBox.Checked = true;
+            }
+            else
+            {
+                this.updateEnableProperties(true);
+                this.finalDiagnosisCheckBox.Checked = false;
+            }
         }
 
         private void updateEnableProperties(bool shouldEnable)
@@ -124,6 +134,7 @@ namespace CS3230Project.View
             this.otherTextBox.Enabled = shouldEnable;
             this.nurseComboBox.Enabled = shouldEnable;
             this.finalDiagnosisCheckBox.Enabled = shouldEnable;
+            this.testResultsGridView.Enabled = shouldEnable;
         }
 
         private IList<string> retrieveNurseNames(IEnumerable<Nurse> nurses)
@@ -139,31 +150,9 @@ namespace CS3230Project.View
             this.testResultsGridView.AutoResizeColumns();
         }
 
-        private bool isFinalDiagnosis()
-        {
-            var finalDiagnosis = this.diagnosisTextBox.Text.ToLower();
-            var isFinalDiagnosis = finalDiagnosis.EndsWith("final");
-            return isFinalDiagnosis;
-        }
-
         private void apppointmentComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.updateVisitForm();
-        }
-
-        private void finalDiagnosisCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            var hasFinalDiagnosis = this.finalDiagnosisCheckBox.Checked;
-
-            if (!hasFinalDiagnosis) return;
-
-            var diagnosis = this.diagnosisTextBox.Text.ToLower();
-            if (!diagnosis.EndsWith("final"))
-            {
-                this.diagnosisTextBox.Text += Environment.NewLine + @"Final";
-            }
-
-            this.updateEnableProperties(false);
         }
 
         private void addUpdateButton_Click(object sender, EventArgs e)
@@ -176,6 +165,12 @@ namespace CS3230Project.View
 
                 var visit = this.parseVisit();
 
+                var finalDiagnosisResult = promptForFinalDiagnosis();
+                if (finalDiagnosisResult == DialogResult.No)
+                {
+                    return;
+                }
+
                 if (visitExists)
                 {
                     this.visitViewModel.UpdateVisit(visit);
@@ -186,16 +181,34 @@ namespace CS3230Project.View
                     this.visitViewModel.InsertVisit(visit);
                     showSuccessMessage("Add Success", "The visit info was successfully added.");
                 }
+                this.updateVisitForm();
             }
             catch (MySqlException mex)
             {
                 showErrorMessage(mex.Message);
             }
-            catch (FormatException fe)
+            catch (FormatException)
             {
                 showErrorMessage("One or more of the required fields are missing.");
                 this.toggleRequiredFieldsLabels(true);
             }
+        }
+
+        private DialogResult promptForFinalDiagnosis()
+        {
+            var result = DialogResult.OK;
+            if (this.finalDiagnosisCheckBox.CheckState == CheckState.Checked)
+            {
+                const string message =
+                    "Are you sure that you would like submit a final diagnosis. You will not be able to change any information for this visit afterwords.";
+                const string caption = "Caution";
+                result = MessageBox.Show(message, caption,
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+            }
+
+            return result;
+
         }
 
         private void toggleRequiredFieldsLabels(bool isVisible)
@@ -224,6 +237,7 @@ namespace CS3230Project.View
             var appointmentDate = (DateTime) this.appointmentComboBox.SelectedValue;
             var patientID = this.patient.PatientId;
             var diagnosis = this.diagnosisTextBox.Text;
+            var finalDiagnosis = false || this.finalDiagnosisCheckBox.CheckState == CheckState.Checked;
 
             var visit = new Visit()
             {
@@ -236,7 +250,8 @@ namespace CS3230Project.View
                 Other = other,
                 NurseId = nurseId,
                 AppointmentDate = appointmentDate,
-                PatientId = patientID
+                PatientId = patientID,
+                FinalDiagnosis = finalDiagnosis
             };
 
             return visit;

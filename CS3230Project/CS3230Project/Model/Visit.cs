@@ -98,7 +98,15 @@ namespace CS3230Project.Model
         /// </value>
         public IList<TestResult> TestResults { get; set; }
 
-    #endregion
+        /// <summary>
+        /// Gets or sets a value indicating whether there is a final diagnosis.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [final diagnosis]; otherwise, <c>false</c>.
+        /// </value>
+        public bool FinalDiagnosis { get; set; }
+
+        #endregion
 
     #region Constructors
 
@@ -115,13 +123,14 @@ namespace CS3230Project.Model
     /// <param name="patientId">The patient identifier.</param>
     /// <param name="appointmentDate">The appointment date.</param>
     /// <param name="diagnosis">The diagnosis.</param>
+    /// <param name="finalDiagnosis"></param>
     /// <exception cref="ArgumentNullException">
     ///     other
     ///     or
     ///     diagnosis
     /// </exception>
     public Visit(int systolicNum, int diastolicNum, int heartRate, int respirationRate, double bodyTemp,
-            string other, string nurseId, int patientId, DateTime appointmentDate, string diagnosis)
+            string other, string nurseId, int patientId, DateTime appointmentDate, string diagnosis, bool finalDiagnosis)
         {
             this.SystolicNum = systolicNum;
             this.DiastolicNum = diastolicNum;
@@ -134,6 +143,7 @@ namespace CS3230Project.Model
             this.AppointmentDate = appointmentDate;
             this.Diagnosis = diagnosis ?? throw new ArgumentNullException(nameof(diagnosis));
             this.TestResults = new List<TestResult>();
+            this.FinalDiagnosis = finalDiagnosis;
         }
 
         /// <summary>
@@ -142,6 +152,11 @@ namespace CS3230Project.Model
         public Visit()
         {
             this.TestResults = new List<TestResult>();
+        }
+
+        public int convertFinalDiagnosisForDatabaseStorage()
+        {
+            return this.FinalDiagnosis == false ? 0 : 1;
         }
 
         #endregion

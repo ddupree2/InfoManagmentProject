@@ -222,9 +222,7 @@
             this.finalDiagnosisCheckBox.Size = new System.Drawing.Size(136, 24);
             this.finalDiagnosisCheckBox.TabIndex = 12;
             this.finalDiagnosisCheckBox.Text = "Final Diagnosis";
-            this.finalDiagnosisCheckBox.UseVisualStyleBackColor = true;
-            this.finalDiagnosisCheckBox.CheckedChanged += new System.EventHandler(this.finalDiagnosisCheckBox_CheckedChanged);
-            // 
+            this.finalDiagnosisCheckBox.UseVisualStyleBackColor = true; // 
             // testResultsGridView
             // 
             this.testResultsGridView.Anchor = System.Windows.Forms.AnchorStyles.Right;

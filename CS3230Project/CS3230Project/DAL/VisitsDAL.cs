@@ -56,6 +56,7 @@ namespace CS3230Project.DAL
                 var appointmentDateOrdinal = reader.GetOrdinal("appointmentdate");
                 var patientIdOrdinal = reader.GetOrdinal("patientID");
                 var diagnosisOrdinal = reader.GetOrdinal("diagnosis");
+                var finalDiagnosisOrdinal = reader.GetOrdinal("FinalDiagnosis");
 
                 while (reader.Read())
                 {
@@ -90,8 +91,10 @@ namespace CS3230Project.DAL
                         ? "null"
                         : reader.GetString(diagnosisOrdinal);
 
+                    var finalDiagnosis = reader[finalDiagnosisOrdinal] != DBNull.Value && reader.GetBoolean(finalDiagnosisOrdinal);
+
                     var visit = new Visit(systolicNum, diastolicNum, heartRate, respirationRate, bodyTemp, other,
-                        nurseId, patientId, appointmentDate, diagnosis);
+                        nurseId, patientId, appointmentDate, diagnosis, finalDiagnosis);
 
                     var testResults = retrieveTestResults(patientId, appointmentDate);
                     visit.TestResults = testResults;
@@ -215,8 +218,8 @@ namespace CS3230Project.DAL
             {
                 conn.Open();
                 const string insertQuery =
-                    "INSERT INTO `visit` (`systolicNum`, `diastolicNum`, `heartrate`, `respirationrate`, `bodytemp`, `other`, `nurseID`, `appointmentdate`, `patientID`,`diagnosis`) " +
-                    "VALUES (@systolicNum, @diastolicNum, @heartrate, @respirationrate, @bodytemp, @other, @nurseID, @appointmentDate, @patientID, @diagnosis);";
+                    "INSERT INTO `visit` (`systolicNum`, `diastolicNum`, `heartrate`, `respirationrate`, `bodytemp`, `other`, `nurseID`, `appointmentdate`, `patientID`,`diagnosis`, `FinalDiagnosis`) " +
+                    "VALUES (@systolicNum, @diastolicNum, @heartrate, @respirationrate, @bodytemp, @other, @nurseID, @appointmentDate, @patientID, @diagnosis, @finalDiagnosis);";
                 using (var cmd = new MySqlCommand(insertQuery, conn))
                 {
                     cmd.Parameters.Add("@systolicNum", MySqlDbType.Int32);
@@ -249,6 +252,9 @@ namespace CS3230Project.DAL
                     cmd.Parameters.Add("@diagnosis", MySqlDbType.VarChar);
                     cmd.Parameters["@diagnosis"].Value = visit.Diagnosis;
 
+                    cmd.Parameters.Add("@finalDiagnosis", MySqlDbType.Int32);
+                    cmd.Parameters["@finalDiagnosis"].Value = visit.FinalDiagnosis;
+
                     cmd.ExecuteNonQuery();
 
                     return true;
@@ -271,7 +277,7 @@ namespace CS3230Project.DAL
                 conn.Open();
                 const string insertQuery =
                     "UPDATE `visit` SET  `systolicNum`= @systolicNum, `diastolicNum`= @diastolicNum, `heartrate`= @heartrate, `respirationrate`= @respirationrate, " +
-                    "`bodytemp` = @bodytemp, `other` = @other, `nurseID` = @nurseID, `diagnosis` = @diagnosis WHERE `patientID` = @patientID AND `appointmentdate` = @appointmentDate;";
+                    "`bodytemp` = @bodytemp, `other` = @other, `nurseID` = @nurseID, `diagnosis` = @diagnosis, `FinalDiagnosis` = @finalDiagnosis WHERE `patientID` = @patientID AND `appointmentdate` = @appointmentDate;";
                 
                 using (var cmd = new MySqlCommand(insertQuery, conn))
                 {
@@ -304,6 +310,9 @@ namespace CS3230Project.DAL
 
                     cmd.Parameters.Add("@diagnosis", MySqlDbType.VarChar);
                     cmd.Parameters["@diagnosis"].Value = visit.Diagnosis;
+
+                    cmd.Parameters.Add("@finalDiagnosis", MySqlDbType.Int32);
+                    cmd.Parameters["@finalDiagnosis"].Value = visit.FinalDiagnosis;
 
                     cmd.ExecuteNonQuery();
 
