@@ -191,7 +191,7 @@ namespace CS3230Project.DAL
         }
 
         /// <summary>
-        /// Retrieves the patients.
+        ///     Retrieves the patients.
         /// </summary>
         /// <param name="dob">The dob.</param>
         /// <returns></returns>
@@ -218,7 +218,7 @@ namespace CS3230Project.DAL
         }
 
         /// <summary>
-        /// Retrieves the patients.
+        ///     Retrieves the patients.
         /// </summary>
         /// <param name="firstName">The first name.</param>
         /// <param name="lastName">The last name.</param>
@@ -249,7 +249,65 @@ namespace CS3230Project.DAL
         }
 
         /// <summary>
-        /// Retrieves the patients.
+        ///     Retrieves the patients.
+        /// </summary>
+        /// <param name="lastName">The last name.</param>
+        /// <param name="dob">The dob.</param>
+        /// <returns></returns>
+        public IList<Patient> RetrievePatients(string lastName, DateTime dob)
+        {
+            var patients = new List<Patient>();
+
+            var conn = DbConnection.GetConnection();
+            using (conn)
+            {
+                conn.Open();
+                const string insertQuery =
+                    "SELECT lname, fname, sex, patientID, addressID, ssn, dob FROM patient WHERE lname = @lname and dob = @dob";
+                using (var cmd = new MySqlCommand(insertQuery, conn))
+                {
+                    cmd.Parameters.Add("@lname", MySqlDbType.VarChar);
+                    cmd.Parameters["@lname"].Value = lastName;
+
+                    cmd.Parameters.Add("@dob", MySqlDbType.Date);
+                    cmd.Parameters["@dob"].Value = dob;
+
+                    appendPatients(cmd, patients);
+
+                    return patients;
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Retrieves the patients.
+        /// </summary>
+        /// <param name="lastName">The last name.</param>
+        /// <returns></returns>
+        public IList<Patient> RetrievePatients(string lastName)
+        {
+            var patients = new List<Patient>();
+
+            var conn = DbConnection.GetConnection();
+            using (conn)
+            {
+                conn.Open();
+                const string insertQuery =
+                    "SELECT lname, fname, sex, patientID, addressID, ssn, dob FROM patient WHERE lname = @lname;";
+                using (var cmd = new MySqlCommand(insertQuery, conn))
+                {
+                    cmd.Parameters.Add("@lname", MySqlDbType.VarChar);
+                    cmd.Parameters["@lname"].Value = lastName;
+
+                    appendPatients(cmd, patients);
+
+                    return patients;
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Retrieves the patients.
         /// </summary>
         /// <param name="firstName">The first name.</param>
         /// <param name="lastName">The last name.</param>
@@ -297,8 +355,7 @@ namespace CS3230Project.DAL
 
                 while (reader.Read())
                 {
-                    var patient = new Patient
-                    {
+                    var patient = new Patient {
                         Lname = reader[lnameOrdinal] == DBNull.Value
                             ? "null"
                             : reader.GetString(lnameOrdinal),

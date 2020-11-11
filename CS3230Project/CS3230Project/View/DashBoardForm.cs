@@ -4,10 +4,9 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
 using CS3230Project.Model;
-using CS3230Project.View;
 using CS3230Project.ViewModel;
 
-namespace CS3230Project
+namespace CS3230Project.View
 {
     public partial class DashBoardForm : Form
     {
@@ -27,10 +26,10 @@ namespace CS3230Project
         /// <param name="employeeId">The employee identifier.</param>
         public DashBoardForm(string employeeId)
         {
-            InitializeComponent();
-            dashboardViewModel = new DashboardViewModel();
+            this.InitializeComponent();
+            this.dashboardViewModel = new DashboardViewModel();
 
-            setupDashBoard(employeeId);
+            this.setupDashBoard(employeeId);
         }
 
         #endregion
@@ -39,28 +38,34 @@ namespace CS3230Project
 
         private void setupDashBoard(string employeeId)
         {
-            var title = dashboardViewModel.RetrieveTitle(employeeId);
-            var firstName = dashboardViewModel.RetrieveFirstName(employeeId);
+            var title = this.dashboardViewModel.RetrieveTitle(employeeId);
+            var firstName = this.dashboardViewModel.RetrieveFirstName(employeeId);
 
-            setupGreetingsText(employeeId, title, firstName);
-            patients = dashboardViewModel.RetrievePatients();
+            this.setupGreetingsText(employeeId, title, firstName);
+            this.patients = this.dashboardViewModel.RetrievePatients();
 
-            if (title != "Administrator") return;
+            if (title != "Administrator")
+            {
+                return;
+            }
 
-            adminButton.Enabled = true;
-            adminButton.Visible = true;
+            this.adminButton.Enabled = true;
+            this.adminButton.Visible = true;
         }
 
         private void setupGreetingsText(string employeeId, string title, string firstName)
         {
-            var greetingsText = $"{greetingsLabel.Text} {title} {firstName}";
-            greetingsLabel.Text = greetingsText;
+            var greetingsText = $"{this.greetingsLabel.Text} {title} {firstName}";
+            this.greetingsLabel.Text = greetingsText;
         }
 
         private void loadPatientsIntoView()
         {
-            mainInfoDisplay.Items.Clear();
-            foreach (var patient in patients) mainInfoDisplay.Items.Add(patient.Fname + " " + patient.Lname);
+            this.mainInfoDisplay.Items.Clear();
+            foreach (var patient in this.patients)
+            {
+                this.mainInfoDisplay.Items.Add(patient.Fname + " " + patient.Lname);
+            }
         }
 
         private void registerPatientButton_Click(object sender, EventArgs e)
@@ -82,19 +87,22 @@ namespace CS3230Project
                 var notDashBoardForm = form.GetType() != typeof(DashBoardForm);
                 var notLoginForm = form.GetType() != typeof(LoginForm);
 
-                if (notLoginForm && notDashBoardForm) form.Hide();
+                if (notLoginForm && notDashBoardForm)
+                {
+                    form.Hide();
+                }
             }
         }
 
         private void DashBoardForm_Activated(object sender, EventArgs e)
         {
-            patients = dashboardViewModel.RetrievePatients();
-            loadPatientsIntoView();
+            this.patients = this.dashboardViewModel.RetrievePatients();
+            this.loadPatientsIntoView();
         }
 
         private void editPatientButton_Click(object sender, EventArgs e)
         {
-            var patientNotSelected = mainInfoDisplay.SelectedIndex < 0;
+            var patientNotSelected = this.mainInfoDisplay.SelectedIndex < 0;
 
             if (patientNotSelected)
             {
@@ -102,9 +110,9 @@ namespace CS3230Project
                 return;
             }
 
-            var selectPatientIndex = mainInfoDisplay.SelectedIndex;
-            var patient = patients[selectPatientIndex];
-            var address = dashboardViewModel.RetrieveAddress(patient);
+            var selectPatientIndex = this.mainInfoDisplay.SelectedIndex;
+            var patient = this.patients[selectPatientIndex];
+            var address = this.dashboardViewModel.RetrieveAddress(patient);
             var registrationForm = new RegistrationForm(patient, address);
             registrationForm.Show();
         }
@@ -129,20 +137,26 @@ namespace CS3230Project
 
         private void appointmentBtn_Click(object sender, EventArgs e)
         {
-            var selectedPatientIndex = mainInfoDisplay.SelectedIndex;
-            if (patientNotSelected(selectedPatientIndex)) return;
+            var selectedPatientIndex = this.mainInfoDisplay.SelectedIndex;
+            if (patientNotSelected(selectedPatientIndex))
+            {
+                return;
+            }
 
-            var patient = patients[selectedPatientIndex];
+            var patient = this.patients[selectedPatientIndex];
             var appointmentForm = new AppointmentForm(patient);
             appointmentForm.Show();
         }
 
         private void recordVisitButton_Click(object sender, EventArgs e)
         {
-            var selectedPatientIndex = mainInfoDisplay.SelectedIndex;
-            if (patientNotSelected(selectedPatientIndex) || patientHasNoAppointments(selectedPatientIndex)) return;
+            var selectedPatientIndex = this.mainInfoDisplay.SelectedIndex;
+            if (patientNotSelected(selectedPatientIndex) || this.patientHasNoAppointments(selectedPatientIndex))
+            {
+                return;
+            }
 
-            var patient = patients[selectedPatientIndex];
+            var patient = this.patients[selectedPatientIndex];
             var visitForm = new VisitForm(patient);
             visitForm.Show();
         }
@@ -150,17 +164,23 @@ namespace CS3230Project
         private static bool patientNotSelected(int selectedPatientIndex)
         {
             var patientNotSelected = selectedPatientIndex < 0;
-            if (patientNotSelected) MessageBox.Show(@"please select a patient.");
+            if (patientNotSelected)
+            {
+                MessageBox.Show(@"please select a patient.");
+            }
 
             return patientNotSelected;
         }
 
         private bool patientHasNoAppointments(int selectedPatientIndex)
         {
-            var patient = patients[selectedPatientIndex];
-            var hasAppointments = dashboardViewModel.HasAppointments(patient);
+            var patient = this.patients[selectedPatientIndex];
+            var hasAppointments = this.dashboardViewModel.HasAppointments(patient);
             Debug.WriteLine($"Has Appointments: {hasAppointments}");
-            if (!hasAppointments) MessageBox.Show(@"Patient must have a scheduled appointment before a visit.");
+            if (!hasAppointments)
+            {
+                MessageBox.Show(@"Patient must have an inprogress or past appointment  before adding or viewing visit info.");
+            }
 
             return !hasAppointments;
         }

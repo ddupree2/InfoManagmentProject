@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using CS3230Project.DAL;
 using CS3230Project.Model;
+using Org.BouncyCastle.Asn1;
 
 namespace CS3230Project.ViewModel
 {
@@ -51,14 +52,34 @@ namespace CS3230Project.ViewModel
         public IList<Patient> RetrievePatients(string firstName, string lastName, DateTime dob)
         {
             IList<Patient> visits = new List<Patient>();
-            var missingName = firstName == null || lastName == null;
+            var missingLastName = lastName == null;
+            var missingFirstName = firstName == null;
             var missingDob = dob == default;
+            var hasAllFields = !missingLastName && !missingFirstName && !missingDob;
 
-            if (!missingName && !missingDob)
-                visits = patientDal.RetrievePatients(firstName, lastName, dob);
-            else if (missingName && !missingDob)
-                visits = patientDal.RetrievePatients(dob);
-            else if (!missingName) visits = patientDal.RetrievePatients(firstName, lastName);
+            if (hasAllFields)
+            {
+                visits = this.patientDal.RetrievePatients(firstName, lastName, dob);
+            }
+            else if (missingDob)
+            {
+                if (!missingFirstName && !missingLastName)
+                {
+                   visits = this.patientDal.RetrievePatients(firstName, lastName);
+                }
+                else if (!missingLastName)
+                {
+                    visits = this.patientDal.RetrievePatients(lastName);
+                }
+            }
+            else if (!missingLastName)
+            {
+                visits = this.patientDal.RetrievePatients(lastName, dob);
+            }
+            else
+            {
+                visits = this.patientDal.RetrievePatients(dob);
+            }
 
             return visits;
         }
