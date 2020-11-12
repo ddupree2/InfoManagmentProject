@@ -21,7 +21,7 @@ namespace CS3230Project.DAL
         {
             var connection = DbConnection.GetConnection();
             const string patientIdQuery =
-                "SELECT * FROM visit v JOIN visit p ON v.patientID = p.patientID where v.patientID = @patientID and v.appointmentdate = @appointmentDate";
+                "SELECT * FROM visit v JOIN visit p ON v.patientID = p.patientID where v.patientID = @patientID and v.appointmentdate = @AppointmentDate";
 
             using (connection)
             {
@@ -31,8 +31,8 @@ namespace CS3230Project.DAL
                     cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
                     cmd.Parameters["@patientID"].Value = patientID.ToString();
 
-                    cmd.Parameters.Add("@appointmentDate", MySqlDbType.DateTime);
-                    cmd.Parameters["@appointmentDate"].Value = appointmentDate;
+                    cmd.Parameters.Add("@AppointmentDate", MySqlDbType.DateTime);
+                    cmd.Parameters["@AppointmentDate"].Value = appointmentDate;
 
                     return retrieveVisitList(cmd);
                 }
@@ -116,14 +116,14 @@ namespace CS3230Project.DAL
                 {
                     conn.Open();
                     const string deleteQuery =
-                        "SELECT testdate, results, appointmentdate, patientID, r.testCode, testName FROM testResults r JOIN test t ON r.testCode = t.testCode WHERE `appointmentdate` = @appointmentDate AND `patientID` = @patientId;";
+                        "SELECT testdate, results, appointmentdate, patientID, r.testCode, testName FROM testResults r JOIN test t ON r.testCode = t.testCode WHERE `appointmentdate` = @AppointmentDate AND `patientID` = @PatientId;";
                     using (var cmd = new MySqlCommand(deleteQuery, conn))
                     {
                         cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
                         cmd.Parameters["@patientID"].Value = patientId.ToString();
 
-                        cmd.Parameters.Add("@appointmentDate", MySqlDbType.DateTime);
-                        cmd.Parameters["@appointmentDate"].Value = appointmentDate;
+                        cmd.Parameters.Add("@AppointmentDate", MySqlDbType.DateTime);
+                        cmd.Parameters["@AppointmentDate"].Value = appointmentDate;
 
                         readInTestResults(cmd, testResults);
                     }
@@ -189,14 +189,14 @@ namespace CS3230Project.DAL
                 conn.Open();
 
                 const string visitExistsQuery =
-                    "SELECT patientID, appointmentdate FROM visit WHERE appointmentdate = @appointmentDate AND patientID = @patientID;";
+                    "SELECT patientID, appointmentdate FROM visit WHERE appointmentdate = @AppointmentDate AND patientID = @patientID;";
                 using (var cmd = new MySqlCommand(visitExistsQuery, conn))
                 {
                     cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
                     cmd.Parameters["@patientID"].Value = patientId.ToString();
 
-                    cmd.Parameters.Add("@appointmentDate", MySqlDbType.DateTime);
-                    cmd.Parameters["@appointmentDate"].Value = appointmentDate;
+                    cmd.Parameters.Add("@AppointmentDate", MySqlDbType.DateTime);
+                    cmd.Parameters["@AppointmentDate"].Value = appointmentDate;
 
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -219,7 +219,7 @@ namespace CS3230Project.DAL
                 conn.Open();
                 const string insertQuery =
                     "INSERT INTO `visit` (`systolicNum`, `diastolicNum`, `heartrate`, `respirationrate`, `bodytemp`, `other`, `nurseID`, `appointmentdate`, `patientID`,`diagnosis`, `FinalDiagnosis`) " +
-                    "VALUES (@systolicNum, @diastolicNum, @heartrate, @respirationrate, @bodytemp, @other, @nurseID, @appointmentDate, @patientID, @diagnosis, @finalDiagnosis);";
+                    "VALUES (@systolicNum, @diastolicNum, @heartrate, @respirationrate, @bodytemp, @other, @nurseID, @AppointmentDate, @patientID, @diagnosis, @finalDiagnosis);";
                 using (var cmd = new MySqlCommand(insertQuery, conn))
                 {
                     cmd.Parameters.Add("@systolicNum", MySqlDbType.Int32);
@@ -243,8 +243,8 @@ namespace CS3230Project.DAL
                     cmd.Parameters.Add("@nurseID", MySqlDbType.VarChar);
                     cmd.Parameters["@nurseID"].Value = visit.NurseId;
 
-                    cmd.Parameters.Add("@appointmentDate", MySqlDbType.DateTime);
-                    cmd.Parameters["@appointmentDate"].Value = visit.AppointmentDate;
+                    cmd.Parameters.Add("@AppointmentDate", MySqlDbType.DateTime);
+                    cmd.Parameters["@AppointmentDate"].Value = visit.AppointmentDate;
 
                     cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
                     cmd.Parameters["@patientID"].Value = visit.PatientId;
@@ -277,7 +277,7 @@ namespace CS3230Project.DAL
                 conn.Open();
                 const string insertQuery =
                     "UPDATE `visit` SET  `systolicNum`= @systolicNum, `diastolicNum`= @diastolicNum, `heartrate`= @heartrate, `respirationrate`= @respirationrate, " +
-                    "`bodytemp` = @bodytemp, `other` = @other, `nurseID` = @nurseID, `diagnosis` = @diagnosis, `FinalDiagnosis` = @finalDiagnosis WHERE `patientID` = @patientID AND `appointmentdate` = @appointmentDate;";
+                    "`bodytemp` = @bodytemp, `other` = @other, `nurseID` = @nurseID, `diagnosis` = @diagnosis, `FinalDiagnosis` = @finalDiagnosis WHERE `patientID` = @patientID AND `appointmentdate` = @AppointmentDate;";
                 
                 using (var cmd = new MySqlCommand(insertQuery, conn))
                 {
@@ -302,8 +302,8 @@ namespace CS3230Project.DAL
                     cmd.Parameters.Add("@nurseID", MySqlDbType.VarChar);
                     cmd.Parameters["@nurseID"].Value = visit.NurseId;
 
-                    cmd.Parameters.Add("@appointmentDate", MySqlDbType.DateTime);
-                    cmd.Parameters["@appointmentDate"].Value = visit.AppointmentDate;
+                    cmd.Parameters.Add("@AppointmentDate", MySqlDbType.DateTime);
+                    cmd.Parameters["@AppointmentDate"].Value = visit.AppointmentDate;
 
                     cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
                     cmd.Parameters["@patientID"].Value = visit.PatientId;

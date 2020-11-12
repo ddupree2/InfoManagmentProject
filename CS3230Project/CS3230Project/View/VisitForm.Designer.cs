@@ -61,6 +61,7 @@
             this.heartRateEmptyLabel = new System.Windows.Forms.Label();
             this.respirationEmptyLabel = new System.Windows.Forms.Label();
             this.bodyTempEmptyLabel = new System.Windows.Forms.Label();
+            this.orderTestsButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.testResultsGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -222,7 +223,8 @@
             this.finalDiagnosisCheckBox.Size = new System.Drawing.Size(136, 24);
             this.finalDiagnosisCheckBox.TabIndex = 12;
             this.finalDiagnosisCheckBox.Text = "Final Diagnosis";
-            this.finalDiagnosisCheckBox.UseVisualStyleBackColor = true; // 
+            this.finalDiagnosisCheckBox.UseVisualStyleBackColor = true;
+            // 
             // testResultsGridView
             // 
             this.testResultsGridView.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -399,11 +401,22 @@
             this.bodyTempEmptyLabel.Text = "*";
             this.bodyTempEmptyLabel.Visible = false;
             // 
+            // orderTestsButton
+            // 
+            this.orderTestsButton.Location = new System.Drawing.Point(588, 697);
+            this.orderTestsButton.Name = "orderTestsButton";
+            this.orderTestsButton.Size = new System.Drawing.Size(155, 38);
+            this.orderTestsButton.TabIndex = 40;
+            this.orderTestsButton.Text = "Order Tests";
+            this.orderTestsButton.UseVisualStyleBackColor = true;
+            this.orderTestsButton.Click += new System.EventHandler(this.orderTestsButton_Click);
+            // 
             // VisitForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1237, 747);
+            this.Controls.Add(this.orderTestsButton);
             this.Controls.Add(this.bodyTempEmptyLabel);
             this.Controls.Add(this.heartRateEmptyLabel);
             this.Controls.Add(this.systolicEmptyLabel);
@@ -482,5 +495,6 @@
         private System.Windows.Forms.Label heartRateEmptyLabel;
         private System.Windows.Forms.Label respirationEmptyLabel;
         private System.Windows.Forms.Label bodyTempEmptyLabel;
+        private System.Windows.Forms.Button orderTestsButton;
     }
 }
