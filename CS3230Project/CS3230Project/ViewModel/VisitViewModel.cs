@@ -49,6 +49,10 @@ namespace CS3230Project.ViewModel
 
         #region Constructors
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="VisitViewModel"/> class.
+        /// </summary>
+        /// <param name="patient">The patient.</param>
         public VisitViewModel(Patient patient)
         {
             this.Nurses = retrieveNurses();
@@ -154,7 +158,7 @@ namespace CS3230Project.ViewModel
         }
 
         /// <summary>
-        ///     Checks if visits exist for the datetime and patientId.
+        ///     Checks if visits exist for the datetime and PatientId.
         /// </summary>
         /// <param name="patientId">The patient identifier.</param>
         /// <param name="appointmentDate">The appointment date.</param>

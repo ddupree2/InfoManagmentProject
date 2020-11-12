@@ -169,7 +169,15 @@ namespace CS3230Project.View
 
         private void apppointmentComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.updateVisitForm();
+            try
+            {
+                this.updateVisitForm();
+            }
+            catch
+            {
+                // catching the error caused by updating the visit form
+                // when no visits exists for the selected data.
+            }
         }
 
         private void addUpdateButton_Click(object sender, EventArgs e)
@@ -339,6 +347,34 @@ namespace CS3230Project.View
             if (!(char.IsDigit(e.KeyChar) || e.KeyChar == (char)Keys.Back))
             {
                 e.Handled = true;
+            }
+        }
+
+        private void orderTestsButton_Click(object sender, EventArgs e)
+        {
+            DateTime appointmentDate;
+            try
+            {
+                appointmentDate = (DateTime) this.appointmentComboBox.SelectedValue;
+            }
+            catch
+            {
+                const string noAppointmentMessage = "No appointments are selected for the visit.";
+                showErrorMessage(noAppointmentMessage);
+                return;
+            }
+
+            try
+            {
+                var orderTestsViewModel = new OrderTestViewModel(appointmentDate, this.patient);
+                var orderTestsForm = new orderTestsForm(orderTestsViewModel);
+                orderTestsForm.Show();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.StackTrace);
+                return;
             }
         }
 

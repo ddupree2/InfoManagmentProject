@@ -117,7 +117,7 @@ namespace CS3230Project.DAL
                 {
                     conn.Open();
                     const string insertQuery =
-                        "UPDATE `patient` SET  `lname`= @lname, `fname`= @fname, `sex`= @sex, `ssn`= @ssn, `dob` = @dob WHERE `patientID` = @patientId;";
+                        "UPDATE `patient` SET  `lname`= @lname, `fname`= @fname, `sex`= @sex, `ssn`= @ssn, `dob` = @dob WHERE `patientID` = @PatientId;";
                     using (var cmd = new MySqlCommand(insertQuery, conn))
                     {
                         cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
@@ -435,7 +435,7 @@ namespace CS3230Project.DAL
                 using (conn)
                 {
                     conn.Open();
-                    const string deleteQuery = "DELETE FROM `patient` WHERE `patientID` = @patientId;";
+                    const string deleteQuery = "DELETE FROM `patient` WHERE `patientID` = @PatientId;";
                     using (var cmd = new MySqlCommand(deleteQuery, conn))
                     {
                         cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
