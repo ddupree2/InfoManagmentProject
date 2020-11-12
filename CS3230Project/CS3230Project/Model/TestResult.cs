@@ -57,6 +57,14 @@ namespace CS3230Project.Model
         /// </value>
         public string TestName { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [abnormal status].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [abnormal status]; otherwise, <c>false</c>.
+        /// </value>
+        public bool AbnormalStatus { get; set; }
+
         #endregion
 
         #region Constructors
@@ -72,14 +80,15 @@ namespace CS3230Project.Model
         /// <param name="testName"></param>
         /// <exception cref="ArgumentNullException">results</exception>
         public TestResult(DateTime testDate, string results, DateTime appointmentDate, int patientId, int testCode,
-            string testName)
+            string testName, bool status)
         {
-            this.TestDate = testDate;
+            this.TestDate = testDate.Date;
             this.Results = results ?? throw new ArgumentNullException(nameof(results));
             this.AppointmentDate = appointmentDate;
             this.PatientId = patientId;
             this.TestCode = testCode;
             this.TestName = testName ?? throw new ArgumentNullException(nameof(testName));
+            this.AbnormalStatus = status;
         }
 
         #endregion

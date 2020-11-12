@@ -116,7 +116,7 @@ namespace CS3230Project.DAL
                 {
                     conn.Open();
                     const string deleteQuery =
-                        "SELECT testdate, results, appointmentdate, patientID, r.testCode, testName FROM testResults r JOIN test t ON r.testCode = t.testCode WHERE `appointmentdate` = @appointmentDate AND `patientID` = @patientId;";
+                        "SELECT testdate, results, appointmentdate, patientID, r.testCode, testName, AbnormalStatus FROM testResults r JOIN test t ON r.testCode = t.testCode WHERE `appointmentdate` = @appointmentDate AND `patientID` = @patientId;";
                     using (var cmd = new MySqlCommand(deleteQuery, conn))
                     {
                         cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
@@ -149,6 +149,7 @@ namespace CS3230Project.DAL
                     var patientIdOrdinal = reader.GetOrdinal("patientID");
                     var testCodeOrdinal = reader.GetOrdinal("testCode");
                     var testNameOrdinal = reader.GetOrdinal("testName");
+                    var statusNameOrdinal = reader.GetOrdinal("AbnormalStatus");
 
                     var testDate = reader[testDateOrdinal] == DBNull.Value
                         ? DateTime.Now
@@ -169,7 +170,11 @@ namespace CS3230Project.DAL
                         ? default
                         : reader.GetString(testNameOrdinal);
 
-                    var testResult = new TestResult(testDate, results, appointmentDate, patientId, testCode, testName);
+                    var status = reader[statusNameOrdinal] == DBNull.Value
+                        ? default
+                        : reader.GetBoolean(statusNameOrdinal);
+
+                    var testResult = new TestResult(testDate, results, appointmentDate, patientId, testCode, testName, status);
                     testResults.Add(testResult);
                 }
             }

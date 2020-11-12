@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -8,6 +9,7 @@ using System.Windows.Forms;
 using CS3230Project.Model;
 using CS3230Project.ViewModel;
 using MySql.Data.MySqlClient;
+using Renci.SshNet.Security;
 
 namespace CS3230Project.View
 {
@@ -22,27 +24,42 @@ namespace CS3230Project.View
         private readonly VisitViewModel visitViewModel;
         private readonly Patient patient;
         private IList<Visit> visits;
+        private readonly DateTimePicker gridDate = new DateTimePicker();
+        private DateTime testTime;
+        private TextBox resultsTextBox = new TextBox { Multiline = true };
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="VisitForm" /> class.
+        /// Initializes a new instance of the <see cref="VisitForm" /> class.
         /// </summary>
-        /// <param name="visit">The visit.</param>
+        /// <param name="patient">The patient.</param>
         public VisitForm(Patient patient)
         {
             this.InitializeComponent();
             this.visitViewModel = new VisitViewModel(patient);
             this.patient = patient;
             this.setupVistForm();
+            this.setUpGridColumns();
         }
 
         #endregion
 
         #region Methods
 
+        private void setUpGridColumns()
+        {
+            var numberOfColumns = this.testResultsGridView.Columns.Count;
+
+            var columnCounter = 2;
+            while (columnCounter < numberOfColumns)
+            {
+                this.testResultsGridView.Columns[columnCounter].ReadOnly = true;
+                columnCounter++;
+            }
+        }
         private void setupVistForm()
         {
             this.appointmentComboBox.DataSource = this.visitViewModel.AppointmentsDates;
@@ -326,5 +343,61 @@ namespace CS3230Project.View
         }
 
         #endregion
+
+
+        private void testResultsGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 0 && e.RowIndex >= 1)
+            {
+                this.testTime = DateTime.Parse(this.testResultsGridView.CurrentCell.Value.ToString());
+                this.testResultsGridView.Controls.Add(this.gridDate);
+
+                this.gridDate.Format = DateTimePickerFormat.Short;
+
+                var oRectangle = this.testResultsGridView.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+
+                this.gridDate.Size = new Size(oRectangle.Width, oRectangle.Height);
+                this.gridDate.Location = new Point(oRectangle.X, oRectangle.Y);
+                this.gridDate.TextChanged += new EventHandler(this.dateTimePicker_OnTextChange);
+                this.gridDate.Visible = true;
+            }
+
+            if (e.ColumnIndex == 6)
+            {
+                if (this.testResultsGridView.CurrentCell.Value.Equals("False"))
+                {
+                    this.testResultsGridView.CurrentCell.Value = "True";
+                }
+                else if (this.testResultsGridView.CurrentCell.Value.Equals("True"))
+                {
+                    this.testResultsGridView.CurrentCell.Value = "";
+                }
+                else
+                {
+                    this.testResultsGridView.CurrentCell.Value = "False";
+                }
+            }
+        }
+
+
+        private void dateTimePicker_OnTextChange(object sender, EventArgs e)
+        {
+            var dateToCompare = this.gridDate.Value;
+            var selectedAppointmentDate = DateTime.Parse(this.appointmentComboBox.Text);
+
+            var dateComparison = DateTime.Compare(selectedAppointmentDate, dateToCompare);
+
+            if (dateComparison > 0)
+            {
+                MessageBox.Show(@"Please select a date on or after the selected appointment date.");
+                this.gridDate.Value = this.testTime;
+            }
+            else
+            {
+                this.testResultsGridView.CurrentCell.Value = dateToCompare.ToShortDateString();
+                this.gridDate.Hide();
+            }
+
+        }
     }
 }

@@ -21,6 +21,7 @@ namespace CS3230Project.ViewModel
         private const string PatientId = "Patient ID";
         private const string TestCode = "Test Code";
         private const string TestName = "Test Name";
+        private const string AbnormalStatus = "Abnormal Status";
 
         private readonly VisitsDal visistDal;
 
@@ -99,6 +100,7 @@ namespace CS3230Project.ViewModel
             var patientIdColumn = new DataColumn(PatientId);
             var testCodeColumn = new DataColumn(TestCode);
             var testNameColumn = new DataColumn(TestName);
+            var statusColumn = new DataColumn(AbnormalStatus);
 
             testResults.Columns.Add(testDateColumn);
             testResults.Columns.Add(testResultsColumn);
@@ -106,6 +108,7 @@ namespace CS3230Project.ViewModel
             testResults.Columns.Add(patientIdColumn);
             testResults.Columns.Add(testCodeColumn);
             testResults.Columns.Add(testNameColumn);
+            testResults.Columns.Add(statusColumn);
         }
 
         private static void addRowData(DataTable testResultsTable, TestResult testResult)
@@ -117,6 +120,7 @@ namespace CS3230Project.ViewModel
             dataRow[PatientId] = testResult.PatientId;
             dataRow[TestCode] = testResult.TestCode;
             dataRow[TestName] = testResult.TestName;
+            dataRow[AbnormalStatus] = testResult.AbnormalStatus;
             testResultsTable.Rows.Add(dataRow);
         }
 
