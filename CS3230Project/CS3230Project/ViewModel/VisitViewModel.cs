@@ -186,6 +186,20 @@ namespace CS3230Project.ViewModel
             this.visistDal.UpdateVist(visit);
         }
 
+        public bool UpdateTests(List<TestResult> allTestResults)
+        {
+            var checker = false;
+            foreach (var test in allTestResults)
+            {
+                var testDal = new TestDAL();
+                checker = testDal.UpdateTestResults(test);
+            }
+
+            return checker;
+
+            //return testDal.UpdateTestResults(allTestResults);
+        }
+
         #endregion
     }
 }

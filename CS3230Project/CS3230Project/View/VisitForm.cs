@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Windows.Forms;
 using CS3230Project.Model;
 using CS3230Project.ViewModel;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Asn1;
 using Renci.SshNet.Security;
 
 namespace CS3230Project.View
@@ -190,6 +192,23 @@ namespace CS3230Project.View
 
                 var visit = this.parseVisit();
 
+                var allTestResults = new List<TestResult>();
+
+                var counter = 0;
+                foreach (DataGridViewRow row in this.testResultsGridView.Rows)
+                {
+                    if (counter < this.testResultsGridView.Rows.Count - 1)
+                    {
+                        var date = DateTime.Parse(row.Cells[0].Value.ToString()).Date;
+                        var testResults = row.Cells[1].Value.ToString();
+                        var statusIndicator = row.Cells[6].Value.ToString().Equals("True");
+                        var test = new TestResult(date, testResults, DateTime.Parse(row.Cells[2].Value.ToString()), visit.PatientId, int.Parse(row.Cells[4].Value.ToString()), row.Cells[5].Value.ToString(), statusIndicator);
+                        allTestResults.Add(test);
+                    }
+
+                    counter++;
+                }
+
                 var finalDiagnosisResult = promptForFinalDiagnosis();
                 if (finalDiagnosisResult == DialogResult.No)
                 {
@@ -199,6 +218,7 @@ namespace CS3230Project.View
                 if (visitExists)
                 {
                     this.visitViewModel.UpdateVisit(visit);
+                    this.visitViewModel.UpdateTests(allTestResults);
                     showSuccessMessage("Update Success", "The visit info was successfully updated.");
                 }
                 else
@@ -383,7 +403,7 @@ namespace CS3230Project.View
 
         private void testResultsGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 0 && e.RowIndex >= 1)
+            if (e.ColumnIndex == 0 && e.RowIndex >= 0)
             {
                 this.testTime = DateTime.Parse(this.testResultsGridView.CurrentCell.Value.ToString());
                 this.testResultsGridView.Controls.Add(this.gridDate);

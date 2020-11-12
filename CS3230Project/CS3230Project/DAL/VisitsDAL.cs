@@ -116,7 +116,8 @@ namespace CS3230Project.DAL
                 {
                     conn.Open();
                     const string deleteQuery =
-                        "SELECT testdate, results, appointmentdate, patientID, r.testCode, testName, AbnormalStatus FROM testResults r JOIN test t ON r.testCode = t.testCode WHERE `appointmentdate` = @appointmentDate AND `patientID` = @patientId;";
+                        "SELECT testdate, results, appointmentdate, patientID, r.testCode, testName, AbnormalStatus FROM testResults r Left JOIN test t ON r.testCode = t.testCode WHERE patientID = @patientId";
+                    //"SELECT testdate, results, appointmentdate, patientID, r.testCode, testName, AbnormalStatus FROM testResults r JOIN test t ON r.testCode = t.testCode WHERE `appointmentdate` = @appointmentDate AND `patientID` = @patientId;";
                     using (var cmd = new MySqlCommand(deleteQuery, conn))
                     {
                         cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
@@ -155,7 +156,7 @@ namespace CS3230Project.DAL
                         ? DateTime.Now
                         : reader.GetDateTime(testDateOrdinal);
                     var results = reader[resultsOrdinal] == DBNull.Value
-                        ? default
+                        ? string.Empty
                         : reader.GetString(resultsOrdinal);
                     var appointmentDate = reader[appointmentDateOrdinal] == DBNull.Value
                         ? DateTime.Now
@@ -280,11 +281,11 @@ namespace CS3230Project.DAL
             using (conn)
             {
                 conn.Open();
-                const string insertQuery =
+                const string updateQuery =
                     "UPDATE `visit` SET  `systolicNum`= @systolicNum, `diastolicNum`= @diastolicNum, `heartrate`= @heartrate, `respirationrate`= @respirationrate, " +
                     "`bodytemp` = @bodytemp, `other` = @other, `nurseID` = @nurseID, `diagnosis` = @diagnosis, `FinalDiagnosis` = @finalDiagnosis WHERE `patientID` = @patientID AND `appointmentdate` = @AppointmentDate;";
                 
-                using (var cmd = new MySqlCommand(insertQuery, conn))
+                using (var cmd = new MySqlCommand(updateQuery, conn))
                 {
                     cmd.Parameters.Add("@systolicNum", MySqlDbType.Int32);
                     cmd.Parameters["@systolicNum"].Value = visit.SystolicNum;

@@ -116,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\NurseDAL.cs" />
+    <Compile Include="DAL\TestDAL.cs" />
     <Compile Include="Extension\ListExtension.cs" />
     <Compile Include="Model\Nurse.cs" />
     <Compile Include="Properties\Annotations.cs" />
