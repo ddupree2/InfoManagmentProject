@@ -192,22 +192,7 @@ namespace CS3230Project.View
 
                 var visit = this.parseVisit();
 
-                var allTestResults = new List<TestResult>();
-
-                var counter = 0;
-                foreach (DataGridViewRow row in this.testResultsGridView.Rows)
-                {
-                    if (counter < this.testResultsGridView.Rows.Count - 1)
-                    {
-                        var date = DateTime.Parse(row.Cells[0].Value.ToString()).Date;
-                        var testResults = row.Cells[1].Value.ToString();
-                        var statusIndicator = row.Cells[6].Value.ToString().Equals("True");
-                        var test = new TestResult(date, testResults, DateTime.Parse(row.Cells[2].Value.ToString()), visit.PatientId, int.Parse(row.Cells[4].Value.ToString()), row.Cells[5].Value.ToString(), statusIndicator);
-                        allTestResults.Add(test);
-                    }
-
-                    counter++;
-                }
+                var allTestResults = this.CreateUpdatedTestResults(visit);
 
                 var finalDiagnosisResult = promptForFinalDiagnosis();
                 if (finalDiagnosisResult == DialogResult.No)
@@ -237,6 +222,32 @@ namespace CS3230Project.View
                 showErrorMessage("One or more of the required fields are missing.");
                 this.toggleRequiredFieldsLabels(true);
             }
+        }
+
+        private List<TestResult> CreateUpdatedTestResults(Visit visit)
+        {
+            var allTestResults = new List<TestResult>();
+
+            var counter = 0;
+            foreach (DataGridViewRow row in this.testResultsGridView.Rows)
+            {
+                if (counter < this.testResultsGridView.Rows.Count - 1)
+                {
+                    var date = DateTime.Parse(row.Cells[0].Value.ToString()).Date;
+                    var testResults = row.Cells[1].Value.ToString();
+                    var statusIndicator = row.Cells[6].Value.ToString().Equals("True");
+                    var appointmentDate = DateTime.Parse(row.Cells[2].Value.ToString());
+                    var testCode = int.Parse(row.Cells[4].Value.ToString());
+                    var testName = row.Cells[5].Value.ToString();
+                    var test = new TestResult(date, testResults, appointmentDate, visit.PatientId, testCode, testName,
+                        statusIndicator);
+                    allTestResults.Add(test);
+                }
+
+                counter++;
+            }
+
+            return allTestResults;
         }
 
         private DialogResult promptForFinalDiagnosis()
