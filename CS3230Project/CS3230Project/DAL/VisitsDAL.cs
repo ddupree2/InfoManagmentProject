@@ -115,16 +115,16 @@ namespace CS3230Project.DAL
                 using (conn)
                 {
                     conn.Open();
-                    const string deleteQuery =
+                    const string testResultQuery =
                         "SELECT testdate, results, appointmentdate, patientID, r.testCode, testName, AbnormalStatus FROM testResults r Left JOIN test t ON r.testCode = t.testCode WHERE patientID = @patientId";
                     //"SELECT testdate, results, appointmentdate, patientID, r.testCode, testName, AbnormalStatus FROM testResults r JOIN test t ON r.testCode = t.testCode WHERE `appointmentdate` = @appointmentDate AND `patientID` = @patientId;";
-                    using (var cmd = new MySqlCommand(deleteQuery, conn))
+                    using (var cmd = new MySqlCommand(testResultQuery, conn))
                     {
                         cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
                         cmd.Parameters["@patientID"].Value = patientId.ToString();
 
-                        cmd.Parameters.Add("@AppointmentDate", MySqlDbType.DateTime);
-                        cmd.Parameters["@AppointmentDate"].Value = appointmentDate;
+                        cmd.Parameters.Add("@appointmentDate", MySqlDbType.DateTime);
+                        cmd.Parameters["@appointmentDate"].Value = appointmentDate;
 
                         readInTestResults(cmd, testResults);
                     }

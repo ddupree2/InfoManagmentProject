@@ -16,7 +16,7 @@ namespace CS3230Project
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new DashBoardForm("1928374625"));
+            Application.Run(new LoginForm());
         }
 
         #endregion

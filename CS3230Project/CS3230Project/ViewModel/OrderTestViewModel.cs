@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using CS3230Project.Annotations;
+using CS3230Project.DAL;
 using CS3230Project.Model;
 
 namespace CS3230Project.ViewModel
@@ -17,6 +15,8 @@ namespace CS3230Project.ViewModel
     /// </summary>
     public class OrderTestViewModel : INotifyPropertyChanged
     {
+        #region Data members
+
         private const int NullSelectedTestIndex = -1;
         private string testToAdd;
         private int selectedTestIndex = NullSelectedTestIndex;
@@ -24,7 +24,13 @@ namespace CS3230Project.ViewModel
         private ObservableCollection<string> orderedTests;
         private bool canAddAllTests;
         private bool canRemoveTest;
-        private bool canAddTest = true;
+        private bool canAddTest;
+        private readonly TestDAL testDal;
+        private IDictionary<int, string> retrievedTests;
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         ///     Gets or sets the testToAdd.
@@ -32,12 +38,18 @@ namespace CS3230Project.ViewModel
         /// <value>
         ///     The testToAdd.
         /// </value>
-        public string TestToAdd { 
+        public string TestToAdd
+        {
             get => this.testToAdd;
             set
             {
+                if (value == this.testToAdd)
+                {
+                    return;
+                }
+
                 this.testToAdd = value;
-                this.CanAddTest = value != null;
+                this.CanAddTest = !string.IsNullOrEmpty(value);
                 this.OnPropertyChanged();
             }
         }
@@ -46,13 +58,18 @@ namespace CS3230Project.ViewModel
         ///     Gets or sets the index of the selected test.
         /// </summary>
         /// <value>
-        /// The index of the selected test.
+        ///     The index of the selected test.
         /// </value>
         public int SelectedTestIndex
         {
             get => this.selectedTestIndex;
             set
             {
+                if (value == this.selectedTestIndex)
+                {
+                    return;
+                }
+
                 this.selectedTestIndex = value;
                 this.CanRemoveTest = value != NullSelectedTestIndex;
                 this.OnPropertyChanged();
@@ -63,19 +80,23 @@ namespace CS3230Project.ViewModel
         ///     Gets or sets the available tests.
         /// </summary>
         /// <value>
-        /// The available tests.
+        ///     The available tests.
         /// </value>
         public ObservableCollection<string> AvailableTests
         {
             get => this.availableTests;
             set
             {
+                if (value == this.availableTests)
+                {
+                    return;
+                }
+
                 this.availableTests = value;
 
-                var testsAvailable = value != null;
+                var testsAvailable = value != null && value.Any();
 
-                this.CanAddAllTests = testsAvailable;
-                this.CanRemoveTest = testsAvailable;
+                this.CanAddTest = testsAvailable;
 
                 this.OnPropertyChanged();
             }
@@ -85,16 +106,21 @@ namespace CS3230Project.ViewModel
         ///     ets or sets the ordered tests.
         /// </summary>
         /// <value>
-        /// The ordered tests.
+        ///     The ordered tests.
         /// </value>
         public ObservableCollection<string> OrderedTests
         {
             get => this.orderedTests;
             set
             {
+                if (value == this.orderedTests)
+                {
+                    return;
+                }
+
                 this.orderedTests = value;
 
-                var testsAvailable = value != null;
+                var testsAvailable = value != null && value.Any();
 
                 this.CanAddAllTests = testsAvailable;
                 this.CanRemoveTest = testsAvailable;
@@ -104,32 +130,42 @@ namespace CS3230Project.ViewModel
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this instance can add all tests.
+        ///     Gets or sets a value indicating whether this instance can add all tests.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this instance can add all tests; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance can add all tests; otherwise, <c>false</c>.
         /// </value>
         public bool CanAddAllTests
         {
             get => this.canAddAllTests;
             set
             {
+                if (value == this.canAddAllTests)
+                {
+                    return;
+                }
+
                 this.canAddAllTests = value;
                 this.OnPropertyChanged();
             }
         }
 
         /// <summary>
-        ///  Gets or sets a value indicating whether this instance can add testToAdd.
+        ///     Gets or sets a value indicating whether this instance can add testToAdd.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this instance can add testToAdd; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance can add testToAdd; otherwise, <c>false</c>.
         /// </value>
         public bool CanAddTest
         {
             get => this.canAddTest;
             set
             {
+                if (value == this.canAddTest)
+                {
+                    return;
+                }
+
                 this.canAddTest = value;
                 this.OnPropertyChanged();
             }
@@ -139,13 +175,18 @@ namespace CS3230Project.ViewModel
         ///     Gets or sets a value indicating whether this instance can remove testToAdd.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this instance can remove testToAdd; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance can remove testToAdd; otherwise, <c>false</c>.
         /// </value>
         public bool CanRemoveTest
         {
             get => this.canRemoveTest;
             set
             {
+                if (value == this.canRemoveTest)
+                {
+                    return;
+                }
+
                 this.canRemoveTest = value;
                 this.OnPropertyChanged();
             }
@@ -175,8 +216,12 @@ namespace CS3230Project.ViewModel
         /// </value>
         public string PatientName { get; }
 
+        #endregion
+
+        #region Constructors
+
         /// <summary>
-        ///     Initializes a new instance of the <see cref="OrderTestViewModel"/> class.
+        ///     Initializes a new instance of the <see cref="OrderTestViewModel" /> class.
         /// </summary>
         /// <param name="appointmentDate">The appointment date.</param>
         /// <param name="patient">The patient.</param>
@@ -185,52 +230,55 @@ namespace CS3230Project.ViewModel
             this.AppointmentDate = appointmentDate;
             this.PatientId = patient.PatientId;
             this.PatientName = $"{patient.Fname} {patient.Lname}";
+            this.testDal = new TestDAL();
             this.retrieveAvailableTests();
             this.orderedTests = new ObservableCollection<string>();
             this.testToAdd = this.availableTests.FirstOrDefault();
+            this.canAddTest = true;
         }
 
-        private void retrieveAvailableTests()
-        {
-            var availableTests = new ObservableCollection<string>();
-            availableTests.Add("Whoop whoop");
+        #endregion
 
-
-            this.availableTests = availableTests;
-        }
+        #region Methods
 
         /// <summary>
         ///     Occurs when a property value changes.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private void retrieveAvailableTests()
+        {
+            this.retrievedTests = this.testDal.RetrieveAvailableTests(this.PatientId, this.AppointmentDate);
+
+            this.availableTests = new ObservableCollection<string>(this.retrievedTests.Values);
+        }
+
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void AddAllTests()
+        public bool AddAllTests()
         {
-
+            var testsToAdd = this.findTestOrderKeys();
+            return this.testDal.OrderTests(testsToAdd, this.PatientId, this.AppointmentDate);
         }
 
-        public void RemoveSelectedTest()
+        private List<int> findTestOrderKeys()
         {
-            this.orderedTests.Remove(this.TestToAdd);
-            this.availableTests.Add(this.TestToAdd);
-            this.OrderedTests = this.orderedTests;
-            this.AvailableTests = this.availableTests;
-            this.OnPropertyChanged();
+            var testKeys = new List<int>();
+            foreach (var testKey in this.retrievedTests.Keys)
+            {
+                if (this.OrderedTests.Contains(this.retrievedTests[testKey]))
+                {
+                    testKeys.Add(testKey);
+                }
+            }
+
+            return testKeys;
         }
 
-        public void AddTest()
-        {
-            this.orderedTests.Add(this.TestToAdd);
-            this.availableTests.Remove(this.TestToAdd);
-            this.OrderedTests = this.orderedTests;
-            this.AvailableTests = this.availableTests;
-            this.OnPropertyChanged();
-        }
+        #endregion
     }
 }
