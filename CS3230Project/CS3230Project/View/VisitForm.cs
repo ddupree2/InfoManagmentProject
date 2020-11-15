@@ -398,7 +398,7 @@ namespace CS3230Project.View
             try
             {
                 var orderTestsViewModel = new OrderTestViewModel(appointmentDate, this.patient);
-                var orderTestsForm = new orderTestsForm(orderTestsViewModel);
+                var orderTestsForm = new OrderTestsForm(orderTestsViewModel);
                 orderTestsForm.Show();
             }
             catch (Exception ex)

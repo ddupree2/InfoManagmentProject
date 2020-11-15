@@ -78,6 +78,7 @@ namespace CS3230Project.Model
         /// <param name="patientId">The patient identifier.</param>
         /// <param name="testCode">The test code.</param>
         /// <param name="testName"></param>
+        /// <param name="status"></param>
         /// <exception cref="ArgumentNullException">results</exception>
         public TestResult(DateTime testDate, string results, DateTime appointmentDate, int patientId, int testCode,
             string testName, bool status)
@@ -89,6 +90,16 @@ namespace CS3230Project.Model
             this.TestCode = testCode;
             this.TestName = testName ?? throw new ArgumentNullException(nameof(testName));
             this.AbnormalStatus = status;
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="TestResult"/> class.
+        /// </summary>
+        public TestResult()
+        {
+            this.AbnormalStatus = false;
+            this.Results = null;
+            this.TestDate = DateTime.MinValue;
         }
 
         #endregion
