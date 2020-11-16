@@ -135,10 +135,10 @@ namespace CS3230Project.DAL
             using (conn)
             {
                 conn.Open();
-                const string updateQuery =
-                    "SET FOREIGN_KEY_CHECKS=0; INSERT INTO `testResults` (`appointmentdate`, `patientID`, `testCode`) VALUES (@appointmentDate, @patientID, @testCode); SET FOREIGN_KEY_CHECKS=1;";
+                const string insertTestQuery =
+                    "INSERT INTO `testResults` (`appointmentdate`, `patientID`, `testCode`) VALUES (@appointmentDate, @patientID, @testCode);";
 
-                using (var cmd = new MySqlCommand(updateQuery, conn))
+                using (var cmd = new MySqlCommand(insertTestQuery, conn))
                 {
                     cmd.Parameters.Add("@appointmentDate", MySqlDbType.DateTime);
                     cmd.Parameters["@appointmentDate"].Value = appointmentDate;

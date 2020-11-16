@@ -196,8 +196,6 @@ namespace CS3230Project.ViewModel
             }
 
             return checker;
-
-            //return testDal.UpdateTestResults(allTestResults);
         }
 
         #endregion

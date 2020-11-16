@@ -151,6 +151,14 @@ namespace CS3230Project.Model
         /// </summary>
         public Visit()
         {
+            this.SystolicNum = 0;
+            this.DiastolicNum = 0;
+            this.HeartRate = 0;
+            this.RespirationRate = 0;
+            this.BodyTemp = 0;
+            this.Other = string.Empty;
+            this.Diagnosis = string.Empty;
+            this.FinalDiagnosis = false;
             this.TestResults = new List<TestResult>();
         }
 

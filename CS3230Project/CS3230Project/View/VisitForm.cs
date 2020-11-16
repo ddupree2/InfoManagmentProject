@@ -187,11 +187,12 @@ namespace CS3230Project.View
             try
             {
                 this.toggleRequiredFieldsLabels(false);
-                var visitExists = this.visitViewModel.VisitsExist(this.patient.PatientId,
-                    (DateTime) this.appointmentComboBox.SelectedValue);
+
+                var patientId = this.patient.PatientId;
+                var appointmentDate = (DateTime) this.appointmentComboBox.SelectedValue;
+                var visitExists = this.visitViewModel.VisitsExist(patientId, appointmentDate);
 
                 var visit = this.parseVisit();
-
                 var allTestResults = this.CreateUpdatedTestResults(visit);
 
                 var finalDiagnosisResult = promptForFinalDiagnosis();
@@ -288,8 +289,8 @@ namespace CS3230Project.View
 
             var nurses = this.visitViewModel.Nurses;
             var selectedNurseIndex = this.nurseComboBox.SelectedIndex;
-
             var nurseId = nurses[selectedNurseIndex].NurseId;
+
             var appointmentDate = (DateTime) this.appointmentComboBox.SelectedValue;
             var patientID = this.patient.PatientId;
             var diagnosis = this.diagnosisTextBox.Text;
@@ -383,16 +384,20 @@ namespace CS3230Project.View
 
         private void orderTestsButton_Click(object sender, EventArgs e)
         {
-            DateTime appointmentDate;
-            try
+            var patientId = this.patient.PatientId;
+            var appointmentDate = (DateTime) this.appointmentComboBox.SelectedValue;
+            var visitExists = this.visitViewModel.VisitsExist(patientId, appointmentDate);
+            var nurses = this.visitViewModel.Nurses;
+            var selectedNurseIndex = this.nurseComboBox.SelectedIndex;
+            var nurseId = nurses[selectedNurseIndex].NurseId;
+
+            if (!visitExists)
             {
-                appointmentDate = (DateTime) this.appointmentComboBox.SelectedValue;
-            }
-            catch
-            {
-                const string noAppointmentMessage = "No appointments are selected for the visit.";
-                showErrorMessage(noAppointmentMessage);
-                return;
+                var visit = new Visit();
+                visit.AppointmentDate = appointmentDate;
+                visit.PatientId = patientId;
+                visit.NurseId = nurseId;
+                this.visitViewModel.InsertVisit(visit);
             }
 
             try
