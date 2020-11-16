@@ -102,6 +102,17 @@ namespace CS3230Project.Model
             this.TestDate = DateTime.MinValue;
         }
 
+
+        public TestResult(DateTime testDate, string results, DateTime appointmentDate, int testCode, string testName, bool status)
+        {
+            this.TestDate = testDate.Date;
+            this.Results = results ?? throw new ArgumentNullException(nameof(results));
+            this.AppointmentDate = appointmentDate;
+            this.TestCode = testCode;
+            this.TestName = testName ?? throw new ArgumentNullException(nameof(testName));
+            this.AbnormalStatus = status;
+        }
+
         #endregion
     }
 }

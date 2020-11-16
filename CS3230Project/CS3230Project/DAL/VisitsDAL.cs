@@ -116,7 +116,7 @@ namespace CS3230Project.DAL
                 {
                     conn.Open();
                     const string testResultQuery =
-                        "SELECT testdate, results, appointmentdate, patientID, r.testCode, testName, AbnormalStatus FROM testResults r Left JOIN test t ON r.testCode = t.testCode WHERE patientID = @patientId";
+                        "SELECT testdate, results, appointmentdate, r.testCode, testName, AbnormalStatus FROM testResults r Left JOIN test t ON r.testCode = t.testCode WHERE patientID = @patientId AND DATEDIFF(appointmentdate, @appointmentDate)=0";
                     //"SELECT testdate, results, appointmentdate, patientID, r.testCode, testName, AbnormalStatus FROM testResults r JOIN test t ON r.testCode = t.testCode WHERE `appointmentdate` = @appointmentDate AND `patientID` = @patientId;";
                     using (var cmd = new MySqlCommand(testResultQuery, conn))
                     {
@@ -147,7 +147,6 @@ namespace CS3230Project.DAL
                     var testDateOrdinal = reader.GetOrdinal("testdate");
                     var resultsOrdinal = reader.GetOrdinal("results");
                     var appointmentDateOrdinal = reader.GetOrdinal("appointmentdate");
-                    var patientIdOrdinal = reader.GetOrdinal("patientID");
                     var testCodeOrdinal = reader.GetOrdinal("testCode");
                     var testNameOrdinal = reader.GetOrdinal("testName");
                     var statusNameOrdinal = reader.GetOrdinal("AbnormalStatus");
@@ -161,9 +160,6 @@ namespace CS3230Project.DAL
                     var appointmentDate = reader[appointmentDateOrdinal] == DBNull.Value
                         ? DateTime.Now
                         : reader.GetDateTime(appointmentDateOrdinal);
-                    var patientId = reader[patientIdOrdinal] == DBNull.Value
-                        ? 0
-                        : reader.GetInt32(patientIdOrdinal);
                     var testCode = reader[testCodeOrdinal] == DBNull.Value
                         ? 0
                         : reader.GetInt32(testCodeOrdinal);
@@ -175,7 +171,7 @@ namespace CS3230Project.DAL
                         ? default
                         : reader.GetBoolean(statusNameOrdinal);
 
-                    var testResult = new TestResult(testDate, results, appointmentDate, patientId, testCode, testName, status);
+                    var testResult = new TestResult(testDate, results, appointmentDate, testCode, testName, status);
                     testResults.Add(testResult);
                 }
             }

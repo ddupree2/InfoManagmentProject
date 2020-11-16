@@ -5,13 +5,10 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using CS3230Project.Model;
 using CS3230Project.ViewModel;
 using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Asn1;
-using Renci.SshNet.Security;
 
 namespace CS3230Project.View
 {
@@ -28,14 +25,14 @@ namespace CS3230Project.View
         private IList<Visit> visits;
         private readonly DateTimePicker gridDate = new DateTimePicker();
         private DateTime testTime;
-        private TextBox resultsTextBox = new TextBox { Multiline = true };
+        private TextBox resultsTextBox = new TextBox {Multiline = true};
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="VisitForm" /> class.
+        ///     Initializes a new instance of the <see cref="VisitForm" /> class.
         /// </summary>
         /// <param name="patient">The patient.</param>
         public VisitForm(Patient patient)
@@ -62,6 +59,7 @@ namespace CS3230Project.View
                 columnCounter++;
             }
         }
+
         private void setupVistForm()
         {
             this.appointmentComboBox.DataSource = this.visitViewModel.AppointmentsDates;
@@ -71,7 +69,7 @@ namespace CS3230Project.View
             this.nurseComboBox.DataSource = this.retrieveNurseNames(nurses);
             this.nurseComboBox.SelectedIndex = 0;
             this.patientIDTextBox.Text = this.patient.PatientId.ToString();
-            updateVisitForm();
+            this.updateVisitForm();
         }
 
         private void updateVisitForm()
@@ -195,7 +193,7 @@ namespace CS3230Project.View
                 var visit = this.parseVisit();
                 var allTestResults = this.CreateUpdatedTestResults(visit);
 
-                var finalDiagnosisResult = promptForFinalDiagnosis();
+                var finalDiagnosisResult = this.promptForFinalDiagnosis();
                 if (finalDiagnosisResult == DialogResult.No)
                 {
                     return;
@@ -212,6 +210,7 @@ namespace CS3230Project.View
                     this.visitViewModel.InsertVisit(visit);
                     showSuccessMessage("Add Success", "The visit info was successfully added.");
                 }
+
                 this.updateVisitForm();
             }
             catch (MySqlException mex)
@@ -265,7 +264,6 @@ namespace CS3230Project.View
             }
 
             return result;
-
         }
 
         private void toggleRequiredFieldsLabels(bool isVisible)
@@ -296,8 +294,7 @@ namespace CS3230Project.View
             var diagnosis = this.diagnosisTextBox.Text;
             var finalDiagnosis = false || this.finalDiagnosisCheckBox.CheckState == CheckState.Checked;
 
-            var visit = new Visit()
-            {
+            var visit = new Visit {
                 SystolicNum = systolicNumber,
                 Diagnosis = diagnosis,
                 DiastolicNum = diastolicNumber,
@@ -316,7 +313,7 @@ namespace CS3230Project.View
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            Hide();
         }
 
         private static void showErrorMessage(string errorMessage)
@@ -337,12 +334,13 @@ namespace CS3230Project.View
 
         private void bodyTempTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            allowOnlyDecimalNumbers(sender, e);
+            this.allowOnlyDecimalNumbers(sender, e);
         }
 
         private void allowOnlyDecimalNumbers(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != (char) Keys.Back)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.' &&
+                e.KeyChar != (char) Keys.Back)
             {
                 e.Handled = true;
             }
@@ -374,9 +372,10 @@ namespace CS3230Project.View
         {
             allowOnlyDigits(e);
         }
+
         private static void allowOnlyDigits(KeyPressEventArgs e)
         {
-            if (!(char.IsDigit(e.KeyChar) || e.KeyChar == (char)Keys.Back))
+            if (!(char.IsDigit(e.KeyChar) || e.KeyChar == (char) Keys.Back))
             {
                 e.Handled = true;
             }
@@ -393,10 +392,7 @@ namespace CS3230Project.View
 
             if (!visitExists)
             {
-                var visit = new Visit();
-                visit.AppointmentDate = appointmentDate;
-                visit.PatientId = patientId;
-                visit.NurseId = nurseId;
+                var visit = new Visit {AppointmentDate = appointmentDate, PatientId = patientId, NurseId = nurseId};
                 this.visitViewModel.InsertVisit(visit);
             }
 
@@ -410,17 +406,18 @@ namespace CS3230Project.View
             {
                 Debug.WriteLine(ex.Message);
                 Debug.WriteLine(ex.StackTrace);
-                return;
             }
         }
 
-        #endregion
-
-
         private void testResultsGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 0 && e.RowIndex >= 0)
+            var columnIndex = e.ColumnIndex;
+            var rowIndex = e.RowIndex;
+            var lastRowIndex = this.testResultsGridView.RowCount - 1;
+
+            if (columnIndex == 0 && rowIndex >= 0 && rowIndex != lastRowIndex)
             {
+                Debug.WriteLine($"Row Count:{this.testResultsGridView.RowCount} index: {e.RowIndex}");
                 this.testTime = DateTime.Parse(this.testResultsGridView.CurrentCell.Value.ToString());
                 this.testResultsGridView.Controls.Add(this.gridDate);
 
@@ -430,11 +427,11 @@ namespace CS3230Project.View
 
                 this.gridDate.Size = new Size(oRectangle.Width, oRectangle.Height);
                 this.gridDate.Location = new Point(oRectangle.X, oRectangle.Y);
-                this.gridDate.TextChanged += new EventHandler(this.dateTimePicker_OnTextChange);
+                this.gridDate.TextChanged += this.dateTimePicker_OnTextChange;
                 this.gridDate.Visible = true;
             }
 
-            if (e.ColumnIndex == 6)
+            if (columnIndex == 6)
             {
                 if (this.testResultsGridView.CurrentCell.Value.Equals("False"))
                 {
@@ -450,7 +447,6 @@ namespace CS3230Project.View
                 }
             }
         }
-
 
         private void dateTimePicker_OnTextChange(object sender, EventArgs e)
         {
@@ -469,7 +465,8 @@ namespace CS3230Project.View
                 this.testResultsGridView.CurrentCell.Value = dateToCompare.ToShortDateString();
                 this.gridDate.Hide();
             }
-
         }
+
+        #endregion
     }
 }
