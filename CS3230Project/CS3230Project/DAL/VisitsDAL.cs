@@ -116,7 +116,7 @@ namespace CS3230Project.DAL
                 {
                     conn.Open();
                     const string testResultQuery =
-                        "SELECT testdate, results, appointmentdate, r.testCode, testName, AbnormalStatus FROM testResults r Left JOIN test t ON r.testCode = t.testCode WHERE patientID = @patientId AND DATEDIFF(appointmentdate, @appointmentDate)=0";
+                        "SELECT testdate, results, appointmentdate, r.testCode, testName, AbnormalStatus FROM testResults r Left JOIN test t ON r.testCode = t.testCode WHERE patientID = @patientId AND @appointmentDate = appointmentdate";
                     //"SELECT testdate, results, appointmentdate, patientID, r.testCode, testName, AbnormalStatus FROM testResults r JOIN test t ON r.testCode = t.testCode WHERE `appointmentdate` = @appointmentDate AND `patientID` = @patientId;";
                     using (var cmd = new MySqlCommand(testResultQuery, conn))
                     {

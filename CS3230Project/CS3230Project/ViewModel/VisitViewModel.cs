@@ -101,7 +101,6 @@ namespace CS3230Project.ViewModel
             var testDateColumn = new DataColumn(TestDate);
             var testResultsColumn = new DataColumn(Results);
             var appointmentDateColumn = new DataColumn(AppointmentDate);
-            var patientIdColumn = new DataColumn(PatientId);
             var testCodeColumn = new DataColumn(TestCode);
             var testNameColumn = new DataColumn(TestName);
             var statusColumn = new DataColumn(AbnormalStatus);
@@ -109,7 +108,6 @@ namespace CS3230Project.ViewModel
             testResults.Columns.Add(testDateColumn);
             testResults.Columns.Add(testResultsColumn);
             testResults.Columns.Add(appointmentDateColumn);
-            testResults.Columns.Add(patientIdColumn);
             testResults.Columns.Add(testCodeColumn);
             testResults.Columns.Add(testNameColumn);
             testResults.Columns.Add(statusColumn);
@@ -121,7 +119,6 @@ namespace CS3230Project.ViewModel
             dataRow[TestDate] = testResult.TestDate;
             dataRow[Results] = testResult.Results;
             dataRow[AppointmentDate] = testResult.AppointmentDate;
-            dataRow[PatientId] = testResult.PatientId;
             dataRow[TestCode] = testResult.TestCode;
             dataRow[TestName] = testResult.TestName;
             dataRow[AbnormalStatus] = testResult.AbnormalStatus;
