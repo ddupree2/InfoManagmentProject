@@ -348,9 +348,6 @@ namespace CS3230Project.View
                 appointmentDateTimePicker.Text = appointments[cell].AppointmentDate.ToShortDateString();
                 timeComboBox.Text = appointments[cell].AppointmentDate.ToShortTimeString();
                 checkIfAppointmentHasPassed(appointments[cell].AppointmentDate);
-                this.checkIfCanBeDeleted(this.appointments[cell].AppointmentDate);
-                timeComboBox.Enabled = true;
-                appointmentDateTimePicker.Enabled = true;
             }
         }
 
@@ -378,6 +375,9 @@ namespace CS3230Project.View
                 updateButton.Visible = false;
                 reasonTextBox.Enabled = false;
                 doctorIDComboBox.Enabled = false;
+                this.timeComboBox.Enabled = false;
+                this.appointmentDateTimePicker.Enabled = false;
+                this.deleteButton.Visible = false;
             }
             else
             {
@@ -385,6 +385,9 @@ namespace CS3230Project.View
                 updateButton.Visible = true;
                 reasonTextBox.Enabled = true;
                 doctorIDComboBox.Enabled = true;
+                timeComboBox.Enabled = true;
+                appointmentDateTimePicker.Enabled = true;
+                this.checkIfCanBeDeleted(time);
             }
         }
 

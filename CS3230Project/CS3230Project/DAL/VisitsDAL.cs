@@ -51,6 +51,7 @@ namespace CS3230Project.DAL
                 var heartRateOrdinal = reader.GetOrdinal("heartrate");
                 var respirationRateOrdinal = reader.GetOrdinal("respirationrate");
                 var bodyTempOrdinal = reader.GetOrdinal("bodytemp");
+                var weightOrdinal = reader.GetOrdinal("weight");
                 var otherOrdinal = reader.GetOrdinal("other");
                 var nurseIdOrdinal = reader.GetOrdinal("nurseID");
                 var appointmentDateOrdinal = reader.GetOrdinal("appointmentdate");
@@ -75,6 +76,9 @@ namespace CS3230Project.DAL
                     var bodyTemp = reader[bodyTempOrdinal] == DBNull.Value
                         ? 0
                         : reader.GetDouble(bodyTempOrdinal);
+                    var weight = reader[weightOrdinal] == DBNull.Value
+                        ? 0
+                        : reader.GetDouble(weightOrdinal);
                     var other = reader[otherOrdinal] == DBNull.Value
                         ? "null"
                         : reader.GetString(otherOrdinal);
@@ -93,7 +97,7 @@ namespace CS3230Project.DAL
 
                     var finalDiagnosis = reader[finalDiagnosisOrdinal] != DBNull.Value && reader.GetBoolean(finalDiagnosisOrdinal);
 
-                    var visit = new Visit(systolicNum, diastolicNum, heartRate, respirationRate, bodyTemp, other,
+                    var visit = new Visit(systolicNum, diastolicNum, heartRate, respirationRate, bodyTemp, weight, other,
                         nurseId, patientId, appointmentDate, diagnosis, finalDiagnosis);
 
                     var testResults = retrieveTestResults(patientId, appointmentDate);
@@ -220,8 +224,8 @@ namespace CS3230Project.DAL
             {
                 conn.Open();
                 const string insertQuery =
-                    "INSERT INTO `visit` (`systolicNum`, `diastolicNum`, `heartrate`, `respirationrate`, `bodytemp`, `other`, `nurseID`, `appointmentdate`, `patientID`,`diagnosis`, `FinalDiagnosis`) " +
-                    "VALUES (@systolicNum, @diastolicNum, @heartrate, @respirationrate, @bodytemp, @other, @nurseID, @AppointmentDate, @patientID, @diagnosis, @finalDiagnosis);";
+                    "INSERT INTO `visit` (`systolicNum`, `diastolicNum`, `heartrate`, `respirationrate`, `bodytemp`,`weight` , `other`, `nurseID`, `appointmentdate`, `patientID`,`diagnosis`, `FinalDiagnosis`) " +
+                    "VALUES (@systolicNum, @diastolicNum, @heartrate, @respirationrate, @bodytemp, @weight, @other, @nurseID, @AppointmentDate, @patientID, @diagnosis, @finalDiagnosis);";
                 using (var cmd = new MySqlCommand(insertQuery, conn))
                 {
                     cmd.Parameters.Add("@systolicNum", MySqlDbType.Int32);
@@ -238,6 +242,9 @@ namespace CS3230Project.DAL
 
                     cmd.Parameters.Add("@bodytemp", MySqlDbType.Double);
                     cmd.Parameters["@bodytemp"].Value = visit.BodyTemp;
+
+                    cmd.Parameters.Add("@weight", MySqlDbType.Double);
+                    cmd.Parameters["@weight"].Value = visit.Weight;
 
                     cmd.Parameters.Add("@other", MySqlDbType.VarChar);
                     cmd.Parameters["@other"].Value = visit.Other;
@@ -279,7 +286,7 @@ namespace CS3230Project.DAL
                 conn.Open();
                 const string updateQuery =
                     "UPDATE `visit` SET  `systolicNum`= @systolicNum, `diastolicNum`= @diastolicNum, `heartrate`= @heartrate, `respirationrate`= @respirationrate, " +
-                    "`bodytemp` = @bodytemp, `other` = @other, `nurseID` = @nurseID, `diagnosis` = @diagnosis, `FinalDiagnosis` = @finalDiagnosis WHERE `patientID` = @patientID AND `appointmentdate` = @AppointmentDate;";
+                    "`bodytemp` = @bodytemp, `weight` = @weight, `other` = @other, `nurseID` = @nurseID, `diagnosis` = @diagnosis, `FinalDiagnosis` = @finalDiagnosis WHERE `patientID` = @patientID AND `appointmentdate` = @AppointmentDate;";
                 
                 using (var cmd = new MySqlCommand(updateQuery, conn))
                 {
@@ -297,6 +304,9 @@ namespace CS3230Project.DAL
 
                     cmd.Parameters.Add("@bodytemp", MySqlDbType.Double);
                     cmd.Parameters["@bodytemp"].Value = visit.BodyTemp;
+
+                    cmd.Parameters.Add("@weight", MySqlDbType.Double);
+                    cmd.Parameters["@weight"].Value = visit.Weight;
 
                     cmd.Parameters.Add("@other", MySqlDbType.VarChar);
                     cmd.Parameters["@other"].Value = visit.Other;

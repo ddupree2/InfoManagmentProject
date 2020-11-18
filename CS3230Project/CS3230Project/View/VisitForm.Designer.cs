@@ -62,6 +62,9 @@
             this.respirationEmptyLabel = new System.Windows.Forms.Label();
             this.bodyTempEmptyLabel = new System.Windows.Forms.Label();
             this.orderTestsButton = new System.Windows.Forms.Button();
+            this.weightEmptyLabel = new System.Windows.Forms.Label();
+            this.weightTextBox = new System.Windows.Forms.TextBox();
+            this.weightLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.testResultsGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -129,7 +132,7 @@
             // 
             this.label7.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(98, 550);
+            this.label7.Location = new System.Drawing.Point(99, 595);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(67, 25);
             this.label7.TabIndex = 7;
@@ -148,21 +151,21 @@
             // diagnosisTextBox
             // 
             this.diagnosisTextBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.diagnosisTextBox.Location = new System.Drawing.Point(157, 628);
+            this.diagnosisTextBox.Location = new System.Drawing.Point(157, 683);
             this.diagnosisTextBox.Multiline = true;
             this.diagnosisTextBox.Name = "diagnosisTextBox";
             this.diagnosisTextBox.Size = new System.Drawing.Size(274, 52);
-            this.diagnosisTextBox.TabIndex = 11;
+            this.diagnosisTextBox.TabIndex = 12;
             // 
             // otherTextBox
             // 
             this.otherTextBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.otherTextBox.Location = new System.Drawing.Point(157, 550);
+            this.otherTextBox.Location = new System.Drawing.Point(157, 595);
             this.otherTextBox.MaxLength = 300;
             this.otherTextBox.Multiline = true;
             this.otherTextBox.Name = "otherTextBox";
             this.otherTextBox.Size = new System.Drawing.Size(274, 72);
-            this.otherTextBox.TabIndex = 10;
+            this.otherTextBox.TabIndex = 11;
             // 
             // bodyTempTextBox
             // 
@@ -208,7 +211,7 @@
             // 
             this.label10.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(68, 628);
+            this.label10.Location = new System.Drawing.Point(65, 683);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(104, 25);
             this.label10.TabIndex = 20;
@@ -218,10 +221,10 @@
             // 
             this.finalDiagnosisCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.finalDiagnosisCheckBox.AutoSize = true;
-            this.finalDiagnosisCheckBox.Location = new System.Drawing.Point(415, 656);
+            this.finalDiagnosisCheckBox.Location = new System.Drawing.Point(415, 703);
             this.finalDiagnosisCheckBox.Name = "finalDiagnosisCheckBox";
             this.finalDiagnosisCheckBox.Size = new System.Drawing.Size(167, 29);
-            this.finalDiagnosisCheckBox.TabIndex = 12;
+            this.finalDiagnosisCheckBox.TabIndex = 13;
             this.finalDiagnosisCheckBox.Text = "Final Diagnosis";
             this.finalDiagnosisCheckBox.UseVisualStyleBackColor = true;
             // 
@@ -315,7 +318,7 @@
             this.addUpdateButton.Location = new System.Drawing.Point(882, 697);
             this.addUpdateButton.Name = "addUpdateButton";
             this.addUpdateButton.Size = new System.Drawing.Size(155, 38);
-            this.addUpdateButton.TabIndex = 13;
+            this.addUpdateButton.TabIndex = 14;
             this.addUpdateButton.Text = "Add";
             this.addUpdateButton.UseVisualStyleBackColor = true;
             this.addUpdateButton.Click += new System.EventHandler(this.addUpdateButton_Click);
@@ -325,7 +328,7 @@
             this.cancelButton.Location = new System.Drawing.Point(1070, 697);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(155, 38);
-            this.cancelButton.TabIndex = 14;
+            this.cancelButton.TabIndex = 15;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
@@ -412,11 +415,45 @@
             this.orderTestsButton.UseVisualStyleBackColor = true;
             this.orderTestsButton.Click += new System.EventHandler(this.orderTestsButton_Click);
             // 
+            // weightEmptyLabel
+            // 
+            this.weightEmptyLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.weightEmptyLabel.AutoSize = true;
+            this.weightEmptyLabel.ForeColor = System.Drawing.Color.Red;
+            this.weightEmptyLabel.Location = new System.Drawing.Point(47, 538);
+            this.weightEmptyLabel.Name = "weightEmptyLabel";
+            this.weightEmptyLabel.Size = new System.Drawing.Size(20, 25);
+            this.weightEmptyLabel.TabIndex = 43;
+            this.weightEmptyLabel.Text = "*";
+            this.weightEmptyLabel.Visible = false;
+            // 
+            // weightTextBox
+            // 
+            this.weightTextBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.weightTextBox.Location = new System.Drawing.Point(157, 538);
+            this.weightTextBox.MaxLength = 5;
+            this.weightTextBox.Name = "weightTextBox";
+            this.weightTextBox.Size = new System.Drawing.Size(274, 30);
+            this.weightTextBox.TabIndex = 10;
+            // 
+            // weightLabel
+            // 
+            this.weightLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.weightLabel.AutoSize = true;
+            this.weightLabel.Location = new System.Drawing.Point(58, 541);
+            this.weightLabel.Name = "weightLabel";
+            this.weightLabel.Size = new System.Drawing.Size(80, 25);
+            this.weightLabel.TabIndex = 41;
+            this.weightLabel.Text = "Weight:";
+            // 
             // VisitForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1237, 747);
+            this.Controls.Add(this.weightEmptyLabel);
+            this.Controls.Add(this.weightTextBox);
+            this.Controls.Add(this.weightLabel);
             this.Controls.Add(this.orderTestsButton);
             this.Controls.Add(this.bodyTempEmptyLabel);
             this.Controls.Add(this.heartRateEmptyLabel);
@@ -497,5 +534,8 @@
         private System.Windows.Forms.Label respirationEmptyLabel;
         private System.Windows.Forms.Label bodyTempEmptyLabel;
         private System.Windows.Forms.Button orderTestsButton;
+        private System.Windows.Forms.Label weightEmptyLabel;
+        private System.Windows.Forms.TextBox weightTextBox;
+        private System.Windows.Forms.Label weightLabel;
     }
 }

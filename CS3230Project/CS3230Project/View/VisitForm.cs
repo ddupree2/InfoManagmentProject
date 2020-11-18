@@ -102,6 +102,7 @@ namespace CS3230Project.View
             this.respirationRateTextBox.Text = string.Empty;
             this.finalDiagnosisCheckBox.Checked = false;
             this.otherTextBox.Text = string.Empty;
+            this.weightTextBox.Text = string.Empty;
             this.addUpdateButton.Text = @"Add";
 
             this.testResultsGridView.DataSource = new DataTable();
@@ -115,6 +116,7 @@ namespace CS3230Project.View
             this.diastolicTextBox.Text = existingVisit.DiastolicNum.ToString();
             this.systolicTextBox.Text = existingVisit.SystolicNum.ToString();
             this.bodyTempTextBox.Text = existingVisit.BodyTemp.ToString(CultureInfo.InvariantCulture);
+            this.weightTextBox.Text = existingVisit.Weight.ToString(CultureInfo.InvariantCulture);
             this.heartRateTextBox.Text = existingVisit.HeartRate.ToString();
             this.respirationRateTextBox.Text = existingVisit.RespirationRate.ToString();
             this.otherTextBox.Text = existingVisit.Other;
@@ -145,6 +147,7 @@ namespace CS3230Project.View
             this.diastolicTextBox.Enabled = shouldEnable;
             this.systolicTextBox.Enabled = shouldEnable;
             this.bodyTempTextBox.Enabled = shouldEnable;
+            this.weightTextBox.Enabled = shouldEnable;
             this.heartRateTextBox.Enabled = shouldEnable;
             this.respirationRateTextBox.Enabled = shouldEnable;
             this.finalDiagnosisCheckBox.Enabled = shouldEnable;
@@ -274,6 +277,7 @@ namespace CS3230Project.View
             this.diastolicEmptyLabel.Visible = isVisible;
             this.heartRateEmptyLabel.Visible = isVisible;
             this.respirationEmptyLabel.Visible = isVisible;
+            this.weightEmptyLabel.Visible = isVisible;
         }
 
         private Visit parseVisit()
@@ -283,6 +287,7 @@ namespace CS3230Project.View
             var heartrate = int.Parse(this.heartRateTextBox.Text);
             var respirationRate = int.Parse(this.respirationRateTextBox.Text);
             var bodyTemp = double.Parse(this.bodyTempTextBox.Text);
+            var weight = double.Parse(this.weightTextBox.Text);
             var other = this.otherTextBox.Text;
 
             var nurses = this.visitViewModel.Nurses;
@@ -301,6 +306,7 @@ namespace CS3230Project.View
                 HeartRate = heartrate,
                 RespirationRate = respirationRate,
                 BodyTemp = bodyTemp,
+                Weight = weight,
                 Other = other,
                 NurseId = nurseId,
                 AppointmentDate = appointmentDate,

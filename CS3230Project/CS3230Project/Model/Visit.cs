@@ -51,6 +51,14 @@ namespace CS3230Project.Model
         public double BodyTemp { get; set; }
 
         /// <summary>
+        /// Gets or sets the weight.
+        /// </summary>
+        /// <value>
+        /// The weight.
+        /// </value>
+        public double Weight { get; set; }
+
+        /// <summary>
         ///     Gets or sets the other.
         /// </summary>
         /// <value>
@@ -108,28 +116,29 @@ namespace CS3230Project.Model
 
         #endregion
 
-    #region Constructors
+        #region Constructors
 
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="Visit" /> class.
-    /// </summary>
-    /// <param name="systolicNum">The systolic number.</param>
-    /// <param name="diastolicNum">The diastolic number.</param>
-    /// <param name="heartRate">The heart rate.</param>
-    /// <param name="respirationRate">The respiration rate.</param>
-    /// <param name="bodyTemp">The body temporary.</param>
-    /// <param name="other">The other.</param>
-    /// <param name="nurseId">The nurse identifier.</param>
-    /// <param name="patientId">The patient identifier.</param>
-    /// <param name="appointmentDate">The appointment date.</param>
-    /// <param name="diagnosis">The diagnosis.</param>
-    /// <param name="finalDiagnosis"></param>
-    /// <exception cref="ArgumentNullException">
-    ///     other
-    ///     or
-    ///     diagnosis
-    /// </exception>
-    public Visit(int systolicNum, int diastolicNum, int heartRate, int respirationRate, double bodyTemp,
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Visit" /> class.
+        /// </summary>
+        /// <param name="systolicNum">The systolic number.</param>
+        /// <param name="diastolicNum">The diastolic number.</param>
+        /// <param name="heartRate">The heart rate.</param>
+        /// <param name="respirationRate">The respiration rate.</param>
+        /// <param name="bodyTemp">The body temporary.</param>
+        /// <param name="other">The other.</param>
+        /// <param name="nurseId">The nurse identifier.</param>
+        /// <param name="patientId">The patient identifier.</param>
+        /// <param name="appointmentDate">The appointment date.</param>
+        /// <param name="diagnosis">The diagnosis.</param>
+        /// <param name="finalDiagnosis"></param>
+        /// <param name="weight"></param>
+        /// <exception cref="ArgumentNullException">
+        ///     other
+        ///     or
+        ///     diagnosis
+        /// </exception>
+        public Visit(int systolicNum, int diastolicNum, int heartRate, int respirationRate, double bodyTemp, double weight,
             string other, string nurseId, int patientId, DateTime appointmentDate, string diagnosis, bool finalDiagnosis)
         {
             this.SystolicNum = systolicNum;
@@ -137,6 +146,7 @@ namespace CS3230Project.Model
             this.HeartRate = heartRate;
             this.RespirationRate = respirationRate;
             this.BodyTemp = bodyTemp;
+            this.Weight = weight;
             this.Other = other ?? throw new ArgumentNullException(nameof(other));
             this.NurseId = nurseId;
             this.PatientId = patientId;
@@ -156,6 +166,7 @@ namespace CS3230Project.Model
             this.HeartRate = 0;
             this.RespirationRate = 0;
             this.BodyTemp = 0;
+            this.Weight = 0;
             this.Other = string.Empty;
             this.Diagnosis = string.Empty;
             this.FinalDiagnosis = false;

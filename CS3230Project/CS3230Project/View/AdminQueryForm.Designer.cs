@@ -57,8 +57,9 @@
             // 
             this.queryTextBox.Location = new System.Drawing.Point(93, 106);
             this.queryTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.queryTextBox.Multiline = true;
             this.queryTextBox.Name = "queryTextBox";
-            this.queryTextBox.Size = new System.Drawing.Size(829, 26);
+            this.queryTextBox.Size = new System.Drawing.Size(829, 160);
             this.queryTextBox.TabIndex = 2;
             // 
             // label1
@@ -67,7 +68,7 @@
             this.label1.Location = new System.Drawing.Point(42, 55);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(48, 20);
+            this.label1.Size = new System.Drawing.Size(59, 25);
             this.label1.TabIndex = 3;
             this.label1.Text = "Start:";
             // 
@@ -77,7 +78,7 @@
             this.label2.Location = new System.Drawing.Point(411, 55);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(42, 20);
+            this.label2.Size = new System.Drawing.Size(53, 25);
             this.label2.TabIndex = 4;
             this.label2.Text = "End:";
             // 
@@ -87,7 +88,7 @@
             this.label3.Location = new System.Drawing.Point(26, 109);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(64, 20);
+            this.label3.Size = new System.Drawing.Size(81, 25);
             this.label3.TabIndex = 5;
             this.label3.Text = "Search:";
             // 
@@ -96,7 +97,7 @@
             this.afterDateTimePicker.Location = new System.Drawing.Point(456, 52);
             this.afterDateTimePicker.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.afterDateTimePicker.Name = "afterDateTimePicker";
-            this.afterDateTimePicker.Size = new System.Drawing.Size(298, 26);
+            this.afterDateTimePicker.Size = new System.Drawing.Size(298, 30);
             this.afterDateTimePicker.TabIndex = 6;
             // 
             // beforeDatePicker
@@ -104,7 +105,7 @@
             this.beforeDatePicker.Location = new System.Drawing.Point(93, 52);
             this.beforeDatePicker.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.beforeDatePicker.Name = "beforeDatePicker";
-            this.beforeDatePicker.Size = new System.Drawing.Size(298, 26);
+            this.beforeDatePicker.Size = new System.Drawing.Size(298, 30);
             this.beforeDatePicker.TabIndex = 7;
             // 
             // visitsButton
@@ -123,7 +124,7 @@
             this.timeRangeCheckBox.AutoSize = true;
             this.timeRangeCheckBox.Location = new System.Drawing.Point(761, 54);
             this.timeRangeCheckBox.Name = "timeRangeCheckBox";
-            this.timeRangeCheckBox.Size = new System.Drawing.Size(171, 24);
+            this.timeRangeCheckBox.Size = new System.Drawing.Size(210, 29);
             this.timeRangeCheckBox.TabIndex = 9;
             this.timeRangeCheckBox.Text = "Disable Time Range";
             this.timeRangeCheckBox.UseVisualStyleBackColor = true;
@@ -135,15 +136,16 @@
             this.resultsGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.resultsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.resultsGridView.Location = new System.Drawing.Point(30, 170);
+            this.resultsGridView.Location = new System.Drawing.Point(30, 313);
             this.resultsGridView.Name = "resultsGridView";
             this.resultsGridView.ReadOnly = true;
-            this.resultsGridView.Size = new System.Drawing.Size(1029, 498);
+            this.resultsGridView.RowHeadersWidth = 51;
+            this.resultsGridView.Size = new System.Drawing.Size(1029, 355);
             this.resultsGridView.TabIndex = 10;
             // 
             // AdminQueryForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1089, 692);
             this.Controls.Add(this.resultsGridView);
