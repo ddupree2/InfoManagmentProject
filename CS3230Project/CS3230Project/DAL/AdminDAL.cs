@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Text;
 using MySql.Data.MySqlClient;
 
 namespace CS3230Project.DAL
@@ -9,6 +11,12 @@ namespace CS3230Project.DAL
     /// </summary>
     public class AdminDal
     {
+        #region Data members
+
+        private readonly List<int> skippedColumns = new List<int>();
+
+        #endregion
+
         #region Methods
 
         public DataTable RetrieveVisitsBetween(DateTime startDateTime, DateTime endDateTime)
@@ -31,7 +39,7 @@ namespace CS3230Project.DAL
                     cmd.Parameters["@endDate"].Value = DateTime.Parse(endDate);
                     using (var reader = cmd.ExecuteReader())
                     {
-                        return readInResults(reader);
+                        return this.readInResults(reader);
                     }
                 }
             }
@@ -49,22 +57,22 @@ namespace CS3230Project.DAL
             using (connection)
             {
                 connection.Open();
-                return fetchQueryResults(query, connection);
+                return this.fetchQueryResults(query, connection);
             }
         }
 
-        private static DataTable fetchQueryResults(string query, MySqlConnection connection)
+        private DataTable fetchQueryResults(string query, MySqlConnection connection)
         {
             using (var cmd = new MySqlCommand(query, connection))
             {
                 using (var reader = cmd.ExecuteReader())
                 {
-                    return readInResults(reader);
+                    return this.readInResults(reader);
                 }
             }
         }
 
-        private static DataTable readInResults(IDataReader reader)
+        private DataTable readInResults(IDataReader reader)
         {
             var columns = reader.FieldCount;
             var columnsNamesAppended = false;
@@ -72,15 +80,22 @@ namespace CS3230Project.DAL
 
             while (reader.Read())
             {
-                appendColumnNames(reader, columnsNamesAppended, columns, table);
+                this.appendColumnNames(reader, columnsNamesAppended, columns, table);
                 columnsNamesAppended = true;
 
                 var fields = new string[columns];
                 for (var i = 0; i < columns; i++)
                 {
+                    if (this.skippedColumns.Contains(i))
+                    {
+                        continue;
+                    }
+
                     var currValue = reader[i] == DBNull.Value ? null : reader.GetString(i);
                     fields[i] = currValue;
                 }
+
+                fields = removeEmptyColumns(fields);
 
                 var colIndex = 0;
                 var row = table.NewRow();
@@ -96,7 +111,21 @@ namespace CS3230Project.DAL
             return table;
         }
 
-        private static void appendColumnNames(IDataRecord record, bool columnsNamesAppended, int columns,
+        private static string[] removeEmptyColumns(string[] fields)
+        {
+            var fieldsList = new List<string>();
+            foreach (var field in fields)
+            {
+                if (field != null)
+                {
+                    fieldsList.Add(field);
+                }
+            }
+
+            return fieldsList.ToArray();
+        }
+
+        private void appendColumnNames(IDataRecord record, bool columnsNamesAppended, int columns,
             DataTable dataTable)
         {
             if (columnsNamesAppended)
@@ -104,17 +133,18 @@ namespace CS3230Project.DAL
                 return;
             }
 
-            var columnNames = new string[columns];
             for (var i = 0; i < columns; i++)
             {
                 var columnName = record[i] == DBNull.Value ? null : record.GetName(i);
-                columnNames[i] = columnName;
-            }
-
-            foreach (var columnName in columnNames)
-            {
-                var currDataColumn = new DataColumn(columnName);
-                dataTable.Columns.Add(currDataColumn);
+                try
+                {
+                    var currDataColumn = new DataColumn(columnName);
+                    dataTable.Columns.Add(currDataColumn);
+                }
+                catch
+                {
+                    this.skippedColumns.Add(i);
+                }
             }
         }
 
