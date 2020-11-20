@@ -11,6 +11,8 @@ namespace CS3230Project.DAL
     /// </summary>
     public class VisitsDal
     {
+        #region Methods
+
         /// <summary>
         ///     Retrieves the visits.
         /// </summary>
@@ -38,7 +40,6 @@ namespace CS3230Project.DAL
                 }
             }
         }
-
 
         private static IList<Visit> retrieveVisitList(MySqlCommand cmd)
         {
@@ -95,9 +96,11 @@ namespace CS3230Project.DAL
                         ? "null"
                         : reader.GetString(diagnosisOrdinal);
 
-                    var finalDiagnosis = reader[finalDiagnosisOrdinal] != DBNull.Value && reader.GetBoolean(finalDiagnosisOrdinal);
+                    var finalDiagnosis = reader[finalDiagnosisOrdinal] != DBNull.Value &&
+                                         reader.GetBoolean(finalDiagnosisOrdinal);
 
-                    var visit = new Visit(systolicNum, diastolicNum, heartRate, respirationRate, bodyTemp, weight, other,
+                    var visit = new Visit(systolicNum, diastolicNum, heartRate, respirationRate, bodyTemp, weight,
+                        other,
                         nurseId, patientId, appointmentDate, diagnosis, finalDiagnosis);
 
                     var testResults = retrieveTestResults(patientId, appointmentDate);
@@ -146,15 +149,15 @@ namespace CS3230Project.DAL
         {
             using (var reader = cmd.ExecuteReader())
             {
+                var testDateOrdinal = reader.GetOrdinal("testdate");
+                var resultsOrdinal = reader.GetOrdinal("results");
+                var appointmentDateOrdinal = reader.GetOrdinal("appointmentdate");
+                var testCodeOrdinal = reader.GetOrdinal("testCode");
+                var testNameOrdinal = reader.GetOrdinal("testName");
+                var statusNameOrdinal = reader.GetOrdinal("AbnormalStatus");
+
                 while (reader.Read())
                 {
-                    var testDateOrdinal = reader.GetOrdinal("testdate");
-                    var resultsOrdinal = reader.GetOrdinal("results");
-                    var appointmentDateOrdinal = reader.GetOrdinal("appointmentdate");
-                    var testCodeOrdinal = reader.GetOrdinal("testCode");
-                    var testNameOrdinal = reader.GetOrdinal("testName");
-                    var statusNameOrdinal = reader.GetOrdinal("AbnormalStatus");
-
                     var testDate = reader[testDateOrdinal] == DBNull.Value
                         ? DateTime.Now
                         : reader.GetDateTime(testDateOrdinal);
@@ -287,7 +290,7 @@ namespace CS3230Project.DAL
                 const string updateQuery =
                     "UPDATE `visit` SET  `systolicNum`= @systolicNum, `diastolicNum`= @diastolicNum, `heartrate`= @heartrate, `respirationrate`= @respirationrate, " +
                     "`bodytemp` = @bodytemp, `weight` = @weight, `other` = @other, `nurseID` = @nurseID, `diagnosis` = @diagnosis, `FinalDiagnosis` = @finalDiagnosis WHERE `patientID` = @patientID AND `appointmentdate` = @AppointmentDate;";
-                
+
                 using (var cmd = new MySqlCommand(updateQuery, conn))
                 {
                     cmd.Parameters.Add("@systolicNum", MySqlDbType.Int32);
@@ -332,5 +335,7 @@ namespace CS3230Project.DAL
                 }
             }
         }
+
+        #endregion
     }
 }

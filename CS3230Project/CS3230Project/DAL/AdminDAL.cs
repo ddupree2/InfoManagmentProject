@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using MySql.Data.MySqlClient;
 
 namespace CS3230Project.DAL
@@ -13,18 +12,34 @@ namespace CS3230Project.DAL
     {
         #region Data members
 
+        private const string Results = "Results";
+        private const string AppointmentDate = "Appointment Date";
+        private const string PatientId = "Patient ID";
+        private const string TestCode = "Test Code";
+        private const string Diagnosis = "Diagnosis";
+        private const string AbnormalStatus = "Abnormal Status";
+        private const string PatientName = "Patient Name";
+        private const string NurseName = "Nurse Name";
+        private const string DoctorName = "Doctor Name";
+
         private readonly List<int> skippedColumns = new List<int>();
 
         #endregion
 
         #region Methods
 
+        /// <summary>
+        ///     Retrieves the visits between.
+        /// </summary>
+        /// <param name="startDateTime">The start date time.</param>
+        /// <param name="endDateTime">The end date time.</param>
+        /// <returns> a data table with all required visit info between the given date range.</returns>
         public DataTable RetrieveVisitsBetween(DateTime startDateTime, DateTime endDateTime)
         {
             var startDate = startDateTime.ToString("yyyy-MM-dd") + " 00:00:00";
             var endDate = endDateTime.ToString("yyyy-MM-dd") + " 23:59:59";
-            const string visitsBetweenQuery =
-                "SELECT * FROM visit WHERE appointmentdate BETWEEN @startDate AND @endDate";
+            const string visitsBetweenQuery = "pullDatesBetween";
+
             var connection = DbConnection.GetConnection();
 
             using (connection)
@@ -32,17 +47,109 @@ namespace CS3230Project.DAL
                 connection.Open();
                 using (var cmd = new MySqlCommand(visitsBetweenQuery, connection))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@startDate", MySqlDbType.DateTime);
                     cmd.Parameters["@startDate"].Value = DateTime.Parse(startDate);
+                    cmd.Parameters["@startDate"].Direction = ParameterDirection.Input;
 
                     cmd.Parameters.Add("@endDate", MySqlDbType.DateTime);
                     cmd.Parameters["@endDate"].Value = DateTime.Parse(endDate);
+                    cmd.Parameters["@endDate"].Direction = ParameterDirection.Input;
+
                     using (var reader = cmd.ExecuteReader())
                     {
-                        return this.readInResults(reader);
+                        return this.readInQueryVisits(reader);
                     }
                 }
             }
+        }
+
+        private DataTable readInQueryVisits(IDataReader reader)
+        {
+            var queryVisitsTable = new DataTable();
+            this.appendQueryVisitsColumns(queryVisitsTable);
+            this.readInVisits(queryVisitsTable, reader);
+
+            return queryVisitsTable;
+        }
+
+        private void readInVisits(DataTable queryVisitsTable, IDataReader reader)
+        {
+            var appointmentDateOrdinal = reader.GetOrdinal("appointmentdate");
+            var patientIdOrdinal = reader.GetOrdinal("patientID");
+            var patientNameOrdinal = reader.GetOrdinal("patientName");
+            var diagnosisOrdinal = reader.GetOrdinal("diagnosis");
+            var resultsOrdinal = reader.GetOrdinal("results");
+            var testCodeOrdinal = reader.GetOrdinal("testCode");
+            var abnormalStatusOrdinal = reader.GetOrdinal("AbnormalStatus");
+            var nurseNameOrdinal = reader.GetOrdinal("nurseName");
+            var doctorNameOrdinal = reader.GetOrdinal("doctorName");
+
+            while (reader.Read())
+            {
+                var appointmentDate = reader[appointmentDateOrdinal] == DBNull.Value
+                    ? DateTime.Now
+                    : reader.GetDateTime(appointmentDateOrdinal);
+                var patientId = reader[patientIdOrdinal] == DBNull.Value
+                    ? 0
+                    : reader.GetInt32(patientIdOrdinal);
+                var patientName = reader[patientNameOrdinal] == DBNull.Value
+                    ? default
+                    : reader.GetString(patientNameOrdinal);
+                var diagnosis = reader[diagnosisOrdinal] == DBNull.Value
+                    ? default
+                    : reader.GetString(diagnosisOrdinal);
+                var results = reader[resultsOrdinal] == DBNull.Value
+                    ? default
+                    : reader.GetString(resultsOrdinal);
+                var testCode = reader[testCodeOrdinal] == DBNull.Value
+                    ? 0
+                    : reader.GetInt32(testCodeOrdinal);
+                var abnormalStatus = reader[abnormalStatusOrdinal] == DBNull.Value
+                    ? default
+                    : reader.GetBoolean(abnormalStatusOrdinal);
+                var nurseName = reader[nurseNameOrdinal] == DBNull.Value
+                    ? default
+                    : reader.GetString(nurseNameOrdinal);
+                var doctorName = reader[doctorNameOrdinal] == DBNull.Value
+                    ? default
+                    : reader.GetString(doctorNameOrdinal);
+
+                var dataRow = queryVisitsTable.NewRow();
+                dataRow[AppointmentDate] = appointmentDate;
+                dataRow[PatientId] = patientId;
+                dataRow[PatientName] = patientName;
+                dataRow[Diagnosis] = diagnosis;
+                dataRow[Results] = results;
+                dataRow[TestCode] = testCode;
+                dataRow[AbnormalStatus] = abnormalStatus;
+                dataRow[NurseName] = nurseName;
+                dataRow[DoctorName] = doctorName;
+                queryVisitsTable.Rows.Add(dataRow);
+            }
+        }
+
+        private void appendQueryVisitsColumns(DataTable queryVisitsTable)
+        {
+            var appointmentDateColumn = new DataColumn(AppointmentDate);
+            var patientIdColumn = new DataColumn(PatientId);
+            var patientNameColumn = new DataColumn(PatientName);
+            var diagnosisColumn = new DataColumn(Diagnosis);
+            var resultsColumn = new DataColumn(Results);
+            var testCodeColumn = new DataColumn(TestCode);
+            var abnormalStatusColumn = new DataColumn(AbnormalStatus);
+            var nurseNameColumn = new DataColumn(NurseName);
+            var doctorNameColumn = new DataColumn(DoctorName);
+
+            queryVisitsTable.Columns.Add(appointmentDateColumn);
+            queryVisitsTable.Columns.Add(patientIdColumn);
+            queryVisitsTable.Columns.Add(patientNameColumn);
+            queryVisitsTable.Columns.Add(diagnosisColumn);
+            queryVisitsTable.Columns.Add(resultsColumn);
+            queryVisitsTable.Columns.Add(testCodeColumn);
+            queryVisitsTable.Columns.Add(abnormalStatusColumn);
+            queryVisitsTable.Columns.Add(nurseNameColumn);
+            queryVisitsTable.Columns.Add(doctorNameColumn);
         }
 
         /// <summary>
@@ -91,7 +198,7 @@ namespace CS3230Project.DAL
                         continue;
                     }
 
-                    var currValue = reader[i] == DBNull.Value ? null : reader.GetString(i);
+                    var currValue = reader[i] == DBNull.Value ? default : reader.GetString(i);
                     fields[i] = currValue;
                 }
 
@@ -111,12 +218,12 @@ namespace CS3230Project.DAL
             return table;
         }
 
-        private static string[] removeEmptyColumns(string[] fields)
+        private static string[] removeEmptyColumns(IEnumerable<string> fields)
         {
             var fieldsList = new List<string>();
             foreach (var field in fields)
             {
-                if (field != null)
+                if (!string.IsNullOrEmpty(field))
                 {
                     fieldsList.Add(field);
                 }
@@ -135,7 +242,7 @@ namespace CS3230Project.DAL
 
             for (var i = 0; i < columns; i++)
             {
-                var columnName = record[i] == DBNull.Value ? null : record.GetName(i);
+                var columnName = record[i] == DBNull.Value ? default : record.GetName(i);
                 try
                 {
                     var currDataColumn = new DataColumn(columnName);
