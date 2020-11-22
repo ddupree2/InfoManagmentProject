@@ -79,9 +79,6 @@ namespace CS3230Project.DAL
             var patientIdOrdinal = reader.GetOrdinal("patientID");
             var patientNameOrdinal = reader.GetOrdinal("patientName");
             var diagnosisOrdinal = reader.GetOrdinal("diagnosis");
-            var resultsOrdinal = reader.GetOrdinal("results");
-            var testCodeOrdinal = reader.GetOrdinal("testCode");
-            var abnormalStatusOrdinal = reader.GetOrdinal("AbnormalStatus");
             var nurseNameOrdinal = reader.GetOrdinal("nurseName");
             var doctorNameOrdinal = reader.GetOrdinal("doctorName");
 
@@ -99,15 +96,6 @@ namespace CS3230Project.DAL
                 var diagnosis = reader[diagnosisOrdinal] == DBNull.Value
                     ? default
                     : reader.GetString(diagnosisOrdinal);
-                var results = reader[resultsOrdinal] == DBNull.Value
-                    ? default
-                    : reader.GetString(resultsOrdinal);
-                var testCode = reader[testCodeOrdinal] == DBNull.Value
-                    ? 0
-                    : reader.GetInt32(testCodeOrdinal);
-                var abnormalStatus = reader[abnormalStatusOrdinal] == DBNull.Value
-                    ? default
-                    : reader.GetBoolean(abnormalStatusOrdinal);
                 var nurseName = reader[nurseNameOrdinal] == DBNull.Value
                     ? default
                     : reader.GetString(nurseNameOrdinal);
@@ -115,14 +103,12 @@ namespace CS3230Project.DAL
                     ? default
                     : reader.GetString(doctorNameOrdinal);
 
+
                 var dataRow = queryVisitsTable.NewRow();
                 dataRow[AppointmentDate] = appointmentDate;
                 dataRow[PatientId] = patientId;
                 dataRow[PatientName] = patientName;
                 dataRow[Diagnosis] = diagnosis;
-                dataRow[Results] = results;
-                dataRow[TestCode] = testCode;
-                dataRow[AbnormalStatus] = abnormalStatus;
                 dataRow[NurseName] = nurseName;
                 dataRow[DoctorName] = doctorName;
                 queryVisitsTable.Rows.Add(dataRow);
@@ -135,9 +121,6 @@ namespace CS3230Project.DAL
             var patientIdColumn = new DataColumn(PatientId);
             var patientNameColumn = new DataColumn(PatientName);
             var diagnosisColumn = new DataColumn(Diagnosis);
-            var resultsColumn = new DataColumn(Results);
-            var testCodeColumn = new DataColumn(TestCode);
-            var abnormalStatusColumn = new DataColumn(AbnormalStatus);
             var nurseNameColumn = new DataColumn(NurseName);
             var doctorNameColumn = new DataColumn(DoctorName);
 
@@ -145,9 +128,6 @@ namespace CS3230Project.DAL
             queryVisitsTable.Columns.Add(patientIdColumn);
             queryVisitsTable.Columns.Add(patientNameColumn);
             queryVisitsTable.Columns.Add(diagnosisColumn);
-            queryVisitsTable.Columns.Add(resultsColumn);
-            queryVisitsTable.Columns.Add(testCodeColumn);
-            queryVisitsTable.Columns.Add(abnormalStatusColumn);
             queryVisitsTable.Columns.Add(nurseNameColumn);
             queryVisitsTable.Columns.Add(doctorNameColumn);
         }

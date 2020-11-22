@@ -39,7 +39,11 @@
             this.visitsButton = new System.Windows.Forms.Button();
             this.timeRangeCheckBox = new System.Windows.Forms.CheckBox();
             this.resultsGridView = new System.Windows.Forms.DataGridView();
+            this.testResultsGridView = new System.Windows.Forms.DataGridView();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.resultsGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.testResultsGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // queryButton
@@ -68,7 +72,7 @@
             this.label1.Location = new System.Drawing.Point(42, 55);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 25);
+            this.label1.Size = new System.Drawing.Size(48, 20);
             this.label1.TabIndex = 3;
             this.label1.Text = "Start:";
             // 
@@ -78,7 +82,7 @@
             this.label2.Location = new System.Drawing.Point(411, 55);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 25);
+            this.label2.Size = new System.Drawing.Size(42, 20);
             this.label2.TabIndex = 4;
             this.label2.Text = "End:";
             // 
@@ -88,7 +92,7 @@
             this.label3.Location = new System.Drawing.Point(26, 109);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(81, 25);
+            this.label3.Size = new System.Drawing.Size(64, 20);
             this.label3.TabIndex = 5;
             this.label3.Text = "Search:";
             // 
@@ -97,7 +101,7 @@
             this.afterDateTimePicker.Location = new System.Drawing.Point(456, 52);
             this.afterDateTimePicker.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.afterDateTimePicker.Name = "afterDateTimePicker";
-            this.afterDateTimePicker.Size = new System.Drawing.Size(298, 30);
+            this.afterDateTimePicker.Size = new System.Drawing.Size(298, 26);
             this.afterDateTimePicker.TabIndex = 6;
             // 
             // beforeDatePicker
@@ -105,7 +109,7 @@
             this.beforeDatePicker.Location = new System.Drawing.Point(93, 52);
             this.beforeDatePicker.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.beforeDatePicker.Name = "beforeDatePicker";
-            this.beforeDatePicker.Size = new System.Drawing.Size(298, 30);
+            this.beforeDatePicker.Size = new System.Drawing.Size(298, 26);
             this.beforeDatePicker.TabIndex = 7;
             // 
             // visitsButton
@@ -124,7 +128,7 @@
             this.timeRangeCheckBox.AutoSize = true;
             this.timeRangeCheckBox.Location = new System.Drawing.Point(761, 54);
             this.timeRangeCheckBox.Name = "timeRangeCheckBox";
-            this.timeRangeCheckBox.Size = new System.Drawing.Size(210, 29);
+            this.timeRangeCheckBox.Size = new System.Drawing.Size(171, 24);
             this.timeRangeCheckBox.TabIndex = 9;
             this.timeRangeCheckBox.Text = "Disable Time Range";
             this.timeRangeCheckBox.UseVisualStyleBackColor = true;
@@ -133,21 +137,60 @@
             // 
             this.resultsGridView.AllowUserToAddRows = false;
             this.resultsGridView.AllowUserToDeleteRows = false;
-            this.resultsGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.resultsGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.resultsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.resultsGridView.Location = new System.Drawing.Point(30, 313);
+            this.resultsGridView.Location = new System.Drawing.Point(12, 308);
             this.resultsGridView.Name = "resultsGridView";
             this.resultsGridView.ReadOnly = true;
             this.resultsGridView.RowHeadersWidth = 51;
-            this.resultsGridView.Size = new System.Drawing.Size(1029, 355);
+            this.resultsGridView.Size = new System.Drawing.Size(1046, 355);
             this.resultsGridView.TabIndex = 10;
+            this.resultsGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.resultsGridView_CellContentClick);
+            // 
+            // testResultsGridView
+            // 
+            this.testResultsGridView.AllowUserToAddRows = false;
+            this.testResultsGridView.AllowUserToDeleteRows = false;
+            this.testResultsGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.testResultsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.testResultsGridView.Location = new System.Drawing.Point(12, 709);
+            this.testResultsGridView.Name = "testResultsGridView";
+            this.testResultsGridView.ReadOnly = true;
+            this.testResultsGridView.Size = new System.Drawing.Size(1046, 355);
+            this.testResultsGridView.TabIndex = 11;
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(15, 685);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(136, 20);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "Visit Test Results:";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(15, 284);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(113, 20);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Query Results:";
             // 
             // AdminQueryForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1089, 692);
+            this.ClientSize = new System.Drawing.Size(1070, 1078);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.testResultsGridView);
             this.Controls.Add(this.resultsGridView);
             this.Controls.Add(this.timeRangeCheckBox);
             this.Controls.Add(this.visitsButton);
@@ -163,6 +206,7 @@
             this.Name = "AdminQueryForm";
             this.Text = "Admin Query";
             ((System.ComponentModel.ISupportInitialize)(this.resultsGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.testResultsGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -181,5 +225,8 @@
         private System.Windows.Forms.Button visitsButton;
         private System.Windows.Forms.CheckBox timeRangeCheckBox;
         private System.Windows.Forms.DataGridView resultsGridView;
+        private System.Windows.Forms.DataGridView testResultsGridView;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
     }
 }

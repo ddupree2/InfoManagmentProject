@@ -2,6 +2,7 @@
 using System.Data;
 using System.Diagnostics;
 using System.Windows.Forms;
+using CS3230Project.DAL;
 using CS3230Project.ViewModel;
 using MySql.Data.MySqlClient;
 
@@ -16,6 +17,7 @@ namespace CS3230Project.View
         #region Data members
 
         private readonly AdminQueryViewModel adminQueryViewModel;
+        private bool viewVisits;
 
         #endregion
 
@@ -42,6 +44,7 @@ namespace CS3230Project.View
                 var results = this.adminQueryViewModel.RetrieveQueryResults(query);
                 this.resultsGridView.DataSource = results;
                 this.resultsGridView.AutoResizeColumns();
+                this.viewVisits = false;
             }
             catch (MySqlException mex)
             {
@@ -71,6 +74,7 @@ namespace CS3230Project.View
                     results = this.adminQueryViewModel.RetrieveVisitsBetween(startDate, endDate);
                 }
 
+                this.viewVisits = results.Rows.Count > 0;
                 this.resultsGridView.DataSource = results;
                 this.resultsGridView.AutoResizeColumns();
             }
@@ -78,11 +82,13 @@ namespace CS3230Project.View
             {
                 showErrorMessage(mex.Message);
                 Debug.WriteLine(mex.StackTrace);
+                this.viewVisits = false;
             }
             catch (InvalidOperationException ex)
             {
                 showErrorMessage(ex.Message);
                 Debug.WriteLine(ex.StackTrace);
+                this.viewVisits = false;
             }
         }
 
@@ -95,5 +101,25 @@ namespace CS3230Project.View
         }
 
         #endregion
+
+        private void resultsGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var visitIndex = e.RowIndex;
+            if (visitIndex > 0 && this.viewVisits)
+            {
+                var selectedRow = this.resultsGridView.Rows[visitIndex];
+                var selectedDate = DateTime.Parse(selectedRow.Cells[0].Value.ToString());
+                var selectedPatientId = int.Parse(selectedRow.Cells[1].Value.ToString());
+                var visitTests = VisitsDal.retrieveTestResults(selectedPatientId, selectedDate);
+
+                foreach (var test in visitTests)
+                {
+                    test.PatientId = selectedPatientId;
+                }
+
+                this.testResultsGridView.DataSource = visitTests;
+                this.testResultsGridView.AutoResizeColumns();
+            }
+        }
     }
 }

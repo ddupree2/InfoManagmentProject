@@ -112,7 +112,13 @@ namespace CS3230Project.DAL
             return visits;
         }
 
-        private static IList<TestResult> retrieveTestResults(int patientId, DateTime appointmentDate)
+        /// <summary>
+        ///     Retrieves the test results.
+        /// </summary>
+        /// <param name="patientId">The patient identifier.</param>
+        /// <param name="appointmentDate">The appointment date.</param>
+        /// <returns></returns>
+        public static IList<TestResult> retrieveTestResults(int patientId, DateTime appointmentDate)
         {
             IList<TestResult> testResults = new List<TestResult>();
 
