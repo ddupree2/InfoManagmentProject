@@ -238,10 +238,10 @@ namespace CS3230Project.View
                 {
                     var date = DateTime.Parse(row.Cells[0].Value.ToString()).Date;
                     var testResults = row.Cells[1].Value.ToString();
-                    var statusIndicator = row.Cells[6].Value.ToString().Equals("True");
+                    var statusIndicator = row.Cells[5].Value.ToString().Equals("True");
                     var appointmentDate = DateTime.Parse(row.Cells[2].Value.ToString());
-                    var testCode = int.Parse(row.Cells[4].Value.ToString());
-                    var testName = row.Cells[5].Value.ToString();
+                    var testCode = int.Parse(row.Cells[3].Value.ToString());
+                    var testName = row.Cells[4].Value.ToString();
                     var test = new TestResult(date, testResults, appointmentDate, visit.PatientId, testCode, testName,
                         statusIndicator);
                     allTestResults.Add(test);
@@ -437,7 +437,7 @@ namespace CS3230Project.View
                 this.gridDate.Visible = true;
             }
 
-            if (columnIndex == 6)
+            if (columnIndex == 5)
             {
                 if (this.testResultsGridView.CurrentCell.Value.Equals("False"))
                 {
