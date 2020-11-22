@@ -11,6 +11,11 @@ namespace CS3230Project.DAL
     {
         #region Methods
 
+        /// <summary>
+        ///     Updates the test results.
+        /// </summary>
+        /// <param name="testResults">The test results.</param>
+        /// <returns>true if the update was successful and false otherwise.</returns>
         public bool UpdateTestResults(TestResult testResults)
         {
             var conn = DbConnection.GetConnection();

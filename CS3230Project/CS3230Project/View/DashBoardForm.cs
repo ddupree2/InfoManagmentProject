@@ -179,7 +179,8 @@ namespace CS3230Project.View
             Debug.WriteLine($"Has Appointments: {hasAppointments}");
             if (!hasAppointments)
             {
-                MessageBox.Show(@"Patient must have an inprogress or past appointment  before adding or viewing visit info.");
+                MessageBox.Show(
+                    @"Patient must have an inprogress or past appointment  before adding or viewing visit info.");
             }
 
             return !hasAppointments;

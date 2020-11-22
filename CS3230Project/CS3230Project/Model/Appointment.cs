@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CS3230Project.Model
 {
@@ -11,6 +7,8 @@ namespace CS3230Project.Model
     /// </summary>
     public class Appointment
     {
+        #region Properties
+
         /// <summary>
         ///     Gets or sets the reason for the appointment.
         /// </summary>
@@ -43,6 +41,18 @@ namespace CS3230Project.Model
         /// </value>
         public DateTime AppointmentDate { get; set; }
 
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Appointment" /> class.
+        /// </summary>
+        /// <param name="reason">The reason.</param>
+        /// <param name="patientId">The patient identifier.</param>
+        /// <param name="doctorId">The doctor identifier.</param>
+        /// <param name="appointmentDate">The appointment date.</param>
+        /// <exception cref="ArgumentNullException">reason</exception>
         public Appointment(string reason, string patientId, string doctorId, DateTime appointmentDate)
         {
             this.Reason = reason ?? throw new ArgumentNullException(nameof(reason));
@@ -51,9 +61,13 @@ namespace CS3230Project.Model
             this.AppointmentDate = appointmentDate;
         }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Appointment" /> class.
+        /// </summary>
         public Appointment()
         {
-
         }
+
+        #endregion
     }
 }

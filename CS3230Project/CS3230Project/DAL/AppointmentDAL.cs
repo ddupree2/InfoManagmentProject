@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CS3230Project.Model;
 using MySql.Data.MySqlClient;
 
@@ -13,6 +10,15 @@ namespace CS3230Project.DAL
     /// </summary>
     public class AppointmentDal
     {
+        #region Methods
+
+        /// <summary>
+        ///     Registers the appointment.
+        /// </summary>
+        /// <param name="appointment">The appointment.</param>
+        /// <returns>true is the registration was successful false otherwise</returns>
+        /// <exception cref="ArgumentException">
+        /// </exception>
         public bool RegisterAppointment(Appointment appointment)
         {
             try
@@ -21,10 +27,10 @@ namespace CS3230Project.DAL
                 using (conn)
                 {
                     conn.Open();
-                    const string insertQuery = "INSERT INTO `appointment` (`appointmentdate`, `reason`, `doctorID`, `patientID`) VALUES (@appointmentdate, @reason, @doctorID, @patientID);";
+                    const string insertQuery =
+                        "INSERT INTO `appointment` (`appointmentdate`, `reason`, `doctorID`, `patientID`) VALUES (@appointmentdate, @reason, @doctorID, @patientID);";
                     using (var cmd = new MySqlCommand(insertQuery, conn))
                     {
-
                         cmd.Parameters.Add("@appointmentdate", MySqlDbType.DateTime);
                         cmd.Parameters["@appointmentdate"].Value = appointment.AppointmentDate;
 
@@ -53,6 +59,13 @@ namespace CS3230Project.DAL
             }
         }
 
+        /// <summary>
+        ///     Deletes the appointment.
+        /// </summary>
+        /// <param name="appointmentToUpdate">The appointment to update.</param>
+        /// <returns>true if the delete was successful and false otherwise</returns>
+        /// <exception cref="ArgumentException">
+        /// </exception>
         public bool DeleteAppointment(Appointment appointmentToUpdate)
         {
             try
@@ -62,10 +75,9 @@ namespace CS3230Project.DAL
                 {
                     conn.Open();
                     var deleteQuery =
-                        "DELETE FROM `appointment` WHERE patientID = @patientID and appointmentdate = @appointmentdate;" ;
+                        "DELETE FROM `appointment` WHERE patientID = @patientID and appointmentdate = @appointmentdate;";
                     using (var cmd = new MySqlCommand(deleteQuery, conn))
                     {
-
                         cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
                         cmd.Parameters["@patientID"].Value = appointmentToUpdate.PatientId;
 
@@ -89,14 +101,14 @@ namespace CS3230Project.DAL
         }
 
         /// <summary>
-        /// Determines whether the specified patient has appointment.
+        ///     Determines whether the specified patient has appointment.
         /// </summary>
         /// <param name="patient">The patient.</param>
         /// <returns>
-        ///   <c>true</c> if the specified patient has appointment; otherwise, <c>false</c>.
+        ///     <c>true</c> if the specified patient has appointment; otherwise, <c>false</c>.
         /// </returns>
         public bool HasAppointment(Patient patient)
-        { 
+        {
             var conn = DbConnection.GetConnection();
             using (conn)
             {
@@ -117,20 +129,27 @@ namespace CS3230Project.DAL
             }
         }
 
+        /// <summary>
+        ///     Retrieves the appointments.
+        /// </summary>
+        /// <param name="patient">The patient.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">
+        /// </exception>
         public IList<Appointment> RetrieveAppointments(Patient patient)
         {
             var appointments = new List<Appointment>();
-            
+
             try
             {
                 var conn = DbConnection.GetConnection();
                 using (conn)
                 {
                     conn.Open();
-                    const string selectQuery = "SELECT appointmentdate, reason, doctorID FROM appointment WHERE patientID = @patientID";
+                    const string selectQuery =
+                        "SELECT appointmentdate, reason, doctorID FROM appointment WHERE patientID = @patientID";
                     using (var cmd = new MySqlCommand(selectQuery, conn))
                     {
-
                         cmd.Parameters.Add("@patientID", MySqlDbType.VarChar);
                         cmd.Parameters["@patientID"].Value = patient.PatientId;
 
@@ -140,14 +159,18 @@ namespace CS3230Project.DAL
                             var appointmentDateOrdinal = reader.GetOrdinal("appointmentdate");
                             var doctorIdOrdinal = reader.GetOrdinal("doctorID");
 
-
                             while (reader.Read())
                             {
-                                var appointment = new Appointment()
-                                {
-                                    Reason = reader[reasonOrdinal] == DBNull.Value ? "null" : reader.GetString(reasonOrdinal),
-                                    AppointmentDate = reader[appointmentDateOrdinal] == DBNull.Value ? DateTime.Now : reader.GetDateTime(appointmentDateOrdinal),
-                                    DoctorId  = reader[doctorIdOrdinal] == DBNull.Value ? "null" : reader.GetString(doctorIdOrdinal),
+                                var appointment = new Appointment {
+                                    Reason = reader[reasonOrdinal] == DBNull.Value
+                                        ? "null"
+                                        : reader.GetString(reasonOrdinal),
+                                    AppointmentDate = reader[appointmentDateOrdinal] == DBNull.Value
+                                        ? DateTime.Now
+                                        : reader.GetDateTime(appointmentDateOrdinal),
+                                    DoctorId = reader[doctorIdOrdinal] == DBNull.Value
+                                        ? "null"
+                                        : reader.GetString(doctorIdOrdinal),
                                     PatientId = patient.PatientId.ToString()
                                 };
 
@@ -169,6 +192,12 @@ namespace CS3230Project.DAL
             }
         }
 
+        /// <summary>
+        ///     Retrieves the doctor appointments.
+        /// </summary>
+        /// <param name="doctors">The doctors.</param>
+        /// <exception cref="ArgumentException">
+        /// </exception>
         public void RetrieveDoctorAppointments(IList<Doctor> doctors)
         {
             try
@@ -180,13 +209,10 @@ namespace CS3230Project.DAL
 
                     foreach (var doctor in doctors)
                     {
-
-
                         const string selectQuery = "SELECT appointmentdate FROM appointment WHERE doctorID = @doctorID";
-                        
+
                         using (var cmd = new MySqlCommand(selectQuery, conn))
                         {
-
                             cmd.Parameters.Add("@doctorID", MySqlDbType.VarChar);
                             cmd.Parameters["@doctorID"].Value = doctor.DoctorId;
 
@@ -196,15 +222,15 @@ namespace CS3230Project.DAL
 
                                 while (reader.Read())
                                 {
+                                    var dateTime = reader[appointmentDateOrdinal] == DBNull.Value
+                                        ? DateTime.Now
+                                        : reader.GetDateTime(appointmentDateOrdinal);
 
-                                    var dateTime = reader[appointmentDateOrdinal] == DBNull.Value ? DateTime.Now : reader.GetDateTime(appointmentDateOrdinal);
-                                    
                                     doctor.Appointments.Add(dateTime);
                                 }
                             }
                         }
                     }
-                    
                 }
             }
             catch (MySqlException mex)
@@ -216,5 +242,7 @@ namespace CS3230Project.DAL
                 throw new ArgumentException(ex.Message);
             }
         }
+
+        #endregion
     }
 }

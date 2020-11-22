@@ -58,10 +58,10 @@ namespace CS3230Project.Model
         public string TestName { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether [abnormal status].
+        ///     Gets or sets a value indicating whether [abnormal status].
         /// </summary>
         /// <value>
-        ///   <c>true</c> if [abnormal status]; otherwise, <c>false</c>.
+        ///     <c>true</c> if [abnormal status]; otherwise, <c>false</c>.
         /// </value>
         public bool AbnormalStatus { get; set; }
 
@@ -93,7 +93,7 @@ namespace CS3230Project.Model
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="TestResult"/> class.
+        ///     Initializes a new instance of the <see cref="TestResult" /> class.
         /// </summary>
         public TestResult()
         {
@@ -102,8 +102,22 @@ namespace CS3230Project.Model
             this.TestDate = DateTime.MinValue;
         }
 
-
-        public TestResult(DateTime testDate, string results, DateTime appointmentDate, int testCode, string testName, bool status)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="TestResult" /> class.
+        /// </summary>
+        /// <param name="testDate">The test date.</param>
+        /// <param name="results">The results.</param>
+        /// <param name="appointmentDate">The appointment date.</param>
+        /// <param name="testCode">The test code.</param>
+        /// <param name="testName">Name of the test.</param>
+        /// <param name="status">if set to <c>true</c> [status].</param>
+        /// <exception cref="ArgumentNullException">
+        ///     results
+        ///     or
+        ///     testName
+        /// </exception>
+        public TestResult(DateTime testDate, string results, DateTime appointmentDate, int testCode, string testName,
+            bool status)
         {
             this.TestDate = testDate.Date;
             this.Results = results ?? throw new ArgumentNullException(nameof(results));

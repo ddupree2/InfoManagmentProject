@@ -16,6 +16,10 @@ namespace CS3230Project.DAL
 
         #region Methods
 
+        /// <summary>
+        ///     Gets the connection.
+        /// </summary>
+        /// <returns></returns>
         public static MySqlConnection GetConnection()
         {
             var conn = new MySqlConnection(ConnString);

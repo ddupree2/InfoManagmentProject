@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using CS3230Project.DAL;
 using CS3230Project.Model;
-using Org.BouncyCastle.Asn1;
 
 namespace CS3230Project.ViewModel
 {
@@ -12,6 +11,8 @@ namespace CS3230Project.ViewModel
     /// </summary>
     public class PatientLookupViewModel
     {
+        #region Data members
+
         private const string PatientId = "Patient ID";
         private const string FirstName = "First Name";
         private const string LastName = "Last Name";
@@ -25,17 +26,18 @@ namespace CS3230Project.ViewModel
         private const string Gender = "Gender";
         private const string DateOfBirth = "Date of Birth";
 
-        #region Data members
-
         private readonly PatientDal patientDal;
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="PatientLookupViewModel" /> class.
+        /// </summary>
         public PatientLookupViewModel()
         {
-            patientDal = new PatientDal();
+            this.patientDal = new PatientDal();
         }
 
         #endregion
@@ -65,7 +67,7 @@ namespace CS3230Project.ViewModel
             {
                 if (!missingFirstName && !missingLastName)
                 {
-                   visits = this.patientDal.RetrievePatients(firstName, lastName);
+                    visits = this.patientDal.RetrievePatients(firstName, lastName);
                 }
                 else if (!missingLastName)
                 {
@@ -84,6 +86,11 @@ namespace CS3230Project.ViewModel
             return visits;
         }
 
+        /// <summary>
+        ///     Retrieves the patients table.
+        /// </summary>
+        /// <param name="patients">The patients.</param>
+        /// <returns>data table of patients</returns>
         public DataTable RetrievePatientsTable(IList<Patient> patients)
         {
             var patientTable = new DataTable();

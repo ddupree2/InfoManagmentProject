@@ -259,6 +259,10 @@ namespace CS3230Project.ViewModel
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary>
+        ///     Adds all tests.
+        /// </summary>
+        /// <returns>true if tests were added and false otherwise.</returns>
         public bool AddAllTests()
         {
             var testsToAdd = this.findTestOrderKeys();

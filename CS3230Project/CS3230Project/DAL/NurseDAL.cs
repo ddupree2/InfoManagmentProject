@@ -10,7 +10,6 @@ namespace CS3230Project.DAL
     /// </summary>
     public class NurseDal
     {
-
         #region Methods
 
         /// <summary>
@@ -20,7 +19,6 @@ namespace CS3230Project.DAL
         public IList<Nurse> RetrieveNurses()
         {
             IList<Nurse> nurses = new List<Nurse>();
-
 
             var conn = DbConnection.GetConnection();
             using (conn)
@@ -52,8 +50,7 @@ namespace CS3230Project.DAL
 
                 while (reader.Read())
                 {
-                    var nurse = new Nurse
-                    {
+                    var nurse = new Nurse {
                         NurseId = reader[nurseIdOrdinal] == DBNull.Value
                             ? "null"
                             : reader.GetString(nurseIdOrdinal),
@@ -80,6 +77,5 @@ namespace CS3230Project.DAL
         }
 
         #endregion
-
     }
 }

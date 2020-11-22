@@ -8,6 +8,8 @@ namespace CS3230Project.Extension
     /// </summary>
     public static class ListExtensions
     {
+        #region Methods
+
         /// <summary>
         ///     Converts to observablecollection.
         /// </summary>
@@ -18,5 +20,7 @@ namespace CS3230Project.Extension
         {
             return new ObservableCollection<T>(collection);
         }
+
+        #endregion
     }
 }

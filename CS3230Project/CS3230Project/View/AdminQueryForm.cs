@@ -100,8 +100,6 @@ namespace CS3230Project.View
             MessageBox.Show(noResultsMessage, noResultsTitle, MessageBoxButtons.OK, messageType);
         }
 
-        #endregion
-
         private void resultsGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var visitIndex = e.RowIndex;
@@ -121,5 +119,7 @@ namespace CS3230Project.View
                 this.testResultsGridView.AutoResizeColumns();
             }
         }
+
+        #endregion
     }
 }

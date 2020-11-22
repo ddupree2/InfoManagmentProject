@@ -427,6 +427,13 @@ namespace CS3230Project.DAL
             return foundPatientId;
         }
 
+        /// <summary>
+        ///     Deletes the patient information.
+        /// </summary>
+        /// <param name="patient">The patient.</param>
+        /// <returns>true if the delete was successful and false otherwise.</returns>
+        /// <exception cref="ArgumentException">
+        /// </exception>
         public bool DeletePatientInfo(Patient patient)
         {
             try

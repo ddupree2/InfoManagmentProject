@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CS3230Project.DAL;
 using CS3230Project.Model;
 
@@ -68,13 +67,13 @@ namespace CS3230Project.ViewModel
             var success = false;
 
             var deleteOldAppointmentSuccess = appointmentDal.DeleteAppointment(appointmentToRemove);
-            if (deleteOldAppointmentSuccess == true)
+            if (deleteOldAppointmentSuccess)
             {
                 success = true;
             }
 
             var newAppointmentSuccess = appointmentDal.RegisterAppointment(appointmentToAdd);
-            if (newAppointmentSuccess == true)
+            if (newAppointmentSuccess)
             {
                 success = true;
             }
@@ -83,11 +82,11 @@ namespace CS3230Project.ViewModel
         }
 
         /// <summary>
-        /// Determines whether the specified patient has appointment.
+        ///     Determines whether the specified patient has appointment.
         /// </summary>
         /// <param name="patient">The patient.</param>
         /// <returns>
-        ///   <c>true</c> if the specified patient has appointment; otherwise, <c>false</c>.
+        ///     <c>true</c> if the specified patient has appointment; otherwise, <c>false</c>.
         /// </returns>
         public bool HasAppointment(Patient patient)
         {
@@ -95,6 +94,10 @@ namespace CS3230Project.ViewModel
             return appointmentDal.HasAppointment(patient);
         }
 
+        /// <summary>
+        ///     Retrieves the doctors appointments.
+        /// </summary>
+        /// <param name="doctors">The doctors.</param>
         public void RetrieveDoctorsAppointments(IList<Doctor> doctors)
         {
             var appointmentDal = new AppointmentDal();
@@ -102,6 +105,11 @@ namespace CS3230Project.ViewModel
             appointmentDal.RetrieveDoctorAppointments(doctors);
         }
 
+        /// <summary>
+        ///     Deletes the appointment.
+        /// </summary>
+        /// <param name="appointment">The appointment.</param>
+        /// <returns>True is appointment is deleted false otherwise.</returns>
         public bool DeleteAppointment(Appointment appointment)
         {
             var appointmentDal = new AppointmentDal();

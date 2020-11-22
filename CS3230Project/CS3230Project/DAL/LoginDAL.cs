@@ -45,7 +45,7 @@ namespace CS3230Project.DAL
                     cmd.Parameters.Add("@id", MySqlDbType.VarChar);
                     cmd.Parameters["@id"].Value = employeeId;
                     cmd.Parameters["@id"].Direction = ParameterDirection.Input;
-                    
+
                     cmd.Parameters.AddWithValue("@pass", password);
                     cmd.Parameters["@pass"].Direction = ParameterDirection.Input;
 

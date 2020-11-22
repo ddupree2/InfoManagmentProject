@@ -1,16 +1,18 @@
-﻿using CS3230Project.DAL;
+﻿using System;
+using CS3230Project.DAL;
 using CS3230Project.Model;
-using Org.BouncyCastle.Asn1.Crmf;
-using System;
 
 namespace CS3230Project.ViewModel
 {
+    /// <summary>
+    ///     creates a new instance of the registration view model class
+    /// </summary>
     public class RegistrationViewModel
     {
         #region Methods
 
         /// <summary>
-        /// Registers the patient.
+        ///     Registers the patient.
         /// </summary>
         /// <param name="ssn">The SSN.</param>
         /// <param name="fname">The fname.</param>
@@ -36,7 +38,7 @@ namespace CS3230Project.ViewModel
         }
 
         /// <summary>
-        /// Registers the address.
+        ///     Registers the address.
         /// </summary>
         /// <param name="addr1">The addr1.</param>
         /// <param name="city">The city.</param>
@@ -64,7 +66,7 @@ namespace CS3230Project.ViewModel
         }
 
         /// <summary>
-        /// Checks for patient.
+        ///     Checks for patient.
         /// </summary>
         /// <param name="patientID">The patient identifier.</param>
         /// <returns>true iff the given patientID exists in the database</returns>
@@ -84,28 +86,39 @@ namespace CS3230Project.ViewModel
             return patientExists;
         }
 
+        /// <summary>
+        ///     Updates the patient.
+        /// </summary>
+        /// <param name="patient">The patient.</param>
+        /// <param name="address">The address.</param>
+        /// <returns>true if the update was successful and false otherwise.</returns>
         public bool UpdatePatient(Patient patient, Address address)
         {
             bool updateSuccessful;
             var addressDal = new AddressDal();
             var patientDal = new PatientDal();
 
-           var addressUpdateSuccess = addressDal.UpdatePatientAddress(address);
-           var patientUpdateSuccess = patientDal.UpdatePatientInfo(patient);
+            var addressUpdateSuccess = addressDal.UpdatePatientAddress(address);
+            var patientUpdateSuccess = patientDal.UpdatePatientInfo(patient);
 
-           if (addressUpdateSuccess && patientUpdateSuccess == true)
-           {
-               updateSuccessful = true;
-           }
-           else
-           {
-               updateSuccessful = false;
-           }
+            if (addressUpdateSuccess && patientUpdateSuccess)
+            {
+                updateSuccessful = true;
+            }
+            else
+            {
+                updateSuccessful = false;
+            }
 
-           return updateSuccessful;
-
+            return updateSuccessful;
         }
 
+        /// <summary>
+        ///     Deletes the patient.
+        /// </summary>
+        /// <param name="patient">The patient.</param>
+        /// <param name="address">The address.</param>
+        /// <returns>true if the delete was successful and false otherwise</returns>
         public bool DeletePatient(Patient patient, Address address)
         {
             var patientDal = new PatientDal();

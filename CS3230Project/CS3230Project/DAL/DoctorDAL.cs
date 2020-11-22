@@ -1,15 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CS3230Project.Model;
 using MySql.Data.MySqlClient;
 
 namespace CS3230Project.DAL
 {
-    class DoctorDAL
+    /// <summary>
+    /// </summary>
+    internal class DoctorDAL
     {
+        #region Methods
+
+        /// <summary>
+        ///     Retrieves the doctors.
+        /// </summary>
+        /// <param name="employees">The employees.</param>
+        /// <returns>List of doctors</returns>
+        /// <exception cref="ArgumentException">
+        /// </exception>
         public IList<Doctor> RetrieveDoctors(IList<Employee> employees)
         {
             IList<Doctor> doctors = new List<Doctor>();
@@ -22,8 +30,6 @@ namespace CS3230Project.DAL
                     conn.Open();
                     foreach (var person in employees)
                     {
-                        
-                    
                         const string selectQuery = "SELECT doctorID FROM doctor WHERE eID = @eID";
                         using (var cmd = new MySqlCommand(selectQuery, conn))
                         {
@@ -36,18 +42,19 @@ namespace CS3230Project.DAL
 
                                 while (reader.Read())
                                 {
-                                    var doctor = new Doctor() {
-                                        DoctorId = reader[doctorIdOrdinal] == DBNull.Value ? "null" : reader.GetString(doctorIdOrdinal),
+                                    var doctor = new Doctor {
+                                        DoctorId = reader[doctorIdOrdinal] == DBNull.Value
+                                            ? "null"
+                                            : reader.GetString(doctorIdOrdinal),
                                         Employee = person
-
                                     };
 
                                     doctors.Add(doctor);
                                 }
                             }
                         }
-
                     }
+
                     return doctors;
                 }
             }
@@ -60,5 +67,7 @@ namespace CS3230Project.DAL
                 throw new ArgumentException(ex.Message);
             }
         }
+
+        #endregion
     }
 }

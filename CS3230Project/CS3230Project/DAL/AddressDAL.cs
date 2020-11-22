@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using CS3230Project.Model;
 using MySql.Data.MySqlClient;
 
@@ -13,7 +12,7 @@ namespace CS3230Project.DAL
         #region Methods
 
         /// <summary>
-        /// Inserts the address.
+        ///     Inserts the address.
         /// </summary>
         /// <param name="address">The address.</param>
         /// <exception cref="ArgumentException">
@@ -114,6 +113,12 @@ namespace CS3230Project.DAL
             return addressId;
         }
 
+        /// <summary>
+        ///     Deletes the address if no references left.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        /// <exception cref="ArgumentException">
+        /// </exception>
         public void DeleteAddressIfNoReferencesLeft(Address address)
         {
             try
@@ -122,11 +127,11 @@ namespace CS3230Project.DAL
                 using (conn)
                 {
                     conn.Open();
-                    var deleteQuery = "DELETE FROM address WHERE addressID NOT IN (SELECT addressID FROM patient) and addressID NOT IN(SELECT addressID FROM employee)"; 
+                    var deleteQuery =
+                        "DELETE FROM address WHERE addressID NOT IN (SELECT addressID FROM patient) and addressID NOT IN(SELECT addressID FROM employee)";
                     using (var cmd = new MySqlCommand(deleteQuery, conn))
                     {
                         cmd.ExecuteNonQuery();
-                        
                     }
                 }
             }
@@ -141,7 +146,7 @@ namespace CS3230Project.DAL
         }
 
         /// <summary>
-        /// Updates the patient address.
+        ///     Updates the patient address.
         /// </summary>
         /// <param name="address">The address.</param>
         /// <returns></returns>
@@ -194,13 +199,10 @@ namespace CS3230Project.DAL
             {
                 throw new ArgumentException(ex.Message);
             }
-
         }
 
-
-
         /// <summary>
-        /// Retrieves the address.
+        ///     Retrieves the address.
         /// </summary>
         /// <param name="patient">The patient.</param>
         /// <returns></returns>
@@ -235,20 +237,29 @@ namespace CS3230Project.DAL
 
                             while (reader.Read())
                             {
-
-                                address.addressId = reader[addressIdOrdinal] == DBNull.Value ? 0 : reader.GetInt32(addressIdOrdinal);
-                                address.Address1 = reader[addr1Ordinal] == DBNull.Value ? "null" : reader.GetString(addr1Ordinal);
-                                address.Address2 = reader[addr2Ordinal] == DBNull.Value ? "null" : reader.GetString(addr2Ordinal);
-                                address.City = reader[cityOrdinal] == DBNull.Value ? "null" : reader.GetString(cityOrdinal);
-                                address.State = reader[stateOrdinal] == DBNull.Value ? "null" : reader.GetString(stateOrdinal);
+                                address.addressId = reader[addressIdOrdinal] == DBNull.Value
+                                    ? 0
+                                    : reader.GetInt32(addressIdOrdinal);
+                                address.Address1 = reader[addr1Ordinal] == DBNull.Value
+                                    ? "null"
+                                    : reader.GetString(addr1Ordinal);
+                                address.Address2 = reader[addr2Ordinal] == DBNull.Value
+                                    ? "null"
+                                    : reader.GetString(addr2Ordinal);
+                                address.City = reader[cityOrdinal] == DBNull.Value
+                                    ? "null"
+                                    : reader.GetString(cityOrdinal);
+                                address.State = reader[stateOrdinal] == DBNull.Value
+                                    ? "null"
+                                    : reader.GetString(stateOrdinal);
                                 address.Zip = reader[zipOrdinal] == DBNull.Value ? 0 : reader.GetInt32(zipOrdinal);
-                                address.ContactNum = reader[contactNumOrdinal] == DBNull.Value ? "null" : reader.GetString(contactNumOrdinal);
-
+                                address.ContactNum = reader[contactNumOrdinal] == DBNull.Value
+                                    ? "null"
+                                    : reader.GetString(contactNumOrdinal);
                             }
                         }
 
                         return address;
-
                     }
                 }
             }

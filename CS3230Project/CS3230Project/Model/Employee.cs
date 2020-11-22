@@ -1,29 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CS3230Project.Model
 {
-    
+    /// <summary>
+    ///     crreats a new instance of the employee class
+    /// </summary>
     public class Employee
     {
+        #region Data members
 
+        /// <summary>
+        ///     The dob
+        /// </summary>
         public DateTime Dob;
 
+        /// <summary>
+        ///     The fname
+        /// </summary>
         public string Fname;
 
+        /// <summary>
+        ///     The lname
+        /// </summary>
         public string Lname;
 
+        /// <summary>
+        ///     The address identifier
+        /// </summary>
         public int AddressId;
 
+        /// <summary>
+        ///     The e identifier
+        /// </summary>
         public string EId;
 
+        #endregion
 
-        public Employee()
-        {
+        #region Constructors
 
-        }
+        #endregion
     }
 }

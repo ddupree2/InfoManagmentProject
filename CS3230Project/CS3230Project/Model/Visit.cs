@@ -51,10 +51,10 @@ namespace CS3230Project.Model
         public double BodyTemp { get; set; }
 
         /// <summary>
-        /// Gets or sets the weight.
+        ///     Gets or sets the weight.
         /// </summary>
         /// <value>
-        /// The weight.
+        ///     The weight.
         /// </value>
         public double Weight { get; set; }
 
@@ -99,18 +99,18 @@ namespace CS3230Project.Model
         public string Diagnosis { get; set; }
 
         /// <summary>
-        /// Gets or sets the test results.
+        ///     Gets or sets the test results.
         /// </summary>
         /// <value>
-        /// The test results.
+        ///     The test results.
         /// </value>
         public IList<TestResult> TestResults { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether there is a final diagnosis.
+        ///     Gets or sets a value indicating whether there is a final diagnosis.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if [final diagnosis]; otherwise, <c>false</c>.
+        ///     <c>true</c> if [final diagnosis]; otherwise, <c>false</c>.
         /// </value>
         public bool FinalDiagnosis { get; set; }
 
@@ -138,8 +138,10 @@ namespace CS3230Project.Model
         ///     or
         ///     diagnosis
         /// </exception>
-        public Visit(int systolicNum, int diastolicNum, int heartRate, int respirationRate, double bodyTemp, double weight,
-            string other, string nurseId, int patientId, DateTime appointmentDate, string diagnosis, bool finalDiagnosis)
+        public Visit(int systolicNum, int diastolicNum, int heartRate, int respirationRate, double bodyTemp,
+            double weight,
+            string other, string nurseId, int patientId, DateTime appointmentDate, string diagnosis,
+            bool finalDiagnosis)
         {
             this.SystolicNum = systolicNum;
             this.DiastolicNum = diastolicNum;
@@ -172,7 +174,6 @@ namespace CS3230Project.Model
             this.FinalDiagnosis = false;
             this.TestResults = new List<TestResult>();
         }
-
 
         #endregion
     }

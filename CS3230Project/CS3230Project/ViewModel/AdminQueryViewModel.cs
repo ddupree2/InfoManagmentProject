@@ -39,6 +39,12 @@ namespace CS3230Project.ViewModel
             return this.adminDal.RetrieveQueryResults(query);
         }
 
+        /// <summary>
+        ///     Retrieves the visits between.
+        /// </summary>
+        /// <param name="startDateTime">The start date time.</param>
+        /// <param name="endDateTime">The end date time.</param>
+        /// <returns>Data table containing the visits between a certain date</returns>
         public DataTable RetrieveVisitsBetween(DateTime startDateTime, DateTime endDateTime)
         {
             return this.adminDal.RetrieveVisitsBetween(startDateTime, endDateTime);

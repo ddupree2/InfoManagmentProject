@@ -2,6 +2,9 @@
 
 namespace CS3230Project.Model
 {
+    /// <summary>
+    ///     creates a new instance of the patient class
+    /// </summary>
     public class Patient
     {
         #region Properties

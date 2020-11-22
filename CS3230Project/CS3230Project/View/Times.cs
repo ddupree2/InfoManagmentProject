@@ -1,28 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using CS3230Project.Model;
 
 namespace CS3230Project.View
 {
-    class Times
+    /// <summary>
+    ///     creates a new instance of the times class
+    /// </summary>
+    internal class Times
     {
-        public IList<string> times { get; private set; }
+        #region Properties
 
+        /// <summary>
+        ///     Gets the times.
+        /// </summary>
+        /// <value>
+        ///     The times.
+        /// </value>
+        public IList<string> times { get; }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Times" /> class.
+        /// </summary>
+        /// <param name="doctor">The doctor.</param>
+        /// <param name="selectedDate">The selected date.</param>
         public Times(Doctor doctor, DateTime selectedDate)
         {
             this.times = new List<string>();
             this.setInitialTimeSlots();
             this.removeUnavaliableTimes(doctor, selectedDate);
-
         }
+
+        #endregion
+
+        #region Methods
 
         private void setInitialTimeSlots()
         {
-            var timesToAdd = new List<string>(){"7:00 AM", "7:30 AM", "8:00 AM", "8:30 AM", "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM", "6:30 PM", "7:00 PM", "7:30 PM"};
+            var timesToAdd = new List<string> {
+                "7:00 AM", "7:30 AM", "8:00 AM", "8:30 AM", "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM",
+                "11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM",
+                "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM", "6:30 PM", "7:00 PM", "7:30 PM"
+            };
             foreach (var timeSlot in timesToAdd)
             {
                 this.times.Add(timeSlot);
@@ -40,12 +63,13 @@ namespace CS3230Project.View
                 }
             }
 
-
             foreach (var appointment in appointmentsForSelectedDay)
             {
                 var timeToCheck = appointment.ToShortTimeString();
                 this.times.Remove(timeToCheck);
             }
         }
+
+        #endregion
     }
 }

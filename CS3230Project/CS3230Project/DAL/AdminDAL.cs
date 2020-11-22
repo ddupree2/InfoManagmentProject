@@ -103,7 +103,6 @@ namespace CS3230Project.DAL
                     ? default
                     : reader.GetString(doctorNameOrdinal);
 
-
                 var dataRow = queryVisitsTable.NewRow();
                 dataRow[AppointmentDate] = appointmentDate;
                 dataRow[PatientId] = patientId;

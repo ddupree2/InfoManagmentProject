@@ -41,7 +41,7 @@ namespace CS3230Project.View
                 var dashBoardForm = new DashBoardForm(employeeId);
                 Hide();
                 dashBoardForm.ShowDialog();
-                this.Show();
+                Show();
                 this.resetLoginForm();
             }
             else if (this.loginViewmodel.ConnectionIssue)

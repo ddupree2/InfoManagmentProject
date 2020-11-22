@@ -12,7 +12,6 @@ namespace CS3230Project.ViewModel
     /// </summary>
     public class VisitViewModel
     {
-
         #region Data members
 
         private const string TestDate = "Test Date";
@@ -50,7 +49,7 @@ namespace CS3230Project.ViewModel
         #region Constructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="VisitViewModel"/> class.
+        ///     Initializes a new instance of the <see cref="VisitViewModel" /> class.
         /// </summary>
         /// <param name="patient">The patient.</param>
         public VisitViewModel(Patient patient)
@@ -91,7 +90,10 @@ namespace CS3230Project.ViewModel
             addColumns(testResultsTable);
 
             var testResults = visit.TestResults;
-            foreach (var testResult in testResults) addRowData(testResultsTable, testResult);
+            foreach (var testResult in testResults)
+            {
+                addRowData(testResultsTable, testResult);
+            }
 
             return testResultsTable;
         }
@@ -135,8 +137,8 @@ namespace CS3230Project.ViewModel
             var allAppointments = new AppointmentViewModel().RetrieveAppointments(patient);
 
             var appointmentDates = (from appointment in allAppointments
-                where appointment.AppointmentDate.Date <= DateTime.Now
-                select appointment.AppointmentDate).ToList();
+                                    where appointment.AppointmentDate.Date <= DateTime.Now
+                                    select appointment.AppointmentDate).ToList();
 
             return appointmentDates;
         }
@@ -183,6 +185,11 @@ namespace CS3230Project.ViewModel
             this.visistDal.UpdateVist(visit);
         }
 
+        /// <summary>
+        ///     Updates the tests.
+        /// </summary>
+        /// <param name="allTestResults">All test results.</param>
+        /// <returns>true if the updated was successful and false otherwise.</returns>
         public bool UpdateTests(List<TestResult> allTestResults)
         {
             var checker = false;

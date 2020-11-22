@@ -4,9 +4,22 @@ using MySql.Data.MySqlClient;
 
 namespace CS3230Project.ViewModel
 {
+    /// <summary>
+    ///     creates a new instance of the login view model class
+    /// </summary>
     public class LoginViewModel
     {
+        #region Properties
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether [connection issue].
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if [connection issue]; otherwise, <c>false</c>.
+        /// </value>
         public bool ConnectionIssue { get; set; }
+
+        #endregion
 
         #region Methods
 
@@ -24,7 +37,7 @@ namespace CS3230Project.ViewModel
             {
                 isValidLogin = loginDal.Authenticate(employeeId, password);
             }
-            catch(MySqlException mex)
+            catch (MySqlException mex)
             {
                 Debug.WriteLine(mex.Message);
                 this.ConnectionIssue = true;

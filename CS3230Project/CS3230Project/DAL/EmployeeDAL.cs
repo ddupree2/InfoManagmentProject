@@ -13,11 +13,21 @@ namespace CS3230Project.DAL
     {
         #region Methods
 
+        /// <summary>
+        ///     Retrieves the title.
+        /// </summary>
+        /// <param name="employeeId">The employee identifier.</param>
+        /// <returns>the title of the employee</returns>
         public string RetrieveTitle(string employeeId)
         {
             return retrieveTitle(employeeId);
         }
 
+        /// <summary>
+        ///     Retrieves the first name.
+        /// </summary>
+        /// <param name="employeeId">The employee identifier.</param>
+        /// <returns>The first name of the employee</returns>
         public string RetrieveFirstName(string employeeId)
         {
             string name;
@@ -137,6 +147,12 @@ namespace CS3230Project.DAL
             return isNurse;
         }
 
+        /// <summary>
+        ///     Retrieves the employees.
+        /// </summary>
+        /// <returns>A list of all employees</returns>
+        /// <exception cref="ArgumentException">
+        /// </exception>
         public IList<Employee> RetrieveEmployees()
         {
             IList<Employee> employees = new List<Employee>();
@@ -160,8 +176,7 @@ namespace CS3230Project.DAL
 
                             while (reader.Read())
                             {
-                                var employee = new Employee()
-                                {
+                                var employee = new Employee {
                                     Lname = reader[lnameOrdinal] == DBNull.Value
                                         ? "null"
                                         : reader.GetString(lnameOrdinal),
