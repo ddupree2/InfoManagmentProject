@@ -181,8 +181,6 @@ namespace CS3230Project.DAL
                     fields[i] = currValue;
                 }
 
-                fields = removeEmptyColumns(fields);
-
                 var colIndex = 0;
                 var row = table.NewRow();
                 foreach (var field in fields)
@@ -195,20 +193,6 @@ namespace CS3230Project.DAL
             }
 
             return table;
-        }
-
-        private static string[] removeEmptyColumns(IEnumerable<string> fields)
-        {
-            var fieldsList = new List<string>();
-            foreach (var field in fields)
-            {
-                if (!string.IsNullOrEmpty(field))
-                {
-                    fieldsList.Add(field);
-                }
-            }
-
-            return fieldsList.ToArray();
         }
 
         private void appendColumnNames(IDataRecord record, bool columnsNamesAppended, int columns,
