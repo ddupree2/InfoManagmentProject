@@ -322,8 +322,12 @@ namespace CS3230Project.View
 
         private void appointmentDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+
+
             var newAppointmentCell = this.appointmentDataGrid.RowCount - 1;
             var cell = this.appointmentDataGrid.CurrentCell.RowIndex;
+
+
             if (cell >= newAppointmentCell)
             {
                 this.deleteButton.Visible = false;

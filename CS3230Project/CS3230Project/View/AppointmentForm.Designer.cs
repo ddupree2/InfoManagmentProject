@@ -41,12 +41,12 @@
             this.warningLabel = new System.Windows.Forms.Label();
             this.timeLabel = new System.Windows.Forms.Label();
             this.appointmentDataGrid = new System.Windows.Forms.DataGridView();
-            this.appointmentTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameLabel = new System.Windows.Forms.Label();
             this.updateButton = new System.Windows.Forms.Button();
             this.appointmentTimePassedLabel = new System.Windows.Forms.Label();
             this.timeComboBox = new System.Windows.Forms.ComboBox();
             this.deleteButton = new System.Windows.Forms.Button();
+            this.appointmentTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.appointmentDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -183,14 +183,6 @@
             this.appointmentDataGrid.TabIndex = 14;
             this.appointmentDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.appointmentDataGrid_CellClick);
             // 
-            // appointmentTime
-            // 
-            this.appointmentTime.HeaderText = "Date";
-            this.appointmentTime.MinimumWidth = 6;
-            this.appointmentTime.Name = "appointmentTime";
-            this.appointmentTime.ReadOnly = true;
-            this.appointmentTime.Width = 220;
-            // 
             // nameLabel
             // 
             this.nameLabel.AutoSize = true;
@@ -240,6 +232,15 @@
             this.deleteButton.UseVisualStyleBackColor = true;
             this.deleteButton.Visible = false;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
+            // appointmentTime
+            // 
+            this.appointmentTime.HeaderText = "Date";
+            this.appointmentTime.MinimumWidth = 6;
+            this.appointmentTime.Name = "appointmentTime";
+            this.appointmentTime.ReadOnly = true;
+            this.appointmentTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.appointmentTime.Width = 220;
             // 
             // AppointmentForm
             // 
@@ -295,8 +296,8 @@
         private System.Windows.Forms.Label nameLabel;
         private System.Windows.Forms.Button updateButton;
         private System.Windows.Forms.Label appointmentTimePassedLabel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn appointmentTime;
         private System.Windows.Forms.ComboBox timeComboBox;
         private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn appointmentTime;
     }
 }
