@@ -1,5 +1,23 @@
-read me info will go here
+The only other package besides those for windows forms that is need is the MySql.Data by Oracle, 
+which is easily retrieved using the nuget package manager in visual studios.
 
+The application must be pulled into or imported into visual studios.
+After all necessary packages are installed, the application can be launched.
+
+Once the application is successfully started, a login form should be presented.
+
+To log in, a user must enter any of the id's listed below in the employee id text box and enter
+the corresponding password of the id in the password textbox and finally hit the login button.
+
+It is imperative to be on the UWG network before any queries or logins can take place.
+As always, the vpn provided by UWG can be used to tunnel into the UWG network.
+
+The vpn can be obtained here: 
+	https://www.westga.edu/vpn/
+The instructions on the VPN setup can be found here: 
+	https://www.westga.edu/its/infrastructure-operations/io-assets/docs/RemoteDesktopwthVPNSetupWindows.pdf
+
+It should be noted that the administrators are the only ones who can use the query feature.
 
 Nurses:
 	Jane Mary
